@@ -1,4 +1,4 @@
--# Grupo 3 - Reserva de cine
+# Grupo 3 - Reserva de cine
 
 ### Integrantes
 > - Do Nascimento, María Florencia	<mflorenciadn@gmail.com>
