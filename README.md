@@ -3,7 +3,6 @@
 ### Integrantes
 > - Do Nascimento, María Florencia	<mflorenciadn@gmail.com>
 > - Propatto y Cafaro, Federico	<volumenxero@gmail.com>
-> - Monaco Del Duca Maximiliano Sebastian	<maximilian21199@gmail.com>
 > - Victoria, Luz Aldana	<luzaldanavictoria@gmail.com>
 
 ### Idea
