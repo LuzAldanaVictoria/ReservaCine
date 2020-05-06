@@ -10,5 +10,11 @@ namespace Grupo3.ReservaDeCine.Models
         public List<Funcion> Funciones { get; set; }
         public string Nombre { get; set; }
         public Genero Genero { get; set; }
+
+
+        public Pelicula ()
+        {
+            Funciones = new List<Funcion>();
+        }
     }
 }

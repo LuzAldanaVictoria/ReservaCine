@@ -9,5 +9,10 @@ namespace Grupo3.ReservaDeCine.Models
         public string Nombre { get; set; }
         public int CapacidadTotal { get; set; }
         public List<Funcion> Funciones { get; set; }
+
+        public Sala ()
+        {
+            Funciones = new List<Funcion>();
+        }
     }
 }

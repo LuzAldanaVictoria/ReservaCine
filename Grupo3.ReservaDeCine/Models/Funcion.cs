@@ -11,5 +11,9 @@ namespace Grupo3.ReservaDeCine.Models
         public List<Reserva> Reservas { get; set; }
         public int ButacasDisponibles { get; set; }
 
+        public Funcion ()
+        {
+            Reservas = new List<Reserva>();
+        }
     }
 }

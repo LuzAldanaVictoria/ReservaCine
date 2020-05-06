@@ -12,5 +12,9 @@ namespace Grupo3.ReservaDeCine.Models
         public string Apellido { get; set; }
         public DateTime FechaDeNacimiento { get; set; }
 
+        public Usuario ()
+        {
+            Reservas = new List<Reserva>();
+        }
     }
 }
