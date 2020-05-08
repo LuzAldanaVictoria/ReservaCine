@@ -32,7 +32,6 @@ Se trata de un sistema que permita a usuarios ingresar y hacer una reserva de un
 	 - La cantidad de butacas reservadas 
  
  - Una película tiene: 
-	 - Una Sala 
 	 - Una colección de funciones 
 	 - Un nombre 
 	 - Un género 
