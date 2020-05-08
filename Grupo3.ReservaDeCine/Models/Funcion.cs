@@ -22,6 +22,11 @@ namespace Grupo3.ReservaDeCine.Models
         public Pelicula Pelicula { get; set; }
 
 
+        [Required(ErrorMessage = "El campo Fecha y Hora es requerido")]
+        [Display(Name = "Fecha y Hora")]
+        public DateTime FechaHora { get; set; }
+
+
         [Display(Name = "Reservas")]
         public List<Reserva> Reservas { get; set; }
 

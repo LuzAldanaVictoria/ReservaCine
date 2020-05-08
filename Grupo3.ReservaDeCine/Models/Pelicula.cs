@@ -29,10 +29,6 @@ namespace Grupo3.ReservaDeCine.Models
         public string Sinopsis { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Sala es requerido")]
-        [Display(Name = "Sala")]
-        public Sala Sala { get; set; }
-
 
         [Display(Name = "Funciones")]
         public List<Funcion> Funciones { get; set; }

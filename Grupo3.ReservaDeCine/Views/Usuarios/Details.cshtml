@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
     <h4>Usuario</h4>
@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.FechaDeNacimiento)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeNacimiento)
+            @Html.DisplayFor(model => model.FechaDeNacimiento.ToString("ddMMyyyy"))
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FechaDeAlta)

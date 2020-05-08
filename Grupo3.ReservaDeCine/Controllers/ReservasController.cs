@@ -54,10 +54,18 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CantButacas,CostoTotal,FechaDeAlta")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("CantButacas")] Reserva reserva)
         {
             if (ModelState.IsValid)
             {
+                if(reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
+                {
+                    ModelState.AddModelError("CantButacas", "Las butacas seleccionadas superan la cantidad de butacas disponibles");
+                }
+
+                reserva.CostoTotal = reserva.CantButacas * 250;//FALTA DEFINIR CONSTANTES DE PRECIOS DE ACUERDO AL TIPO DE SALA 
+                reserva.FechaDeAlta = DateTime.Now;
+                reserva.Funcion.CantButacasDisponibles -= reserva.CantButacas;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
