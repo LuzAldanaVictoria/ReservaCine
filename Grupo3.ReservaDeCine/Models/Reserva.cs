@@ -7,10 +7,13 @@ namespace Grupo3.ReservaDeCine.Models
 {
     public class Reserva
     {
+        [Key]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Usuario es requerido")] 
+        [Required(ErrorMessage = "El campo Usuario es requerido")]
+        [Display(Name = "Usuario")]
         public Usuario Usuario { get; set; }
 
 

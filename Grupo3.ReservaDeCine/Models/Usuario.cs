@@ -7,6 +7,8 @@ namespace Grupo3.ReservaDeCine.Models
 {
     public class Usuario
     {
+        [Key]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
 
@@ -14,6 +16,7 @@ namespace Grupo3.ReservaDeCine.Models
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
         [RegularExpression("[a-zA-Z]*", ErrorMessage = "Formato inválido. El Nombre sólo amdite letras")]
+        [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
 
@@ -21,11 +24,13 @@ namespace Grupo3.ReservaDeCine.Models
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Apellido es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Apellido es de 2 caracteres")]
         [RegularExpression("[a-zA-Z]*", ErrorMessage = "Formato inválido. El Apellido sólo amdite letras")]
+        [Display(Name = "Apellido")]
         public string Apellido { get; set; }
 
 
         [Required(ErrorMessage = "El campo Email es requerido")]
         [EmailAddress(ErrorMessage = "Formato de Email inválido")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
 
@@ -36,11 +41,11 @@ namespace Grupo3.ReservaDeCine.Models
 
         [Display(Name = "Fecha de Alta")]
         public DateTime FechaDeAlta { get; set; }
-        
 
+
+        [Display(Name = "Reservas")]
         public List<Reserva> Reservas { get; set; }
 
-      
 
     
         public Usuario ()

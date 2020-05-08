@@ -7,12 +7,15 @@ namespace Grupo3.ReservaDeCine.Models
 {
     public class Sala
     {
+        [Key]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
 
         [Required(ErrorMessage = "El campo Nombre es requerido")]
         [MaxLength(50, ErrorMessage = "La longitud máxima de un Nombre es de 50 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
+        [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
 
@@ -21,6 +24,7 @@ namespace Grupo3.ReservaDeCine.Models
         public int CapacidadTotal { get; set; }
 
 
+        [Display(Name = "Funciones")] 
         public List<Funcion> Funciones { get; set; }
 
         

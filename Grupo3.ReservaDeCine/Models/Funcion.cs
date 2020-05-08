@@ -7,10 +7,13 @@ namespace Grupo3.ReservaDeCine.Models
 {
     public class Funcion
     {
+        [Key]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
 
         [Required(ErrorMessage = "El campo Sala es requerido")]
+        [Display(Name = "Sala")]
         public Sala Sala { get; set; }
 
 
@@ -19,6 +22,7 @@ namespace Grupo3.ReservaDeCine.Models
         public Pelicula Pelicula { get; set; }
 
 
+        [Display(Name = "Reservas")]
         public List<Reserva> Reservas { get; set; }
 
 

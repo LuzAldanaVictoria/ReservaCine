@@ -7,6 +7,8 @@ namespace Grupo3.ReservaDeCine.Models
 {
     public class Genero
     {
+        [Key]
+        [Display(Name = "ID")]
         public int Id { get; set; }
 
 
@@ -17,6 +19,7 @@ namespace Grupo3.ReservaDeCine.Models
 
         [Display(Name = "Películas")]
         public List<Pelicula> Peliculas { get; set; }
+
 
 
         public Genero ()
