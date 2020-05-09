@@ -54,8 +54,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CantButacasDisponibles")] Funcion funcion)
+        public async Task<IActionResult> Create([Bind("Id")] Funcion funcion)
         {
+            funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
+            
             if (ModelState.IsValid)
             {
                 _context.Add(funcion);

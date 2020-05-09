@@ -12,17 +12,35 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaHora)
+            @Html.DisplayNameFor(model => model.Sala)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FechaHora)
+            @Html.DisplayFor(model => model.Sala)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pelicula)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Pelicula)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Horario)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Horario)
+        </dd>
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CantButacasDisponibles)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CantButacasDisponibles)
-        </dd>
+        </dd>*@
     </dl>
     
     <form asp-action="Delete">

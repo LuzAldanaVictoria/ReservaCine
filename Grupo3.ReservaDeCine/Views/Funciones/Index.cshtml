@@ -13,7 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FechaHora)
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pelicula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Horario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservas)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CantButacasDisponibles)
@@ -24,8 +39,25 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+
             <td>
-                @Html.DisplayFor(modelItem => item.FechaHora)
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sala)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Pelicula)
+            </td>
+            <td>
+                @item.Fecha.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @item.Horario.ToString("hh:mm")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reservas)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
