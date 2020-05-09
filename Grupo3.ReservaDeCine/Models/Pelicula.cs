@@ -15,7 +15,6 @@ namespace Grupo3.ReservaDeCine.Models
         [Required(ErrorMessage = "El campo Nombre es requerido")]
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
-        [RegularExpression("[a-zA-Z]*", ErrorMessage = "Formato inválido. El Nombre sólo amdite letras")]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
@@ -26,6 +25,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Display(Name = "Sinopsis")]
+        [MaxLength(250, ErrorMessage = "La longitud máxima de la Sinopsis es de 250 caracteres")]
         public string Sinopsis { get; set; }
 
 

@@ -19,7 +19,7 @@ namespace Grupo3.ReservaDeCine.Models
         public string Nombre { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Capacidad Total es requerido")]
+        [Required(ErrorMessage = "El campo Tipo de Sala")]
         [Display(Name = "Tipo de Sala")]
         public string Tipo { get; set; }
 
