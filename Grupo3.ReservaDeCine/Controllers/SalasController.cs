@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
 
+
 namespace Grupo3.ReservaDeCine.Controllers
 {
     public class SalasController : Controller
@@ -54,13 +55,16 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,CapacidadTotal")] Sala sala)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Tipo, CapacidadTotal")] Sala sala)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sala);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                    _context.Add(sala);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                                                     
+               
             }
             return View(sala);
         }
@@ -86,7 +90,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,CapacidadTotal")] Sala sala)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Tipo,CapacidadTotal")] Sala sala)
         {
             if (id != sala.Id)
             {
@@ -145,9 +149,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SalaExists(int id)
+        private bool SalaExists(int id)  
         {
             return _context.Salas.Any(e => e.Id == id);
         }
+
+        
+
     }
 }

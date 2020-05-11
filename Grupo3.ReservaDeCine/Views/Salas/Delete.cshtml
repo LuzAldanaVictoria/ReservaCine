@@ -1,14 +1,14 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Sala
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar sala";
 }
 
-<h1>Eliminar</h1>
+<h3>Eliminar</h3>
 
 <h3>¿Está seguro que desea eliminar esta sala?</h3>
 <div>
-    <h4>Sala</h4>
+    <!-- <h4>Sala</h4>-->
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -30,10 +30,10 @@
             @Html.DisplayFor(model => model.CapacidadTotal)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> 
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
         <a asp-action="Index">Volver a la lista</a>
     </form>
 </div>

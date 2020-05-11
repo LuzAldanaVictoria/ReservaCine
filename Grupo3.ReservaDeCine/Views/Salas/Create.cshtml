@@ -1,12 +1,12 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Sala
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear sala";
 }
 
-<h1>Crear</h1>
+<h1>Salas</h1>
 
-<h4>Sala</h4>
+<h4>Crear nueva sala</h4> 
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,11 +20,11 @@
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
                 <select asp-for="Tipo" class="form-control" />
-                    <option>2D</option>
-                    <option>3D</option>
-                    <option>4D</option>
-                    <option>Premium</option>
-                <select/>
+                <option>2D</option>
+                <option>3D</option>
+                <option>4D</option>
+                <option>Premium</option>
+                <select />
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">

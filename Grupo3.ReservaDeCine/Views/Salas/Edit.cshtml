@@ -1,12 +1,12 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Sala
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar sala";
 }
 
-<h1>Edit</h1>
+<h1>Salas</h1>
 
-<h4>Sala</h4>
+<h4>Editar sala</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -20,7 +20,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="nav-item form-control" />
+                <select asp-for="Tipo" class="form-control" />
+                <option>2D</option>
+                <option>3D</option>
+                <option>4D</option>
+                <option>Premium</option>
+                <select />
+                
                 <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">
