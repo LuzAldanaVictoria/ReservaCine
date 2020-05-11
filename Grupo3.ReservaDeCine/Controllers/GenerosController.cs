@@ -56,6 +56,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Descripcion")] Genero genero)
         {
+
+            if (GeneroDescripcionExists(genero.Descripcion, genero.Id))
+            {
+                ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(genero);
@@ -92,6 +99,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+
+            if (GeneroDescripcionExists(genero.Descripcion, genero.Id))
+            {
+                ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
+            }
+
 
             if (ModelState.IsValid)
             {
@@ -149,5 +162,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return _context.Generos.Any(e => e.Id == id);
         }
+
+        private bool GeneroDescripcionExists(String descripcionGenero, int id)
+        {
+            return _context.Generos.Any(e => e.Descripcion == descripcionGenero && e.Id != id);
+        }
+
     }
 }

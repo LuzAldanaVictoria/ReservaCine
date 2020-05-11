@@ -54,8 +54,15 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Sinopsis")] Pelicula pelicula)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Genero,Sinopsis")] Pelicula pelicula)
         {
+
+            if (PeliculaNombreExists(pelicula.Nombre, pelicula.Id))
+            {
+                ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");
+            }
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(pelicula);
@@ -91,6 +98,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (id != pelicula.Id)
             {
                 return NotFound();
+            }
+
+            if (PeliculaNombreExists(pelicula.Nombre, pelicula.Id))
+            {
+                ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");
             }
 
             if (ModelState.IsValid)
@@ -149,5 +161,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return _context.Peliculas.Any(e => e.Id == id);
         }
+
+        private bool PeliculaNombreExists(String nombrePelicula, int id)
+        {
+            return _context.Peliculas.Any(e => e.Nombre == nombrePelicula && e.Id != id);
+        }
+
+
     }
 }

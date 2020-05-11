@@ -57,14 +57,17 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Tipo, CapacidadTotal")] Sala sala)
         {
-            if (ModelState.IsValid)
+            if (SalaNombreExists(sala.Nombre, sala.Id))
             {
-                
+                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            }
+
+
+            if (ModelState.IsValid)
+            {                
                     _context.Add(sala);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                                                     
-               
+                    return RedirectToAction(nameof(Index));                            
             }
             return View(sala);
         }
@@ -95,6 +98,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (id != sala.Id)
             {
                 return NotFound();
+            }
+
+            if(SalaNombreExists(sala.Nombre, sala.Id))
+            {
+                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
             }
 
             if (ModelState.IsValid)
@@ -154,7 +162,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             return _context.Salas.Any(e => e.Id == id);
         }
 
-        
+        private bool SalaNombreExists(String nombreSala, int id)  
+        {
+            return _context.Salas.Any(e => e.Nombre == nombreSala &&  e.Id != id);
+        }
+
 
     }
 }
