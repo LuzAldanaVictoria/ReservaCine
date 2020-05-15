@@ -12,8 +12,10 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
+
         [Display(Name = "Nombre")]
         public String Nombre { get; set; }
+
 
         [Display(Name = "Precio de entrada")]
         public decimal PrecioEntrada { get; set; }

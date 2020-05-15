@@ -24,6 +24,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Salas.ToListAsync());
+
         }
 
         // GET: Salas/Details/5
@@ -55,12 +56,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Tipo, CapacidadTotal")] Sala sala)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoSala,CapacidadTotal")] Sala sala)
         {
-            if (SalaNombreExists(sala.Nombre, sala.Id))
-            {
-                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            }
+            //if (SalaNombreExists(sala.Nombre, sala.Id))
+            //{
+            //    ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            //}
 
 
             if (ModelState.IsValid)
@@ -93,17 +94,17 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Tipo,CapacidadTotal")] Sala sala)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,TipoSala,CapacidadTotal")] Sala sala)
         {
             if (id != sala.Id)
             {
                 return NotFound();
             }
 
-            if(SalaNombreExists(sala.Nombre, sala.Id))
-            {
-                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            }
+            //if(SalaNombreExists(sala.Nombre, sala.Id))
+            //{
+            //    ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            //}
 
             if (ModelState.IsValid)
             {
@@ -162,10 +163,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             return _context.Salas.Any(e => e.Id == id);
         }
 
-        private bool SalaNombreExists(String nombreSala, int id)  
-        {
-            return _context.Salas.Any(e => e.Nombre == nombreSala &&  e.Id != id);
-        }
+        //private bool SalaNombreExists(String nombreSala, int id)  
+        //{
+        //    return _context.Salas.Any(e => e.Nombre == nombreSala &&  e.Id != id);
+        //}
 
 
     }
