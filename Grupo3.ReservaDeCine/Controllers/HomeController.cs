@@ -107,7 +107,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                     Sinopsis = "A selfish Prince is cursed to become a monster for the rest of his life, unless he learns to fall in love with a beautiful young woman he keeps prisoner."
                                 },
                                 Fecha = new DateTime(2020,06,15),
-                                Horario = new DateTime(14, 00),
+                                Horario = new DateTime().AddHours(14).AddMinutes(00),
                                 CantButacasDisponibles = sala1.CapacidadTotal                         
                             },
                             CantButacas = 2,
@@ -131,7 +131,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                     Sinopsis = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers."
                                 },
                                 Fecha = new DateTime(2020,06,17),
-                                Horario = new DateTime(14),
+                                Horario = new DateTime().AddHours(20).AddMinutes(20),
                                 CantButacasDisponibles = sala3.CapacidadTotal
                             },
                             CantButacas = 4,
