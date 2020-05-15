@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Grupo3.ReservaDeCine.Models
@@ -20,6 +21,8 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Display(Name = "Tipo de Sala")]
+        [ForeignKey("Tipo")]
+        public int TipoId { get; set; }
         public TipoSala Tipo { get; set; }
 
 

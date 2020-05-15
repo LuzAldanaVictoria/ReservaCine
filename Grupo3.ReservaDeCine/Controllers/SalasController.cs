@@ -49,6 +49,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Salas/Create
         public IActionResult Create()
         {
+            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
             return View();
         }
 
@@ -57,7 +58,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoSala,CapacidadTotal")] Sala sala)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
         {
             //pelicula
             if (SalaNombreExists(sala.Nombre, sala.Id))
@@ -72,6 +73,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));                            
             }
+
+            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
+
             return View(sala);
         }
 
