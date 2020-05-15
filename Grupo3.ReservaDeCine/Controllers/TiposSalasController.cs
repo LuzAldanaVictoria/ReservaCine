@@ -10,22 +10,22 @@ using Grupo3.ReservaDeCine.Models;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-    public class FuncionesController : Controller
+    public class TiposSalasController : Controller
     {
         private readonly CineDbContext _context;
 
-        public FuncionesController(CineDbContext context)
+        public TiposSalasController(CineDbContext context)
         {
             _context = context;
         }
 
-        // GET: Funciones
+        // GET: TiposSalas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Funciones.ToListAsync());
+            return View(await _context.TipoSala.ToListAsync());
         }
 
-        // GET: Funciones/Details/5
+        // GET: TiposSalas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,47 +33,39 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var funcion = await _context.Funciones
+            var tipoSala = await _context.TipoSala
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (funcion == null)
+            if (tipoSala == null)
             {
                 return NotFound();
             }
 
-            return View(funcion);
+            return View(tipoSala);
         }
 
-        // GET: Funciones/Create
+        // GET: TiposSalas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Funciones/Create
+        // POST: TiposSalas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Funcion funcion)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
         {
-            funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
-
-
-            if (funcion.Fecha < DateTime.Now)
-            {
-                ModelState.AddModelError(nameof(funcion.Fecha), "La fecha debe ser posterior al dia de hoy");
-            }
-
             if (ModelState.IsValid)
             {
-                _context.Add(funcion);
+                _context.Add(tipoSala);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(funcion);
+            return View(tipoSala);
         }
 
-        // GET: Funciones/Edit/5
+        // GET: TiposSalas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,22 +73,22 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var funcion = await _context.Funciones.FindAsync(id);
-            if (funcion == null)
+            var tipoSala = await _context.TipoSala.FindAsync(id);
+            if (tipoSala == null)
             {
                 return NotFound();
             }
-            return View(funcion);
+            return View(tipoSala);
         }
 
-        // POST: Funciones/Edit/5
+        // POST: TiposSalas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CantButacasDisponibles")] Funcion funcion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
         {
-            if (id != funcion.Id)
+            if (id != tipoSala.Id)
             {
                 return NotFound();
             }
@@ -105,12 +97,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 try
                 {
-                    _context.Update(funcion);
+                    _context.Update(tipoSala);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FuncionExists(funcion.Id))
+                    if (!TipoSalaExists(tipoSala.Id))
                     {
                         return NotFound();
                     }
@@ -121,10 +113,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(funcion);
+            return View(tipoSala);
         }
 
-        // GET: Funciones/Delete/5
+        // GET: TiposSalas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,30 +124,30 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var funcion = await _context.Funciones
+            var tipoSala = await _context.TipoSala
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (funcion == null)
+            if (tipoSala == null)
             {
                 return NotFound();
             }
 
-            return View(funcion);
+            return View(tipoSala);
         }
 
-        // POST: Funciones/Delete/5
+        // POST: TiposSalas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var funcion = await _context.Funciones.FindAsync(id);
-            _context.Funciones.Remove(funcion);
+            var tipoSala = await _context.TipoSala.FindAsync(id);
+            _context.TipoSala.Remove(tipoSala);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FuncionExists(int id)
+        private bool TipoSalaExists(int id)
         {
-            return _context.Funciones.Any(e => e.Id == id);
+            return _context.TipoSala.Any(e => e.Id == id);
         }
     }
 }

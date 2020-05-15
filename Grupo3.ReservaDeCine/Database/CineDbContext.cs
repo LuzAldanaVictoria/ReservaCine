@@ -18,5 +18,8 @@ namespace Grupo3.ReservaDeCine.Database
 
 
         public CineDbContext(DbContextOptions options) : base(options) { }
+
+
+        public DbSet<Grupo3.ReservaDeCine.Models.TipoSala> TipoSala { get; set; }
     }
 }

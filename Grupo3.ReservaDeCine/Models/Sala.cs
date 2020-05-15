@@ -16,18 +16,16 @@ namespace Grupo3.ReservaDeCine.Models
         [MaxLength(50, ErrorMessage = "La longitud máxima de un Nombre es de 50 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
         [Display(Name = "Nombre")]
-        
         public string Nombre { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Tipo de Sala")]
         [Display(Name = "Tipo de Sala")]
-        public string Tipo { get; set; }
+        public TipoSala Tipo { get; set; }
 
 
         [Required(ErrorMessage = "El campo Capacidad Total es requerido")]
         [Display(Name = "Capacidad Total (cantidad de butacas)")]
-        [Range(1,999,ErrorMessage = "La capacidad de la sala debe ser entre 1 y 999")]
+        [Range(1,300,ErrorMessage = "La capacidad de la sala debe ser entre 1 y 300")]
         public int CapacidadTotal { get; set; }
 
 
