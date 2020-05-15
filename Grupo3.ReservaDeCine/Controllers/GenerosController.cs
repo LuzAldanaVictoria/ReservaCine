@@ -57,6 +57,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Create([Bind("Id,Descripcion")] Genero genero)
         {
 
+            //validacion
             if (GeneroDescripcionExists(genero.Descripcion, genero.Id))
             {
                 ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
@@ -100,6 +101,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+
+            //validacion
             if (GeneroDescripcionExists(genero.Descripcion, genero.Id))
             {
                 ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
@@ -162,6 +165,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return _context.Generos.Any(e => e.Id == id);
         }
+
 
         private bool GeneroDescripcionExists(String descripcionGenero, int id)
         {

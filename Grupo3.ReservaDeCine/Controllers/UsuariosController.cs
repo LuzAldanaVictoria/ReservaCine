@@ -56,6 +56,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento")] Usuario usuario)
         {
+
+            ComprobarFechaDeNacimiento(usuario);
+
             if (ModelState.IsValid)
             {
                 usuario.FechaDeAlta = DateTime.Now;
@@ -93,6 +96,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+
+           
 
             if (ModelState.IsValid)
             {
@@ -149,6 +154,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         private bool UsuarioExists(int id)
         {
             return _context.Usuarios.Any(e => e.Id == id);
+        }
+
+        private void ComprobarFechaDeNacimiento (Usuario usuario)
+        {
+            if (usuario.FechaDeNacimiento.Year < 1920 || usuario.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
+            {
+                ModelState.AddModelError(nameof(usuario.FechaDeNacimiento), "Año de nacimiento inválido");
+            }
         }
     }
 }

@@ -84,9 +84,87 @@ namespace Grupo3.ReservaDeCine.Controllers
                     },
                     CapacidadTotal = 80
                 };
-            
 
+                var usuario1 = new Usuario() {
+                    Nombre = "Luciano",
+                    Apellido = "García",
+                    Email = "lucianogarcia@gmail.com",
+                    FechaDeNacimiento = new DateTime(1992,06,20),
+                    Reservas = new List<Reserva>()
+                    {
+                        new Reserva()
+                        {
+                            Funcion = new Funcion()
+                            {
+                                Sala = sala1,
+                                Pelicula = new Pelicula()
+                                {
+                                    Nombre = "Beauty and the Beast",
+                                    Genero = new Genero
+                                    {
+                                        Descripcion = "Infantil"
+                                    },
+                                    Sinopsis = "A selfish Prince is cursed to become a monster for the rest of his life, unless he learns to fall in love with a beautiful young woman he keeps prisoner."
+                                },
+                                Fecha = new DateTime(2020,06,15),
+                                Horario = new DateTime(14, 00),
+                                CantButacasDisponibles = sala1.CapacidadTotal                         
+                            },
+                            CantButacas = 2,
+                            CostoTotal = 1100,
+                            FechaDeAlta = DateTime.Now
+                       
+                        },
+
+                         new Reserva()
+                        {
+                            Funcion = new Funcion()
+                            {
+                                Sala = sala3,
+                                Pelicula = new Pelicula()
+                                {
+                                    Nombre = "The Matrix",
+                                    Genero = new Genero
+                                    {
+                                        Descripcion = "Ciencia ficción"
+                                    },
+                                    Sinopsis = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers."
+                                },
+                                Fecha = new DateTime(2020,06,17),
+                                Horario = new DateTime(14),
+                                CantButacasDisponibles = sala3.CapacidadTotal
+                            },
+                            CantButacas = 4,
+                            CostoTotal = 1800,
+                            FechaDeAlta = DateTime.Now
+                        },
+
+                    },
+                    FechaDeAlta = DateTime.Now
+                };
+
+
+                var usuario2 = new Usuario()
+                {
+                    Nombre = "Carlos",
+                    Apellido = "Pereyra",
+                    Email = "cp2020@gmail.com",
+                    FechaDeNacimiento = new DateTime(2000,11,04),
+                    FechaDeAlta = DateTime.Now
+                };
+
+                var usuario3 = new Usuario()
+                {
+                    Nombre = "Carla",
+                    Apellido = "Rodriguez",
+                    Email = "carla@gmail.com",
+                    FechaDeNacimiento = new DateTime(1987,01,03),
+                    FechaDeAlta = DateTime.Now
+                };
+
+                _context.AddRange(new[] { usuario1, usuario2, usuario3 });
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
+
 
                 _context.SaveChanges();
             }

@@ -56,14 +56,17 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CantButacas")] Reserva reserva)
         {
+
+            //validacion
+            if (reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
+            {
+                ModelState.AddModelError("CantButacas", "Las butacas seleccionadas superan la cantidad de butacas disponibles");
+            }
+
             if (ModelState.IsValid)
             {
-                if(reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
-                {
-                    ModelState.AddModelError("CantButacas", "Las butacas seleccionadas superan la cantidad de butacas disponibles");
-                }
-
-                reserva.CostoTotal = reserva.CantButacas * 250;//FALTA DEFINIR CONSTANTES DE PRECIOS DE ACUERDO AL TIPO DE SALA 
+                //Define el precio de acuerdo al tipo de sala
+                reserva.CostoTotal = reserva.CantButacas * reserva.Funcion.Sala.Tipo.PrecioEntrada;
                 reserva.FechaDeAlta = DateTime.Now;
                 reserva.Funcion.CantButacasDisponibles -= reserva.CantButacas;
                 _context.Add(reserva);

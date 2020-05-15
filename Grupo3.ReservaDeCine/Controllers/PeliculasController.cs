@@ -56,7 +56,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Genero,Sinopsis")] Pelicula pelicula)
         {
-
+           
+            //validacion
             if (PeliculaNombreExists(pelicula.Nombre, pelicula.Id))
             {
                 ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");

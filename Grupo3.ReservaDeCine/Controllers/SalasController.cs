@@ -37,6 +37,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var sala = await _context.Salas
                 .FirstOrDefaultAsync(m => m.Id == id);
+          
             if (sala == null)
             {
                 return NotFound();
@@ -58,10 +59,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,TipoSala,CapacidadTotal")] Sala sala)
         {
-            //if (SalaNombreExists(sala.Nombre, sala.Id))
-            //{
-            //    ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            //}
+            //pelicula
+            if (SalaNombreExists(sala.Nombre, sala.Id))
+            {
+                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            }
 
 
             if (ModelState.IsValid)
@@ -101,10 +103,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            //if(SalaNombreExists(sala.Nombre, sala.Id))
-            //{
-            //    ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            //}
+            if(SalaNombreExists(sala.Nombre, sala.Id))
+            {
+                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            }
 
             if (ModelState.IsValid)
             {
@@ -163,10 +165,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             return _context.Salas.Any(e => e.Id == id);
         }
 
-        //private bool SalaNombreExists(String nombreSala, int id)  
-        //{
-        //    return _context.Salas.Any(e => e.Nombre == nombreSala &&  e.Id != id);
-        //}
+        private bool SalaNombreExists(String nombreSala, int id)  
+        {
+            return _context.Salas.Any(e => e.Nombre == nombreSala &&  e.Id != id);
+        }
 
 
     }
