@@ -46,7 +46,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Peliculas/Create
         public IActionResult Create()
         {
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");// agregado LV
+            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
             return View();
         }
 
@@ -71,7 +71,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");// agregado LV
+            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
             return View(pelicula);
         }
 
@@ -88,6 +88,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
             return View(pelicula);
         }
 
@@ -128,6 +129,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
             return View(pelicula);
         }
 

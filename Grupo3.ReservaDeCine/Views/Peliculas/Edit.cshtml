@@ -1,10 +1,10 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Pelicula
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Película";
 }
 
-<h1>Edit</h1>
+<h1>Editar película</h1>
 
 <h4>Pelicula</h4>
 <hr />
@@ -20,7 +20,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Genero" class="control-label"></label>
-                <input asp-for="Genero" class="form-control" />
+               
+                <select asp-for="Genero" class="form-control" asp-items="ViewBag.TiposDeGenero"></select>
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -29,14 +30,14 @@
                 <span asp-validation-for="Sinopsis" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {

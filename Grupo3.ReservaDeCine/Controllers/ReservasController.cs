@@ -47,7 +47,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         public IActionResult Create()
         {
             // aca tengo que agregar el viewBag??
-           ViewBag.TiposFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); // check si esto va aca
+           ViewBag.TiposFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); 
 
             return View();
         }
