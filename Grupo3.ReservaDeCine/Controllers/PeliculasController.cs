@@ -46,6 +46,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Peliculas/Create
         public IActionResult Create()
         {
+            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");// agregado LV
             return View();
         }
 
@@ -70,6 +71,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");// agregado LV
             return View(pelicula);
         }
 
