@@ -92,6 +92,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
             return View(sala);
         }
 
@@ -132,6 +133,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
             return View(sala);
         }
 

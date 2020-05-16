@@ -46,6 +46,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Funciones/Create
         public IActionResult Create()
         {
+            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View();
         }
 
@@ -70,6 +72,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
             return View(funcion);
         }
 
@@ -86,6 +92,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
             return View(funcion);
         }
 
@@ -121,6 +131,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View(funcion);
         }
 

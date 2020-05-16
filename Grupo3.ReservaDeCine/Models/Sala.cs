@@ -13,15 +13,16 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
+
         [Required(ErrorMessage = "El campo Nombre es requerido")]
         [MaxLength(50, ErrorMessage = "La longitud máxima de un Nombre es de 50 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
-
-        [Display(Name = "Tipo de Sala")]
+        
         [ForeignKey("Tipo")]
+        [Display(Name = "Tipo de Sala")]
         public int TipoId { get; set; }
         public TipoSala Tipo { get; set; }
 

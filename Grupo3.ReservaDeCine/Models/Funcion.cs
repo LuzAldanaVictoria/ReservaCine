@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Grupo3.ReservaDeCine.Models
@@ -11,14 +12,18 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
-
+       
+        [ForeignKey("Sala")]
         [Required(ErrorMessage = "El campo Sala es requerido")]
         [Display(Name = "Sala")]
+        public int SalaId { get; set; }
         public Sala Sala { get; set; }
 
 
+        [ForeignKey("Pelicula")]
         [Required(ErrorMessage = "El campo Película es requerido")]
         [Display(Name = "Película")]
+        public int PeliculaId { get; set; }
         public Pelicula Pelicula { get; set; }
 
 
