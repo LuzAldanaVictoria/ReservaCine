@@ -46,6 +46,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
+            // aca tengo que agregar el viewBag??
+           ViewBag.TiposFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); // check si esto va aca
+
             return View();
         }
 
@@ -73,6 +76,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.TiposFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); 
+
             return View(reserva);
         }
 
@@ -89,6 +94,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+           
             return View(reserva);
         }
 
@@ -122,8 +128,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(reserva);
         }
 
