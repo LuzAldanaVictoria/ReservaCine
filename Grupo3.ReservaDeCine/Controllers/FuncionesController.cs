@@ -58,6 +58,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Funcion funcion)
         {
+            //algo de esta linea no funciona
             funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
 
 

@@ -13,15 +13,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Usuario" class="control-label"></label>
-                <input asp-for="Usuario" class="form-control" />
-                <span asp-validation-for="Usuario" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Funcion" class="control-label"></label>
-               <!-- <input asp-for="Funcion" class="form-control" /> -->
-                <select asp-for="Funcion" class="form-control" asp-items="ViewBag.TiposFunciones"></select>
-                <span asp-validation-for="Funcion" class="text-danger"></span>
+                <label asp-for="FuncionId" class="control-label"></label>
+                <select asp-for="FuncionId" class="form-control" asp-items="ViewBag.TiposFunciones"></select>
+                <span asp-validation-for="FuncionId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>

@@ -61,7 +61,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             //validacion
             if (PeliculaNombreExists(pelicula.Nombre, pelicula.Id))
             {
-                ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");
+               ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");
             }
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Grupo3.ReservaDeCine.Models
@@ -19,8 +20,10 @@ namespace Grupo3.ReservaDeCine.Models
         public string Nombre { get; set; }
 
 
+        [ForeignKey("Genero")]
         [Required(ErrorMessage = "El campo Género es requerido")]
         [Display(Name = "Género")]
+        public int GeneroId { get; set; }
         public Genero Genero { get; set; }
 
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Grupo3.ReservaDeCine.Models
@@ -16,9 +17,10 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Usuario")]
         public Usuario Usuario { get; set; }
 
-
+        [ForeignKey("Funcion")]
         [Required(ErrorMessage = "El campo Función es requerido")]
         [Display(Name = "Función")]
+        public int FuncionId { get; set; }
         public Funcion Funcion { get; set; }
 
 
