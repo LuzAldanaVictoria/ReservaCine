@@ -47,7 +47,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         public IActionResult Create()
         {
             // aca tengo que agregar el viewBag??
-           ViewBag.TiposFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); 
+           ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+           ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula");
 
             return View();
         }
@@ -61,22 +62,23 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
 
             //validacion
-            if (reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
-            {
-                ModelState.AddModelError("CantButacas", "Las butacas seleccionadas superan la cantidad de butacas disponibles");
-            }
+            //if (reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
+            //{
+            //    ModelState.AddModelError("CantButacas", "Las butacas seleccionadas superan la cantidad de butacas disponibles");
+            //}
 
             if (ModelState.IsValid)
             {
-                //Define el precio de acuerdo al tipo de sala
-                reserva.CostoTotal = reserva.CantButacas * reserva.Funcion.Sala.Tipo.PrecioEntrada;
-                reserva.FechaDeAlta = DateTime.Now;
-                reserva.Funcion.CantButacasDisponibles -= reserva.CantButacas;
+                ////Define el precio de acuerdo al tipo de sala
+                //reserva.CostoTotal = reserva.CantButacas * reserva.Funcion.Sala.Tipo.PrecioEntrada;
+                //reserva.FechaDeAlta = DateTime.Now;
+                //reserva.Funcion.CantButacasDisponibles -= reserva.CantButacas;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TiposFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); 
+            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); 
 
             return View(reserva);
         }
@@ -94,7 +96,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
-           
+            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula");
             return View(reserva);
         }
 
@@ -131,7 +134,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            
+            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula");
             return View(reserva);
         }
 

@@ -12,10 +12,12 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
-
+        [ForeignKey("Usuario")]
         [Required(ErrorMessage = "El campo Usuario es requerido")]
         [Display(Name = "Usuario")]
+        public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
+
 
         [ForeignKey("Funcion")]
         [Required(ErrorMessage = "El campo Función es requerido")]

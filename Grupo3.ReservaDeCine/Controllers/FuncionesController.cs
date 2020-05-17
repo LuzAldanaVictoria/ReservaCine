@@ -59,7 +59,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Create(Funcion funcion)
         {
             //algo de esta linea no funciona
-            funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
+            //funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
 
 
             if (funcion.Fecha < DateTime.Now)
