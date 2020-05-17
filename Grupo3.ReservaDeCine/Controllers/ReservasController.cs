@@ -70,8 +70,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {
                 ////Define el precio de acuerdo al tipo de sala
-                //reserva.CostoTotal = reserva.CantButacas * reserva.Funcion.Sala.Tipo.PrecioEntrada;
-                //reserva.FechaDeAlta = DateTime.Now;
+          //     reserva.CostoTotal = reserva.CantButacas * reserva.Funcion.Sala.Tipo.PrecioEntrada; 
+                reserva.FechaDeAlta = DateTime.Now;
                 //reserva.Funcion.CantButacasDisponibles -= reserva.CantButacas;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
