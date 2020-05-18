@@ -174,7 +174,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         private bool SalaNombreExists(String nombreSala, int id)  
         {
-            return _context.Salas.Any(e => e.Nombre == nombreSala &&  e.Id != id);
+            // se valida que no exista una sala con el mismo nombre, ignorando mayusculas y minisculas
+            return _context.Salas.Any(e => e.Nombre.Equals(nombreSala, StringComparison.CurrentCultureIgnoreCase) &&  e.Id != id);  // De esta forma estoy recorriendo como si fuera un for la lista de salas. e.Nombre me trae el nombre del elemento en una posicion
         }
 
 
