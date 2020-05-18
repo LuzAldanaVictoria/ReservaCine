@@ -13,8 +13,8 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Required(ErrorMessage = "El campo descripción es requerido")]
-        [MaxLength(50, ErrorMessage = "La longitud máxima de 30 caracteres")]
-        [MinLength(5, ErrorMessage = "La longitud mínima es de 5 caracteres")]
+        [MaxLength(50, ErrorMessage = "La longitud máxima de 50 caracteres")]
+        [MinLength(4, ErrorMessage = "La longitud mínima es de 4 caracteres")]
         [Display(Name = "Descripción")]
 
         public string Descripcion { get; set; }

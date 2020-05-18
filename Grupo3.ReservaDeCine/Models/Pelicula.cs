@@ -28,7 +28,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Display(Name = "Sinopsis")]
-        [MaxLength(250, ErrorMessage = "La longitud máxima de la Sinopsis es de 250 caracteres")]
+        [MaxLength(300, ErrorMessage ="La longitud máxima de la Sinopsis es de 300 caracteres")]
         public string Sinopsis { get; set; }
 
 

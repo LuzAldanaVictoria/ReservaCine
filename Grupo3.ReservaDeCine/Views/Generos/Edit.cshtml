@@ -4,8 +4,9 @@
     ViewData["Title"] = "Editar";
 }
 
-<h1>Editar Género</h1>
+<h1>Géneros</h1>
 
+<h4>Editar géneros</h4>
 
 <hr />
 <div class="row">
@@ -15,7 +16,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
+                <input asp-for="Descripcion"  minlength=4 maxlength=50 class="form-control" required/>
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
             <div class="form-group">

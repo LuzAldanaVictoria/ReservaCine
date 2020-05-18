@@ -4,9 +4,9 @@
     ViewData["Title"] = "Crear";
 }
 
-<h1>Crear Función</h1>
+<h1>Funciones</h1>
 
-@*<h4>Función</h4>*@
+<h4>Crear nueva función</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,22 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="SalaId" class="control-label"></label>
-                <select asp-for="SalaId" class="form-control" asp-items="ViewBag.Salas"></select>
+                <select asp-for="SalaId" class="form-control" asp-items="ViewBag.Salas" required></select>
                 <span asp-validation-for="SalaId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PeliculaId" class="control-label"></label>
-                <select asp-for="PeliculaId" class="form-control" asp-items="ViewBag.Peliculas"></select>
+                <select asp-for="PeliculaId" class="form-control" asp-items="ViewBag.Peliculas" required></select>
                 <span asp-validation-for="PeliculaId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" type="date" class="form-control" />
+                <input asp-for="Fecha" type="date" class="form-control" required/>
                 <span asp-validation-for="Fecha" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Horario" class="control-label"></label>
-                <input asp-for="Horario" type="time" class="form-control" />
+                <input asp-for="Horario" type="time" class="form-control" required/>
                 <span asp-validation-for="Horario" class="text-danger"></span>
             </div>
 

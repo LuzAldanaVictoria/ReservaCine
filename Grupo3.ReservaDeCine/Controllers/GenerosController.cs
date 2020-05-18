@@ -22,6 +22,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Generos
         public async Task<IActionResult> Index()
         {
+            //esta linea hace que se carguen los nombres de las peliculas
+            await _context.Peliculas.ToListAsync(); 
+
             return View(await _context.Generos.ToListAsync());
         }
 

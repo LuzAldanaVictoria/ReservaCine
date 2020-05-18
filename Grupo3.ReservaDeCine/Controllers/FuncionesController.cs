@@ -22,6 +22,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Funciones
         public async Task<IActionResult> Index()
         {
+            //esta linea hace que se carguen los nombres de las peliculas
+            await _context.Peliculas.ToListAsync();
+
+            //esta linea hace que se carguen los nombres de las salas
+            await _context.Salas.ToListAsync();
+
             return View(await _context.Funciones.ToListAsync());
         }
 
@@ -59,13 +65,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Create(Funcion funcion)
         {
             //algo de esta linea no funciona
-            //funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
+            // funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
 
-
-            if (funcion.Fecha < DateTime.Now)
-            {
-                ModelState.AddModelError(nameof(funcion.Fecha), "La fecha debe ser posterior al dia de hoy");
-            }
+            ValidarFecha(funcion);
+            ValidarHorario(funcion);
+            
 
             if (ModelState.IsValid)
             {
@@ -107,10 +111,15 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CantButacasDisponibles")] Funcion funcion)
         {
+            
             if (id != funcion.Id)
             {
                 return NotFound();
             }
+
+            ValidarFecha(funcion);
+            ValidarHorario(funcion);
+
 
             if (ModelState.IsValid)
             {
@@ -170,5 +179,25 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return _context.Funciones.Any(e => e.Id == id);
         }
+
+        private void ValidarFecha(Funcion funcion)
+        {
+            if (funcion.Fecha < DateTime.Now || funcion.Fecha.Year > DateTime.Now.Year + 2)
+            {
+                ModelState.AddModelError(nameof(funcion.Fecha), "Fecha inválida");
+            }
+        }
+
+        private void ValidarHorario(Funcion funcion)
+        {
+            if (funcion.Horario.Hour > 1 && funcion.Horario.Hour < 9)
+            {
+                ModelState.AddModelError(nameof(funcion.Horario), "El horario debe estar comprendido entre las 9:00 y la 01:59 (A.M.)");
+            }
+        }
+        
+
+        
     }
+
 }

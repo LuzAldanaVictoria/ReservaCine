@@ -7,7 +7,7 @@
 <h1>Funciones</h1>
 
 <p>
-    <a asp-action="Create">Crear nueva Función</a>
+    <a asp-action="Create">Crear nueva función</a>
 </p>
 <table class="table">
     <thead>
@@ -27,9 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Horario)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Reservas)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CantButacasDisponibles)
             </th>
@@ -44,11 +44,11 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sala)
+                @Html.DisplayFor(modelItem => item.Sala.Nombre)
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.Pelicula)
+                @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
             </td>
             <td>
                 @item.Fecha.ToString("dd/MM/yyyy")
@@ -56,9 +56,9 @@
             <td>
                 @item.Horario.ToString("HH:mm")
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Reservas)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
             </td>
