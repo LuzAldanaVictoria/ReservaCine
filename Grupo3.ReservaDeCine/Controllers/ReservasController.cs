@@ -171,6 +171,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         private bool ReservaExists(int id)
         {
             return _context.Reservas.Any(e => e.Id == id);
+
         }
     }
 }
