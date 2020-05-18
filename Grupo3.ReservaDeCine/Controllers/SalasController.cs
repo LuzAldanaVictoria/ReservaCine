@@ -49,7 +49,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Salas/Create
         public IActionResult Create()
         {
-            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
+            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
         {
-            //pelicula
+            //valida si ya existe el nombre
             if (SalaNombreExists(sala.Nombre, sala.Id))
             {
                 ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
@@ -74,7 +74,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     return RedirectToAction(nameof(Index));                            
             }
 
-            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
+            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
 
             return View(sala);
         }
@@ -92,7 +92,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
-            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
+            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
 
@@ -134,7 +134,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.TiposDeSala = new SelectList(_context.TipoSala, "Id", "Nombre");
+            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
 

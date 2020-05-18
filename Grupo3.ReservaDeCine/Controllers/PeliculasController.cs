@@ -57,12 +57,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Genero,Sinopsis")] Pelicula pelicula)
         {
-           
-            //validacion
-            if (PeliculaNombreExists(pelicula.Nombre, pelicula.Id))
-            {
-               ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");
-            }
+
+            //valida si ya existe el nombre
+            ValidarNombreExistente(pelicula);
 
 
             if (ModelState.IsValid)
@@ -104,10 +101,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            if (PeliculaNombreExists(pelicula.Nombre, pelicula.Id))
-            {
-                ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una pelicula con ese nombre");
-            }
+            //valida si ya existe el nombre
+            ValidarNombreExistente(pelicula);
 
             if (ModelState.IsValid)
             {
@@ -167,11 +162,26 @@ namespace Grupo3.ReservaDeCine.Controllers
             return _context.Peliculas.Any(e => e.Id == id);
         }
 
-        private bool PeliculaNombreExists(String nombrePelicula, int id)
+        private bool PeliculaNombreExists(string nombrePelicula, int id)
         {
-            return _context.Peliculas.Any(e => e.Nombre == nombrePelicula && e.Id != id);
+            return _context.Peliculas.Any(e => Comparar(e.Nombre, nombrePelicula) && e.Id != id);
         }
 
 
+        private void ValidarNombreExistente(Pelicula pelicula)
+        {
+            if (_context.Peliculas.Any(e => Comparar(e.Nombre, pelicula.Nombre) && e.Id != pelicula.Id))
+            {
+                ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una película con ese nombre");
+            }
+        }
+
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
     }
 }

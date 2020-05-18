@@ -15,7 +15,7 @@ namespace Grupo3.ReservaDeCine.Database
         public DbSet<Pelicula> Peliculas { get; set; }
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Funcion> Funciones { get; set; }
-        public DbSet<TipoSala> TipoSala { get; set; }
+        public DbSet<TipoSala> TiposSala { get; set; }
 
         public CineDbContext(DbContextOptions options) : base(options) { }
 

@@ -22,7 +22,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: TiposSalas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TipoSala.ToListAsync());
+            return View(await _context.TiposSala.ToListAsync());
         }
 
         // GET: TiposSalas/Details/5
@@ -33,7 +33,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var tipoSala = await _context.TipoSala
+            var tipoSala = await _context.TiposSala
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tipoSala == null)
             {
@@ -56,6 +56,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
         {
+            //valida si ya existe el nombre
+            ValidarNombreExistente(tipoSala); 
+            
+
             if (ModelState.IsValid)
             {
                 _context.Add(tipoSala);
@@ -73,7 +77,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var tipoSala = await _context.TipoSala.FindAsync(id);
+            var tipoSala = await _context.TiposSala.FindAsync(id);
             if (tipoSala == null)
             {
                 return NotFound();
@@ -92,6 +96,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+
+            ValidarNombreExistente(tipoSala);
 
             if (ModelState.IsValid)
             {
@@ -124,7 +130,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var tipoSala = await _context.TipoSala
+            var tipoSala = await _context.TiposSala
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tipoSala == null)
             {
@@ -139,15 +145,31 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tipoSala = await _context.TipoSala.FindAsync(id);
-            _context.TipoSala.Remove(tipoSala);
+            var tipoSala = await _context.TiposSala.FindAsync(id);
+            _context.TiposSala.Remove(tipoSala);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TipoSalaExists(int id)
         {
-            return _context.TipoSala.Any(e => e.Id == id);
+            return _context.TiposSala.Any(e => e.Id == id);
+        }
+
+        private void ValidarNombreExistente(TipoSala tipoSala)
+        {
+            if (_context.TiposSala.Any(e => Comparar(e.Nombre, tipoSala.Nombre) && e.Id != tipoSala.Id))
+            {
+               ModelState.AddModelError(nameof(tipoSala.Nombre), "Ya existe un tipo de sala con ese nombre");
+            }
+        }
+
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
     }
 }

@@ -46,6 +46,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Generos/Create
         public IActionResult Create()
         {
+
             return View();
         }
 
@@ -58,12 +59,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
 
             //validacion
-            if (GeneroDescripcionExists(genero.Descripcion, genero.Id))
-            {
-                ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
-            }
-
-
+            ValidarNombreExistente(genero);
+       
             if (ModelState.IsValid)
             {
                 _context.Add(genero);
@@ -96,6 +93,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion")] Genero genero)
         {
+            
             if (id != genero.Id)
             {
                 return NotFound();
@@ -103,10 +101,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
             //validacion
-            if (GeneroDescripcionExists(genero.Descripcion, genero.Id))
-            {
-                ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
-            }
+            ValidarNombreExistente(genero);
 
 
             if (ModelState.IsValid)
@@ -167,10 +162,20 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        private bool GeneroDescripcionExists(String descripcionGenero, int id)
+        private void ValidarNombreExistente(Genero genero)
         {
-            return _context.Generos.Any(e => e.Descripcion == descripcionGenero && e.Id != id);
+            if (_context.Generos.Any(e => Comparar(e.Descripcion, genero.Descripcion) && e.Id != genero.Id))
+            {
+                ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
+            }
         }
 
+     
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
     }
 }

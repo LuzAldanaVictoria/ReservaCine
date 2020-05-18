@@ -58,6 +58,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
 
             ComprobarFechaDeNacimiento(usuario);
+            ValidarEmailExistente(usuario);
+
 
             if (ModelState.IsValid)
             {
@@ -97,7 +99,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-           
+            ComprobarFechaDeNacimiento(usuario);
+            ValidarEmailExistente(usuario);
+
 
             if (ModelState.IsValid)
             {
@@ -162,6 +166,20 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 ModelState.AddModelError(nameof(usuario.FechaDeNacimiento), "Año de nacimiento inválido");
             }
+        }
+
+        private void ValidarEmailExistente (Usuario usuario)
+        {
+            if (_context.Usuarios.Any(e => Comparar(e.Email, usuario.Email) && e.Id != usuario.Id))
+            {
+                ModelState.AddModelError(nameof(usuario.Email), "Ya existe un usuario con este Email");
+            }
+        }
+
+        private bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
     }
 }
