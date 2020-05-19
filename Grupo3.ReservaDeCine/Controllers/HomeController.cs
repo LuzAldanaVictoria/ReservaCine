@@ -104,7 +104,12 @@ namespace Grupo3.ReservaDeCine.Controllers
                                     {
                                         Descripcion = "Infantil"
                                     },
-                                    Sinopsis = "A selfish Prince is cursed to become a monster for the rest of his life, unless he learns to fall in love with a beautiful young woman he keeps prisoner."
+                                    Sinopsis = "A selfish Prince is cursed to become a monster for the rest of his life, unless he learns to fall in love with a beautiful young woman he keeps prisoner.",
+                                    Clasificacion = new Clasificacion
+                                    {
+                                        Descripcion = "ATP",
+                                        EdadMinima = 0
+                                    },
                                 },
                                 Fecha = new DateTime(2020,06,15),
                                 Horario = new DateTime().AddHours(14).AddMinutes(00),
@@ -128,7 +133,12 @@ namespace Grupo3.ReservaDeCine.Controllers
                                     {
                                         Descripcion = "Ciencia ficción"
                                     },
-                                    Sinopsis = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers."
+                                    Sinopsis = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+                                    Clasificacion = new Clasificacion
+                                    {
+                                        Descripcion = "+13",
+                                        EdadMinima = 13
+                                    },
                                 },
                                 Fecha = new DateTime(2020,06,17),
                                 Horario = new DateTime().AddHours(20).AddMinutes(20),

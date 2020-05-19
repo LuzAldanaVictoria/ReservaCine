@@ -30,11 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.FechaDeAlta)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Reservas)
-            </th>
-            <th></th>
-        </tr>
+            </th>*@
     </thead>
     <tbody>
 @foreach (var item in Model) {
@@ -57,9 +55,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FechaDeAlta)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Reservas)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |

@@ -10,31 +10,25 @@ using Grupo3.ReservaDeCine.Models;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-    public class PeliculasController : Controller
+    public class ClasificacionesController : Controller
     {
         private readonly CineDbContext _context;
 
-        public PeliculasController(CineDbContext context)
+        public ClasificacionesController(CineDbContext context)
         {
             _context = context;
         }
 
-        // GET: Peliculas
+        // GET: Clasificaciones
         public async Task<IActionResult> Index()
         {
-            //esta linea hace que se carguen los nombres de los generos
-            await _context.Generos.ToListAsync();
+            //esta linea hace que se carguen los nombres de las peliculas
+            await _context.Peliculas.ToListAsync();
 
-            //esta linea hace que se carguen los nombres de las salas
-            await _context.Salas.ToListAsync();
-
-            //esta linea hace que se carguen las descripciones de las clasificaciones
-            await _context.Clasificaciones.ToListAsync();
-
-            return View(await _context.Peliculas.ToListAsync());
+            return View(await _context.Clasificaciones.ToListAsync());
         }
 
-        // GET: Peliculas/Details/5
+        // GET: Clasificaciones/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,48 +36,42 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas
+            var clasificacion = await _context.Clasificaciones
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pelicula == null)
+            if (clasificacion == null)
             {
                 return NotFound();
             }
 
-            return View(pelicula);
+            return View(clasificacion);
         }
 
-        // GET: Peliculas/Create
+        // GET: Clasificaciones/Create
         public IActionResult Create()
         {
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View();
         }
 
-        // POST: Peliculas/Create
+        // POST: Clasificaciones/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Genero,Sinopsis")] Pelicula pelicula)
+        public async Task<IActionResult> Create([Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
         {
-
-            //valida si ya existe el nombre
-            ValidarNombreExistente(pelicula);
-
-
+            //validacion
+            ValidarDescripcionExistente(clasificacion); 
+            
             if (ModelState.IsValid)
             {
-                _context.Add(pelicula);
+                _context.Add(clasificacion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
-            return View(pelicula);
+            return View(clasificacion);
         }
 
-        // GET: Peliculas/Edit/5
+        // GET: Clasificaciones/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,41 +79,39 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.FindAsync(id);
-            if (pelicula == null)
+
+            var clasificacion = await _context.Clasificaciones.FindAsync(id);
+            if (clasificacion == null)
             {
                 return NotFound();
             }
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
-            return View(pelicula);
+            return View(clasificacion);
         }
 
-        // POST: Peliculas/Edit/5
+        // POST: Clasificaciones/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Sinopsis")] Pelicula pelicula)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
         {
-            if (id != pelicula.Id)
+            if (id != clasificacion.Id)
             {
                 return NotFound();
             }
 
-            //valida si ya existe el nombre
-            ValidarNombreExistente(pelicula);
+            ValidarDescripcionExistente(clasificacion);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(pelicula);
+                    _context.Update(clasificacion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeliculaExists(pelicula.Id))
+                    if (!ClasificacionExists(clasificacion.Id))
                     {
                         return NotFound();
                     }
@@ -136,13 +122,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
-            return View(pelicula);
+            return View(clasificacion);
         }
 
-        // GET: Peliculas/Delete/5
+        // GET: Clasificaciones/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,43 +133,37 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas
+            var clasificacion = await _context.Clasificaciones
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pelicula == null)
+            if (clasificacion == null)
             {
                 return NotFound();
             }
 
-            return View(pelicula);
+            return View(clasificacion);
         }
 
-        // POST: Peliculas/Delete/5
+        // POST: Clasificaciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pelicula = await _context.Peliculas.FindAsync(id);
-            _context.Peliculas.Remove(pelicula);
+            var clasificacion = await _context.Clasificaciones.FindAsync(id);
+            _context.Clasificaciones.Remove(clasificacion);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PeliculaExists(int id)
+        private bool ClasificacionExists(int id)
         {
-            return _context.Peliculas.Any(e => e.Id == id);
+            return _context.Clasificaciones.Any(e => e.Id == id);
         }
 
-        private bool PeliculaNombreExists(string nombrePelicula, int id)
+        private void ValidarDescripcionExistente(Clasificacion clasificacion)
         {
-            return _context.Peliculas.Any(e => Comparar(e.Nombre, nombrePelicula) && e.Id != id);
-        }
-
-
-        private void ValidarNombreExistente(Pelicula pelicula)
-        {
-            if (_context.Peliculas.Any(e => Comparar(e.Nombre, pelicula.Nombre) && e.Id != pelicula.Id))
+            if (_context.Generos.Any(e => Comparar(e.Descripcion, clasificacion.Descripcion) && e.Id != clasificacion.Id))
             {
-                ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una película con ese nombre");
+                ModelState.AddModelError(nameof(clasificacion.Descripcion), "Ya existe esta clasificación");
             }
         }
 

@@ -24,7 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Sinopsis)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clasificacion)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +43,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Sinopsis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Clasificacion.Descripcion)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

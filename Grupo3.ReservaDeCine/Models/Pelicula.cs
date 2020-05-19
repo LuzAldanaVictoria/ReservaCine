@@ -27,10 +27,15 @@ namespace Grupo3.ReservaDeCine.Models
         public Genero Genero { get; set; }
 
 
-        [Display(Name = "Sinopsis")]
         [MaxLength(300, ErrorMessage ="La longitud máxima de la Sinopsis es de 300 caracteres")]
+        [Display(Name = "Sinopsis")]
         public string Sinopsis { get; set; }
 
+        [ForeignKey("Clasificacion")]
+        [Required(ErrorMessage = "El campo Clasificación es requerido")]
+        [Display(Name = "Clasificación")]
+        public int ClasificacionId { get; set; }
+        public Clasificacion Clasificacion { get; set; }
 
 
         [Display(Name = "Funciones")]
