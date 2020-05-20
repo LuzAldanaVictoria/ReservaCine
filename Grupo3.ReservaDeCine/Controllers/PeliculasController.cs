@@ -100,6 +100,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+            
             ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
             ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View(pelicula);
@@ -161,6 +162,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            await _context.Generos.ToListAsync();
+            await _context.Clasificaciones.ToListAsync();
             return View(pelicula);
         }
 
@@ -178,11 +181,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         private bool PeliculaExists(int id)
         {
             return _context.Peliculas.Any(e => e.Id == id);
-        }
-
-        private bool PeliculaNombreExists(string nombrePelicula, int id)
-        {
-            return _context.Peliculas.Any(e => Comparar(e.Nombre, nombrePelicula) && e.Id != id);
         }
 
 

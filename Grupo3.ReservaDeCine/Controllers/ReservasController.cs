@@ -23,8 +23,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Index()
         {
             await _context.Usuarios.ToListAsync();
-            await _context.Funciones.ToListAsync();
             await _context.Peliculas.ToListAsync();
+            await _context.Funciones.ToListAsync();
             return View(await _context.Reservas.ToListAsync());
         }
 
@@ -43,14 +43,19 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            await _context.Usuarios.ToListAsync();
+            await _context.Peliculas.ToListAsync();
+            await _context.Funciones.ToListAsync();
+
             return View(reserva);
         }
 
         // GET: Reservas/Create
         public IActionResult Create()
         {
-           ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
+            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
             ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
 
             return View();
         }
@@ -79,9 +84,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
             ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
-
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
+   
             return View(reserva);
         }
 
@@ -100,6 +107,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
             ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
+        
             return View(reserva);
         }
 
@@ -138,6 +147,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
             ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
+
             return View(reserva);
         }
 
@@ -156,6 +167,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            await _context.Usuarios.ToListAsync();
+            await _context.Peliculas.ToListAsync();
+            await _context.Funciones.ToListAsync();
             return View(reserva);
         }
 

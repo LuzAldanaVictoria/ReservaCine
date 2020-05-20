@@ -89,7 +89,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
-                    FechaDeNacimiento = new DateTime(1992,06,20),
+                    FechaDeNacimiento = new DateTime(1992, 06, 20),
                     Reservas = new List<Reserva>()
                     {
                         new Reserva()
@@ -113,12 +113,12 @@ namespace Grupo3.ReservaDeCine.Controllers
                                 },
                                 Fecha = new DateTime(2020,06,15),
                                 Horario = new DateTime().AddHours(14).AddMinutes(00),
-                                CantButacasDisponibles = sala1.CapacidadTotal                         
+                                CantButacasDisponibles = sala1.CapacidadTotal
                             },
                             CantButacas = 2,
                             CostoTotal = 1100,
                             FechaDeAlta = DateTime.Now
-                       
+
                         },
 
                          new Reserva()
@@ -143,6 +143,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                 Fecha = new DateTime(2020,06,17),
                                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                                 CantButacasDisponibles = sala3.CapacidadTotal
+                         
                             },
                             CantButacas = 4,
                             CostoTotal = 1800,

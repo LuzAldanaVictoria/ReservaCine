@@ -162,7 +162,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         private void ValidarDescripcionExistente(Clasificacion clasificacion)
         {
-            if (_context.Generos.Any(e => Comparar(e.Descripcion, clasificacion.Descripcion) && e.Id != clasificacion.Id))
+            if (_context.Clasificaciones.Any(e => Comparar(e.Descripcion, clasificacion.Descripcion) && e.Id != clasificacion.Id))
             {
                 ModelState.AddModelError(nameof(clasificacion.Descripcion), "Ya existe esta clasificación");
             }

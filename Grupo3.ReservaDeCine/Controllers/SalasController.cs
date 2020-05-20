@@ -46,6 +46,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            await _context.TiposSala.ToListAsync();
             return View(sala);
         }
 
@@ -156,6 +157,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            await _context.TiposSala.ToListAsync();
             return View(sala);
         }
 

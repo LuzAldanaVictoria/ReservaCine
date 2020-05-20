@@ -15,7 +15,7 @@ namespace Grupo3.ReservaDeCine.Models
         [Required(ErrorMessage = "El campo Nombre es requerido")]
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
-        [RegularExpression("[a-zA-Z]*", ErrorMessage = "Formato inválido. El Nombre sólo admite letras")]
+        [RegularExpression("[a-zA-ZZñÑáéíóúÁÉÍÓÚ]*", ErrorMessage = "Formato inválido. El Nombre sólo admite letras")]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
@@ -23,7 +23,7 @@ namespace Grupo3.ReservaDeCine.Models
         [Required(ErrorMessage = "El campo Apellido es requerido")]
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Apellido es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Apellido es de 2 caracteres")]
-        [RegularExpression("[a-zA-Z]*", ErrorMessage = "Formato inválido. El Apellido sólo admite letras")]
+        [RegularExpression("[a-zA-ZñÑáéíóúÁÉÍÓÚ]*", ErrorMessage = "Formato inválido. El Apellido sólo admite letras")]
         [Display(Name = "Apellido")]
         public string Apellido { get; set; }
 

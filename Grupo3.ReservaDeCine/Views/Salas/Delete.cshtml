@@ -8,7 +8,6 @@
 
 <h3>¿Está seguro que desea eliminar esta sala?</h3>
 <div>
-    <!-- <h4>Sala</h4>-->
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -21,7 +20,7 @@
             @Html.DisplayNameFor(model => model.Tipo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tipo)
+            @Html.DisplayFor(model => model.Tipo.Nombre)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CapacidadTotal)

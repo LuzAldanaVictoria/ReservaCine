@@ -27,9 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Horario)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Reservas)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CantButacasDisponibles)
             </th>
@@ -39,7 +36,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
@@ -56,9 +52,6 @@
             <td>
                 @item.Horario.ToString("HH:mm")
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Reservas)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
             </td>

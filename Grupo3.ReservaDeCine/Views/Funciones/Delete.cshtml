@@ -8,34 +8,34 @@
 
 <h3>¿Está seguro que desea eliminar esta función?</h3>
 <div>
-    <h4>Función</h4>
+    
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Sala)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Sala)
+            @Html.DisplayFor(model => model.Sala.Nombre)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Pelicula)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pelicula)
+            @Html.DisplayFor(model => model.Pelicula.Nombre)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Fecha)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
+            @Model.Fecha.ToString("dd/MM/yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Horario)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Horario)
-        </dd>
+            @Model.Horario.ToString("HH:mm")
 
+        </dd>
     </dl>
     
     <form asp-action="Delete">

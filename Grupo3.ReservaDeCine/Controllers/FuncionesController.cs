@@ -48,13 +48,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            //esta linea hace que se carguen los nombres de las peliculas
             await _context.Peliculas.ToListAsync();
-
-            //esta linea hace que se carguen los nombres de las salas
             await _context.Salas.ToListAsync();
-
-            //esta linea hace que se carguen las reservas
             await _context.Reservas.ToListAsync();
 
             return View(funcion);
@@ -77,8 +72,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Funcion funcion)
         {
-            await _context.Salas.ToListAsync();
-
+      
             //algo de esta linea no funciona
             //funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
 
@@ -111,6 +105,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
+
+            ValidarFecha(funcion);
+            ValidarHorario(funcion);
 
 
             ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
@@ -155,6 +152,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View(funcion);
@@ -175,6 +173,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            await _context.Peliculas.ToListAsync();
+            await _context.Salas.ToListAsync();
             return View(funcion);
         }
 
@@ -196,7 +196,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         private void ValidarFecha(Funcion funcion)
         {
-            if (funcion.Fecha < DateTime.Now || funcion.Fecha.Year > DateTime.Now.Year + 2)
+            if (funcion.Fecha < DateTime.Now || funcion.Fecha.Year > DateTime.Now.Year + 1)
             {
                 ModelState.AddModelError(nameof(funcion.Fecha), "Fecha inválida");
             }
@@ -210,13 +210,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
-        public ActionResult MultiplesObjetosVistas(Funcion funcion)
-        {
-            List<Reserva> listaReservas = funcion.Reservas;
-            ViewBag.Reservas = listaReservas;
-        
-            return View(listaReservas);
-        }
 
 
     }
