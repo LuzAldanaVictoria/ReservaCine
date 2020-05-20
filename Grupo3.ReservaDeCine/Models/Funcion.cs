@@ -45,10 +45,20 @@ namespace Grupo3.ReservaDeCine.Models
         public int CantButacasDisponibles { get; set; }
 
 
+        [NotMapped]
+        public string PeliculaFechaHora
+        {
+            get
+            {
+                return $"{Pelicula} {Fecha} {Horario}";
+            }
+        }
 
         public Funcion ()
         {
             Reservas = new List<Reserva>();
         }
+
+
     }
 }

@@ -34,20 +34,33 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Funciones/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+             
+                if (id == null)
             {
                 return NotFound();
             }
 
             var funcion = await _context.Funciones
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (funcion == null)
             {
                 return NotFound();
             }
 
+            //esta linea hace que se carguen los nombres de las peliculas
+            await _context.Peliculas.ToListAsync();
+
+            //esta linea hace que se carguen los nombres de las salas
+            await _context.Salas.ToListAsync();
+
+            //esta linea hace que se carguen las reservas
+            await _context.Reservas.ToListAsync();
+
             return View(funcion);
         }
+
+
 
         // GET: Funciones/Create
         public IActionResult Create()
@@ -64,12 +77,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Funcion funcion)
         {
+            await _context.Salas.ToListAsync();
+
             //algo de esta linea no funciona
-            // funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
+            //funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
 
             ValidarFecha(funcion);
             ValidarHorario(funcion);
-            
 
             if (ModelState.IsValid)
             {
@@ -98,9 +112,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+
             ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
-
             return View(funcion);
         }
 
@@ -195,9 +209,16 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(funcion.Horario), "El horario debe estar comprendido entre las 9:00 y la 01:59 (A.M.)");
             }
         }
-        
 
+        public ActionResult MultiplesObjetosVistas(Funcion funcion)
+        {
+            List<Reserva> listaReservas = funcion.Reservas;
+            ViewBag.Reservas = listaReservas;
         
+            return View(listaReservas);
+        }
+
+
     }
 
 }

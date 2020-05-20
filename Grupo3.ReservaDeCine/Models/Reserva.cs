@@ -39,6 +39,14 @@ namespace Grupo3.ReservaDeCine.Models
         public DateTime FechaDeAlta { get; set; }
 
 
+        [NotMapped]
+        public string UsuarioButacas
+        {
+            get
+            {
+                return $"{Usuario.Nombre} {CantButacas}";
+            }
+        }
     }
     
 }

@@ -22,8 +22,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Clasificaciones
         public async Task<IActionResult> Index()
         {
-            //esta linea hace que se carguen los nombres de las peliculas
-            await _context.Peliculas.ToListAsync();
 
             return View(await _context.Clasificaciones.ToListAsync());
         }
@@ -31,6 +29,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Clasificaciones/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            await _context.Peliculas.ToListAsync(); 
+            
             if (id == null)
             {
                 return NotFound();
@@ -38,6 +38,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var clasificacion = await _context.Clasificaciones
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (clasificacion == null)
             {
                 return NotFound();
