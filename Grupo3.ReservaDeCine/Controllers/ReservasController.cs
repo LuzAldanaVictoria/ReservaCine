@@ -54,8 +54,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         public IActionResult Create()
         {
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
-            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
+            // ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
+           // ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
+
 
             return View();
         }
@@ -86,8 +88,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
-            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
+            //ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
+           // ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
    
             return View(reserva);
         }
@@ -106,7 +109,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            //ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
             ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
         
             return View(reserva);
@@ -146,7 +150,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            // ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
             ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
 
             return View(reserva);

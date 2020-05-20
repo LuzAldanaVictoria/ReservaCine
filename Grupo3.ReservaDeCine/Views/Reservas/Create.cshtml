@@ -18,15 +18,15 @@
                 <span asp-validation-for="UsuarioId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FuncionId" class="control-label">Película</label>
-                <select asp-for="FuncionId" class="form-control" asp-items="ViewBag.SelectPelicula"></select>
+                <label asp-for="FuncionId" class="control-label">Funciones</label>
+                <select asp-for="FuncionId" class="form-control" asp-items="ViewBag.SelectFunciones"></select>
                 <span asp-validation-for="FuncionId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="FuncionId" class="control-label">Fecha</label>
                 <select asp-for="FuncionId" class="form-control"  asp-items="ViewBag.TipoFunciones"></select>
                 <span asp-validation-for="FuncionId" class="text-danger"></span>
-            </div>
+            </div>*@
       
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>
