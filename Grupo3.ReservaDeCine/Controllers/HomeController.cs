@@ -99,12 +99,12 @@ namespace Grupo3.ReservaDeCine.Controllers
                                 Sala = sala1,
                                 Pelicula = new Pelicula()
                                 {
-                                    Nombre = "Beauty and the Beast",
+                                    Nombre = "La Bella y La Bestia",
                                     Genero = new Genero
                                     {
                                         Descripcion = "Infantil"
                                     },
-                                    Sinopsis = "A selfish Prince is cursed to become a monster for the rest of his life, unless he learns to fall in love with a beautiful young woman he keeps prisoner.",
+                                    Sinopsis = "Bella es una brillante y guapa joven que utiliza la lectura como válvula de escape de su rutinaria vida. Cuando su padre es apresado en un misterioso castillo, Bella acude en su búsqueda y se presta a ocupar su lugar. El castillo es propiedad de una atormentada Bestia que, como Bella comprobará con el tiempo, resulta ser un joven príncipe bajo los efectos de un hechizo. Sólo cuando conozca el amor, el príncipe podrá volver a su verdadero cuerpo.",
                                     Clasificacion = new Clasificacion
                                     {
                                         Descripcion = "ATP",
@@ -128,16 +128,16 @@ namespace Grupo3.ReservaDeCine.Controllers
                                 Sala = sala3,
                                 Pelicula = new Pelicula()
                                 {
-                                    Nombre = "The Matrix",
+                                    Nombre = "Matrix",
                                     Genero = new Genero
                                     {
                                         Descripcion = "Ciencia ficción"
                                     },
-                                    Sinopsis = "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+                                    Sinopsis = "Neo es un joven pirata informático que lleva una doble vida: durante el día ejerce en una empresa de servicios informáticos, mientras que por la noche se dedica a piratear bases de datos y saltarse sistemas de alta seguridad. Su vida cambiará cuando una noche conozca a Trinity, una misteriosa joven que parece ser una leyenda en el mundo de los 'hackers' informáticos, que lo llevará a Neo ante su líder: Morfeo. Así descubrirá una terrible realidad y el joven deberá decidir si unirse a la resistencia o vivir su vida como hasta ahora.",
                                     Clasificacion = new Clasificacion
                                     {
-                                        Descripcion = "+13",
-                                        EdadMinima = 13
+                                        Descripcion = "+16",
+                                        EdadMinima = 16
                                     },
                                 },
                                 Fecha = new DateTime(2020,06,17),
