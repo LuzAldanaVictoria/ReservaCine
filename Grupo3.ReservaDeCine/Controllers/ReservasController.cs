@@ -67,7 +67,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CantButacas")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id, Usuario, UsuarioId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
         {
 
             //validacion
@@ -121,7 +121,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CantButacas,CostoTotal,FechaDeAlta")] Reserva reserva)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Usuario, UsuarioId, FuncionId, Funcion", "CantButacas")] Reserva reserva)
         {
             if (id != reserva.Id)
             {
