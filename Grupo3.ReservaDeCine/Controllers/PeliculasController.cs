@@ -35,11 +35,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Details(int? id)
         {
 
-            //esta linea hace que se carguen los nombres de los generos
-            await _context.Generos.ToListAsync();
-
-            //esta linea hace que se carguen las descripciones de las clasificaciones
-            await _context.Clasificaciones.ToListAsync();
 
             if (id == null)
             {
@@ -47,7 +42,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var pelicula = await _context.Peliculas
+                .Include(x => x.Funciones)
+                .ThenInclude (x => x.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (pelicula == null)
             {
                 return NotFound();

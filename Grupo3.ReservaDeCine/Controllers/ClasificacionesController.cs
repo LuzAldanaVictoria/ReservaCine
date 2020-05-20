@@ -29,7 +29,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Clasificaciones/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            await _context.Peliculas.ToListAsync(); 
             
             if (id == null)
             {
@@ -37,6 +36,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var clasificacion = await _context.Clasificaciones
+                .Include(x => x.Peliculas)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (clasificacion == null)

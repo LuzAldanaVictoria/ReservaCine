@@ -41,6 +41,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var funcion = await _context.Funciones
+                .Include(x => x.Reservas).ThenInclude(x => x.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (funcion == null)

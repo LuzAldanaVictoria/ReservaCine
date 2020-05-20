@@ -37,7 +37,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var genero = await _context.Generos
+                .Include(x => x.Peliculas)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (genero == null)
             {
                 return NotFound();

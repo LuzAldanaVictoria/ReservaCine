@@ -39,8 +39,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var sala = await _context.Salas
+                .Include(x => x.Funciones).ThenInclude(x => x.Pelicula)
                 .FirstOrDefaultAsync(m => m.Id == id);
-          
+         
+
             if (sala == null)
             {
                 return NotFound();

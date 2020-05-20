@@ -48,20 +48,20 @@
         </dd>
     </dl>
 
-    @* Accedo a las reservas que obtuve en la consulta del controller e itero por ellas para mostrar los datos "película, la fecha y el horario de cada función" *@
-    @Html.DisplayNameFor(model => model.Reservas)
+        @* Accedo a las reservas que obtuve en la consulta del controller e itero por ellas para mostrar los datos "película, la fecha y el horario de cada función" *@
     <dl class="row">
-        @foreach (Reserva reserva in Model.Reservas)
-        {
-            <dt class="col-sm-2">
-                La película es @reserva.Funcion.Pelicula.Nombre
-            </dt>
-            <dd class="col-sm-10">
-                Fecha de función: @reserva.Funcion.Fecha.ToString("dd/MM/yyyy") a las @reserva.Funcion.Fecha.ToString("hh:mm")
-            </dd>
-        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reservas)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (Reserva reserva in Model.Reservas)
+            {
+            <li>Película: @reserva.Funcion.Pelicula.Nombre,  Cantidad de butacas: @reserva.CantButacas</li>
+            }
+        </dd>
     </dl>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Volver a la lista</a>

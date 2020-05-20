@@ -45,14 +45,6 @@ namespace Grupo3.ReservaDeCine.Models
         public int CantButacasDisponibles { get; set; }
 
 
-        //[NotMapped]
-        //public string PeliculaFechaHora
-        //{
-        //    get
-        //    {
-        //        return $"{Pelicula.Nombre} {Fecha.ToString("dd/mm/yyyy")} {Horario.ToString("HH:mm")}";
-        //    }
-        //}
 
         public Funcion ()
         {
