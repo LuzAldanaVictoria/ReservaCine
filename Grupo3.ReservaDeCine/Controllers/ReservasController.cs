@@ -22,6 +22,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
+            await _context.Usuarios.ToListAsync();
+            await _context.Funciones.ToListAsync();
+            await _context.Peliculas.ToListAsync();
             return View(await _context.Reservas.ToListAsync());
         }
 
@@ -46,9 +49,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            // aca tengo que agregar el viewBag??
-           ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-           ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula");
+           ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
+            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
 
             return View();
         }
@@ -77,8 +79,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula"); 
+            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
+            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
 
             return View(reserva);
         }
@@ -97,7 +99,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula");
+            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View(reserva);
         }
 
@@ -135,7 +137,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "SalaId", "Pelicula");
+            ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View(reserva);
         }
 

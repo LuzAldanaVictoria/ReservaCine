@@ -47,5 +47,10 @@ namespace Grupo3.ReservaDeCine.Models
         {
             Funciones = new List<Funcion>();
         }
+
+        //public string prueba ()
+        //{
+        //    return Nombre+"  "+Genero+"  "+Clasificacion
+        //}
     }
 }

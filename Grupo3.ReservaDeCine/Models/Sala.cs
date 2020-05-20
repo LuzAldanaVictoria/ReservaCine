@@ -28,7 +28,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Required(ErrorMessage = "El campo Capacidad Total es requerido")]
-        [Display(Name = "Capacidad Total (cantidad de butacas)")]
+        [Display(Name = "Capacidad Total")]
         [Range(20, 200, ErrorMessage = "La capacidad de la sala debe ser entre 20 y 200")]
         public int CapacidadTotal { get; set; }
 

@@ -23,6 +23,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Salas
         public async Task<IActionResult> Index()
         {
+
+            await _context.TiposSala.ToListAsync();
+
             return View(await _context.Salas.ToListAsync());
 
         }
@@ -61,10 +64,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
         {
             //valida si ya existe el nombre
-            if (SalaNombreExists(sala.Nombre, sala.Id))
-            {
-                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            }
+            //if (SalaNombreExists(sala.Nombre, sala.Id))
+            //{
+            //    ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            //}
+
+            ValidarNombreExistente(sala);
 
 
             if (ModelState.IsValid)
@@ -108,10 +113,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            if(SalaNombreExists(sala.Nombre, sala.Id))
-            {
-                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            }
+
+            ValidarNombreExistente(sala);
 
             if (ModelState.IsValid)
             {
@@ -177,6 +180,25 @@ namespace Grupo3.ReservaDeCine.Controllers
             // se valida que no exista una sala con el mismo nombre, ignorando mayusculas y minisculas
             return _context.Salas.Any(e => e.Nombre.Equals(nombreSala, StringComparison.CurrentCultureIgnoreCase) &&  e.Id != id);  // De esta forma estoy recorriendo como si fuera un for la lista de salas. e.Nombre me trae el nombre del elemento en una posicion
         }
+
+
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
+
+        private void ValidarNombreExistente(Sala sala)
+        {
+            if (_context.Salas.Any(e => Comparar(e.Nombre, sala.Nombre) && e.Id != sala.Id))
+            {
+                ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
+            }
+        }
+
 
 
     }
