@@ -34,10 +34,9 @@
                 <span asp-validation-for="FechaDeNacimiento" class="text-danger"></span>
             </div>
 
-            @*Si no muestro en pantalla el campo "fecha de alta", se pone en 0 al editarlo*@
             <div class="form-group">
-                <label asp-for="FechaDeAlta" class="control-label"></label>
-                <input asp-for="FechaDeAlta" type="date" class="date form-control" required />
+                @*<label asp-for="FechaDeAlta" class="control-label"></label>*@
+                <input asp-for="FechaDeAlta" type="date" class="date form-control" hidden />
                 <span asp-validation-for="FechaDeAlta" class="text-danger"></span>
             </div>
 
