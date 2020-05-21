@@ -63,6 +63,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+           
+
             return View();
         }
 
@@ -71,24 +73,35 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Funcion funcion)
+        public async Task<IActionResult> Create([Bind("Id, SalaId, Sala, PeliculaId, Pelicula, Fecha, Horario, CantButacasDisponibles, CapacidadTotal ")]Funcion funcion)
+           
         {
-      
-            //algo de esta linea no funciona
-            //funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
+
+            // este include causa problemas, solo funciona para la sala Id=1
+                var funcion1 = await _context.Funciones
+               .Include(x => x.Sala)
+               .FirstOrDefaultAsync();
+
 
             ValidarFecha(funcion);
             ValidarHorario(funcion);
+            
 
             if (ModelState.IsValid)
             {
                 _context.Add(funcion);
+                funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
+            await _context.Peliculas.ToListAsync();
+            await _context.Salas.ToListAsync();
+            await _context.Reservas.ToListAsync();
+
 
             return View(funcion);
         }

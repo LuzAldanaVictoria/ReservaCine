@@ -25,6 +25,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             await _context.Usuarios.ToListAsync();
             await _context.Peliculas.ToListAsync();
             await _context.Funciones.ToListAsync();
+            await _context.Salas.ToListAsync();
+            await _context.TiposSala.ToListAsync();
             return View(await _context.Reservas.ToListAsync());
         }
 
@@ -69,6 +71,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Usuario, UsuarioId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
         {
+
+
 
             //validacion
             //if (reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
