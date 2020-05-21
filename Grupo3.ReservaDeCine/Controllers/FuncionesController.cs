@@ -143,7 +143,27 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 try
                 {
-                    _context.Update(funcion);
+                    // Obtengo la función de la base de datos
+                    var funcionDb = _context.Funciones.Find(id);
+
+                    // Si la sala fue modificada, debemos alterar la cantidad de butacas disponibles de la función en base a la disponibilidad 
+                    // de la nueva sala, pero teniendo en cuenta las butacas que ya habían sido reservadas.
+                    if (funcionDb.SalaId != funcion.SalaId)
+                    {
+                        var salaAnterior = _context.Salas.Find(funcionDb.SalaId);
+                        var salaNueva = _context.Salas.Find(funcion.SalaId);
+
+                        var cantidadButacasReservadas = salaAnterior.CapacidadTotal - funcionDb.CantButacasDisponibles;
+                        funcionDb.CantButacasDisponibles = salaNueva.CapacidadTotal - cantidadButacasReservadas;
+                    }
+
+                    // Mapeo los campos que se pueden editar SalaId, PeliculaId, Fecha, Horario
+                    funcionDb.SalaId = funcion.SalaId;
+                    funcionDb.PeliculaId = funcion.PeliculaId;
+                    funcionDb.Fecha = funcion.Fecha;
+                    funcionDb.Horario = funcion.Horario;
+
+                    _context.Update(funcionDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
