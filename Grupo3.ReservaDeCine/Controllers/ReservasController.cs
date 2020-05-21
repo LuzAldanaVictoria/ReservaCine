@@ -56,10 +56,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         public IActionResult Create()
         {
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
-            // ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-           // ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
-
 
             return View();
         }
@@ -71,30 +68,33 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Usuario, UsuarioId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
         {
+            var funcion = await _context.Funciones
+            .Where(x => x.Id == reserva.FuncionId)
+            .FirstOrDefaultAsync();
 
+            var sala = await _context.Salas
+            .Where(x => x.Id == funcion.SalaId)
+            .FirstOrDefaultAsync();
 
+            var tipoSala = await _context.TiposSala
+            .Where(x => x.Id == sala.TipoId)
+            .FirstOrDefaultAsync();
 
-            //validacion
-            //if (reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
-            //{
-            //    ModelState.AddModelError("CantButacas", "Las butacas seleccionadas superan la cantidad de butacas disponibles");
-            //}
+            ValidarCantButacas(reserva, funcion);
+          
 
             if (ModelState.IsValid)
             {
-                ////Define el precio de acuerdo al tipo de sala
-          //     reserva.CostoTotal = reserva.CantButacas * reserva.Funcion.Sala.Tipo.PrecioEntrada; 
                 reserva.FechaDeAlta = DateTime.Now;
-                //reserva.Funcion.CantButacasDisponibles -= reserva.CantButacas;
+                funcion.CantButacasDisponibles -= reserva.CantButacas;
+                reserva.CostoTotal = reserva.CantButacas * tipoSala.PrecioEntrada;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
-            //ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-           // ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
    
             return View(reserva);
         }
@@ -197,6 +197,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return _context.Reservas.Any(e => e.Id == id);
 
+        }
+
+       private void ValidarCantButacas (Reserva reserva, Funcion funcion)
+        {
+            if (funcion.CantButacasDisponibles < reserva.CantButacas)
+            {
+                ModelState.AddModelError(nameof(reserva.CantButacas), "No hay suficiente cantidad de butacas disponibles para esta función");
+            }
         }
     }
 }

@@ -74,14 +74,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, SalaId, Sala, PeliculaId, Pelicula, Fecha, Horario, CantButacasDisponibles, CapacidadTotal ")]Funcion funcion)
-           
         {
-
-            // este include causa problemas, solo funciona para la sala Id=1
-                var funcion1 = await _context.Funciones
-               .Include(x => x.Sala)
-               .FirstOrDefaultAsync();
-
+           var sala = await _context.Salas
+           .Where(x => x.Id == funcion.SalaId)
+           .FirstOrDefaultAsync();
 
             ValidarFecha(funcion);
             ValidarHorario(funcion);
@@ -89,18 +85,14 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
+                funcion.CantButacasDisponibles = sala.CapacidadTotal;
                 _context.Add(funcion);
-                funcion.CantButacasDisponibles = funcion.Sala.CapacidadTotal;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
-
-            await _context.Peliculas.ToListAsync();
-            await _context.Salas.ToListAsync();
-            await _context.Reservas.ToListAsync();
 
 
             return View(funcion);

@@ -66,11 +66,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
         {
-            //valida si ya existe el nombre
-            //if (SalaNombreExists(sala.Nombre, sala.Id))
-            //{
-            //    ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
-            //}
+         
 
             ValidarNombreExistente(sala);
 
