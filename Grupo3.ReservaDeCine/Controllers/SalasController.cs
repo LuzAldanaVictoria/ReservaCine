@@ -38,7 +38,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Salas
+                var sala = await _context.Salas
                 .Include(x => x.Funciones).ThenInclude(x => x.Pelicula)
                 .FirstOrDefaultAsync(m => m.Id == id);
          
@@ -66,10 +66,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
         {
-         
 
             ValidarNombreExistente(sala);
-
 
             if (ModelState.IsValid)
             {                
@@ -91,11 +89,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+
             var sala = await _context.Salas.FindAsync(id);
             if (sala == null)
             {
                 return NotFound();
             }
+            await _context.TiposSala.ToListAsync();
             ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
@@ -111,7 +111,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
-
 
             ValidarNombreExistente(sala);
 
@@ -136,6 +135,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            await _context.TiposSala.ToListAsync();
             ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
@@ -164,6 +164,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            await _context.TiposSala.ToListAsync();
             var sala = await _context.Salas.FindAsync(id);
             _context.Salas.Remove(sala);
             await _context.SaveChangesAsync();
