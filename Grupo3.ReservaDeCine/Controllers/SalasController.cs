@@ -105,7 +105,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,TipoSala,CapacidadTotal")] Sala sala)
+        public async Task<IActionResult> Edit(int id, Sala sala)
         {
             if (id != sala.Id)
             {

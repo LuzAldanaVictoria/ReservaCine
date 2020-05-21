@@ -113,7 +113,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
-            //ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
             ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
         
@@ -127,6 +126,24 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id, Usuario, UsuarioId, FuncionId, Funcion", "CantButacas")] Reserva reserva)
         {
+
+            var funcion = await _context.Funciones
+            .Where(x => x.Id == reserva.FuncionId)
+            .FirstOrDefaultAsync();
+
+            var sala = await _context.Salas
+            .Where(x => x.Id == funcion.SalaId)
+            .FirstOrDefaultAsync();
+
+            var tipoSala = await _context.TiposSala
+            .Where(x => x.Id == sala.TipoId)
+            .FirstOrDefaultAsync();
+
+            var usuario = await _context.Usuarios
+            .Where(x => x.Id == reserva.UsuarioId)
+            .FirstOrDefaultAsync();
+
+
             if (id != reserva.Id)
             {
                 return NotFound();
@@ -134,6 +151,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
+                funcion.CantButacasDisponibles -= reserva.CantButacas;
+                reserva.CostoTotal = reserva.CantButacas * tipoSala.PrecioEntrada;
                 try
                 {
                     _context.Update(reserva);
