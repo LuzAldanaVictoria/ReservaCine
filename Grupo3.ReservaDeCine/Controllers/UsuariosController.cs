@@ -102,7 +102,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento,FechaDeAlta")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -115,6 +115,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
+               // usuario.FechaDeAlta = DateTime.Now;
                 try
                 {
                     _context.Update(usuario);

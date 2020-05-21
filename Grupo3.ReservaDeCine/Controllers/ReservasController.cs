@@ -55,6 +55,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
+
+
+
             ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
             // ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
@@ -71,8 +74,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Usuario, UsuarioId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
         {
-
-
 
             //validacion
             //if (reserva.CantButacas > reserva.Funcion.CantButacasDisponibles)
@@ -102,6 +103,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+
+
             if (id == null)
             {
                 return NotFound();
