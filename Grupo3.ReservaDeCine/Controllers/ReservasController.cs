@@ -22,7 +22,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            await _context.Usuarios.ToListAsync();
+            await _context.Clientes.ToListAsync();
             await _context.Peliculas.ToListAsync();
             await _context.Funciones.ToListAsync();
             await _context.Salas.ToListAsync();
@@ -45,7 +45,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            await _context.Usuarios.ToListAsync();
+            await _context.Clientes.ToListAsync();
             await _context.Peliculas.ToListAsync();
             await _context.Funciones.ToListAsync();
 
@@ -55,7 +55,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
+            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Email");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
 
             return View();
@@ -66,7 +66,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, Usuario, UsuarioId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
         {
             var funcion = await _context.Funciones
             .Where(x => x.Id == reserva.FuncionId)
@@ -93,7 +93,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Email");
+            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Email");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
    
             return View(reserva);
@@ -112,7 +112,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
-            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
             ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
         
@@ -139,8 +139,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             .Where(x => x.Id == sala.TipoId)
             .FirstOrDefaultAsync();
 
-            var usuario = await _context.Usuarios
-            .Where(x => x.Id == reserva.UsuarioId)
+            var Cliente = await _context.Clientes
+            .Where(x => x.Id == reserva.ClienteId)
             .FirstOrDefaultAsync();
 
 
@@ -172,7 +172,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TipoUsuarios = new SelectList(_context.Usuarios, "Id", "Nombre");
+            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Nombre");
             // ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
             ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
@@ -195,7 +195,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            await _context.Usuarios.ToListAsync();
+            await _context.Clientes.ToListAsync();
             await _context.Peliculas.ToListAsync();
             await _context.Funciones.ToListAsync();
             return View(reserva);

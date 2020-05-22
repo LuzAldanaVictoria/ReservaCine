@@ -9,7 +9,7 @@ namespace Grupo3.ReservaDeCine.Database
 {
     public class CineDbContext : DbContext
     {
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Sala> Salas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<Pelicula> Peliculas { get; set; }
