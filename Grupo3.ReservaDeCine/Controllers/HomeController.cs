@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Grupo3.ReservaDeCine.Models;
 using Grupo3.ReservaDeCine.Database;
 using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
+using Grupo3.ReservaDeCine.Extensions;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -22,6 +24,23 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         public IActionResult Index()
         {
+            _context.Add(new Usuario()
+            {
+                Username = "administrador1",
+                Role = Role.Administrador,
+                Password = "1234".Encriptar()
+            });
+
+            _context.Add(new Usuario()
+            {
+                Username = "cliente1",
+                Role = Role.Cliente,
+                Password = "1234".Encriptar()
+            });
+
+
+            _context.SaveChanges();
+
             Seed();
             return View();
         }
@@ -181,6 +200,31 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.SaveChanges();
             }
         }
+
+        //[Authorize(Roles = nameof(Role.Cliente))]
+        //public IActionResult SoloParaCliente()
+        //{
+        //    return View();
+        //}
+
+        //[Authorize(Roles = nameof(Role.Administrador))]
+        //public IActionResult SoloParaAdministrador()
+        //{
+        //    return View();
+        //}
+
+        //[Authorize(Roles = "Administrador, Cliente")]
+        //public IActionResult ParaClienteyAdministrador()
+        //{
+        //    return View();
+        //}
+
+        //[Authorize]
+        //public IActionResult SoloParaAutenticados()
+        //{
+        //    return View();
+        //}
+
 
     }
 }

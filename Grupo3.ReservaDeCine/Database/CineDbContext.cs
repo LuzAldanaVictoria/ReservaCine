@@ -17,12 +17,13 @@ namespace Grupo3.ReservaDeCine.Database
         public DbSet<Funcion> Funciones { get; set; }
         public DbSet<TipoSala> TiposSala { get; set; }
         public DbSet<Clasificacion> Clasificaciones { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         public CineDbContext(DbContextOptions options) : base(options) { }
 
-        
-
-
-      
+        public static implicit operator CineDbContext(Reserva v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

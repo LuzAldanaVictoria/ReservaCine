@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Grupo3.ReservaDeCine
 {
@@ -32,11 +33,16 @@ namespace Grupo3.ReservaDeCine
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Cuentas/Ingresar";
+                options.AccessDeniedPath = "/Cuentas/NoAutorizado";
+                options.LogoutPath = "/Cuentas/Salir";
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<CineDbContext>(options =>
-          options.UseInMemoryDatabase("Cine"));
+            services.AddDbContext<CineDbContext>(options => options.UseInMemoryDatabase("Cine"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +58,7 @@ namespace Grupo3.ReservaDeCine
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
