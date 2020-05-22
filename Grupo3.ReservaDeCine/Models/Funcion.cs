@@ -46,11 +46,5 @@ namespace Grupo3.ReservaDeCine.Models
 
 
 
-        public Funcion ()
-        {
-            Reservas = new List<Reserva>();
-        }
-
-
     }
 }

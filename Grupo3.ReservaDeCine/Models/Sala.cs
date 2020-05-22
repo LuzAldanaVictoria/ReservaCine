@@ -36,11 +36,6 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Funciones")] 
         public List<Funcion> Funciones { get; set; }
 
-        
  
-        public Sala ()
-        {
-            Funciones = new List<Funcion>();
-        }
     }
 }

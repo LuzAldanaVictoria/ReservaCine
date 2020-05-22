@@ -52,7 +52,6 @@ namespace Grupo3.ReservaDeCine
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
@@ -60,6 +59,8 @@ namespace Grupo3.ReservaDeCine
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseCookiePolicy();
         }
     }
 }

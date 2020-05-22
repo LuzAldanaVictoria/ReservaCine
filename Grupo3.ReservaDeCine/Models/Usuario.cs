@@ -47,10 +47,5 @@ namespace Grupo3.ReservaDeCine.Models
         public List<Reserva> Reservas { get; set; }
 
 
-    
-        public Usuario ()
-        {
-            Reservas = new List<Reserva>();
-        }
     }
 }

@@ -24,10 +24,5 @@ namespace Grupo3.ReservaDeCine.Models
         public List<Pelicula> Peliculas { get; set; }
 
 
-
-        public Genero ()
-        {
-            Peliculas = new List<Pelicula>();
-        }
     }
 }

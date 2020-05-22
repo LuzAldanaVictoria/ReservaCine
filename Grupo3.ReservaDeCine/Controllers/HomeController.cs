@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Grupo3.ReservaDeCine.Models;
 using Grupo3.ReservaDeCine.Database;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -125,7 +126,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                         {
                             Funcion = new Funcion()
                             {
-                                Sala = sala3,
+                                Sala = sala2,
                                 Pelicula = new Pelicula()
                                 {
                                     Nombre = "Matrix",
@@ -180,5 +181,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.SaveChanges();
             }
         }
+
     }
 }

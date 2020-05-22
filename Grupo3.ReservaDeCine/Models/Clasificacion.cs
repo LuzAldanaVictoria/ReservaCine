@@ -32,10 +32,5 @@ namespace Grupo3.ReservaDeCine.Models
 
 
 
-        public Clasificacion()
-        {
-            Peliculas = new List<Pelicula>();
-        }
-
     }
 }
