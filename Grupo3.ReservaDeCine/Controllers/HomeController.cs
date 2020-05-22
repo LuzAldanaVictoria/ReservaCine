@@ -85,7 +85,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CapacidadTotal = 80
                 };
 
-                var usuario1 = new Usuario() {
+                var Cliente1 = new Cliente() {
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
@@ -155,7 +155,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
-                var usuario2 = new Usuario()
+                var Cliente2 = new Cliente()
                 {
                     Nombre = "Carlos",
                     Apellido = "Pereyra",
@@ -164,7 +164,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-                var usuario3 = new Usuario()
+                var Cliente3 = new Cliente()
                 {
                     Nombre = "Carla",
                     Apellido = "Rodriguez",
@@ -173,7 +173,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-                _context.AddRange(new[] { usuario1, usuario2, usuario3 });
+                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
 
 

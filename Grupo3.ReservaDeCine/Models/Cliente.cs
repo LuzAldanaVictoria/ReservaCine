@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Grupo3.ReservaDeCine.Models
 {
-    public class Usuario
+    public class Cliente
     {
         [Key]
         [Display(Name = "ID")]
@@ -48,7 +48,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
     
-        public Usuario ()
+        public Cliente ()
         {
             Reservas = new List<Reserva>();
         }

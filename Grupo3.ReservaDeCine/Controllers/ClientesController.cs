@@ -10,22 +10,22 @@ using Grupo3.ReservaDeCine.Models;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-    public class UsuariosController : Controller
+    public class ClientesController : Controller
     {
         private readonly CineDbContext _context;
 
-        public UsuariosController(CineDbContext context)
+        public ClientesController(CineDbContext context)
         {
             _context = context;
         }
 
-        // GET: Usuarios
+        // GET: clientes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Usuarios.ToListAsync());
+            return View(await _context.Clientes.ToListAsync());
         }
 
-        // GET: Usuarios/Details/5
+        // GET: clientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,54 +34,54 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             // Esta es la consulta de la base de datos que hacemos a través de Entity Framework.
-            // Toda la información que obtengamos de la base será la información que podamos acceder luego desde la variable usuario.
-            // Las propiedades de navegación nos servirán para poder "Navegar" desde una propiedad a otra, en este caso desde Usuario a sus "Reservas".
+            // Toda la información que obtengamos de la base será la información que podamos acceder luego desde la variable cliente.
+            // Las propiedades de navegación nos servirán para poder "Navegar" desde una propiedad a otra, en este caso desde cliente a sus "Reservas".
             // Para que las propiedades de Navegación sean cargadas es necesario utilizar el Include indicando qué propiedad queremos que se cargue (en este caso Reservas).
             // Luego, si deseamos obtener información específica de algo asociado a la reserva (en nuestro caso la función y dentro de la función la película) debemos hacer include también de eso.
-            var usuario = await _context.Usuarios
+            var cliente = await _context.Clientes
                 .Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            // Es importante remarcar que la semántica es => Traeme los usuarios => con sus reservas => de sus reservas incluíme las funciones => de esas funciones incluíme la película.
+            // Es importante remarcar que la semántica es => Traeme los clientes => con sus reservas => de sus reservas incluíme las funciones => de esas funciones incluíme la película.
 
             // Luego utilizaremos esta información en la vista.
 
-            if (usuario == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(usuario);
+            return View(cliente);
         }
 
-        // GET: Usuarios/Create
+        // GET: clientes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: clientes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento")] Cliente cliente)
         {
 
-            ComprobarFechaDeNacimiento(usuario);
-            ValidarEmailExistente(usuario);
+            ComprobarFechaDeNacimiento(cliente);
+            ValidarEmailExistente(cliente);
 
 
             if (ModelState.IsValid)
             {
-                usuario.FechaDeAlta = DateTime.Now;
-                _context.Add(usuario);
+                cliente.FechaDeAlta = DateTime.Now;
+                _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(cliente);
         }
 
-        // GET: Usuarios/Edit/5
+        // GET: clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,41 +89,41 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
+            var cliente = await _context.Clientes.FindAsync(id);
+            if (cliente == null)
             {
                 return NotFound();
             }
-            return View(usuario);
+            return View(cliente);
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: clientes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento,FechaDeAlta")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento,FechaDeAlta")] Cliente cliente)
         {
-            if (id != usuario.Id)
+            if (id != cliente.Id)
             {
                 return NotFound();
             }
          
-            ComprobarFechaDeNacimiento(usuario);
-            ValidarEmailExistente(usuario);
+            ComprobarFechaDeNacimiento(cliente);
+            ValidarEmailExistente(cliente);
        
 
             if (ModelState.IsValid)
             {
-               // usuario.FechaDeAlta = DateTime.Now;
+               // cliente.FechaDeAlta = DateTime.Now;
                 try
                 {
-                    _context.Update(usuario);
+                    _context.Update(cliente);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.Id))
+                    if (!clienteExists(cliente.Id))
                     {
                         return NotFound();
                     }
@@ -134,10 +134,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(cliente);
         }
 
-        // GET: Usuarios/Delete/5
+        // GET: clientes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,45 +145,45 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
+            var cliente = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(usuario);
+            return View(cliente);
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            _context.Usuarios.Remove(usuario);
+            var cliente = await _context.Clientes.FindAsync(id);
+            _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsuarioExists(int id)
+        private bool clienteExists(int id)
         {
-            return _context.Usuarios.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
 
-        private void ComprobarFechaDeNacimiento (Usuario usuario)
+        private void ComprobarFechaDeNacimiento (Cliente cliente)
         {
-            if (usuario.FechaDeNacimiento.Year < 1920 || usuario.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
+            if (cliente.FechaDeNacimiento.Year < 1920 || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
             {
-                ModelState.AddModelError(nameof(usuario.FechaDeNacimiento), "Año de nacimiento inválido");
+                ModelState.AddModelError(nameof(cliente.FechaDeNacimiento), "Año de nacimiento inválido");
             }
         }
 
-        private void ValidarEmailExistente (Usuario usuario)
+        private void ValidarEmailExistente (Cliente cliente)
         {
-            if (_context.Usuarios.Any(e => Comparar(e.Email, usuario.Email) && e.Id != usuario.Id))
+            if (_context.Clientes.Any(e => Comparar(e.Email, cliente.Email) && e.Id != cliente.Id))
             {
-                ModelState.AddModelError(nameof(usuario.Email), "Ya existe un usuario con este Email");
+                ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
             }
         }
 
