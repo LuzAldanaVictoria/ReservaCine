@@ -21,7 +21,6 @@ namespace ConSeguridad.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Ingresar(string returnUrl)
         {
@@ -29,7 +28,7 @@ namespace ConSeguridad.Controllers
             return View();
         }
 
-        [AllowAnonymous]
+
         [HttpPost]
         public async Task<IActionResult> Ingresar(string username, string password, string returnUrl)
         {

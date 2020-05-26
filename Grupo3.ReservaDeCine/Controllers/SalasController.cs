@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
-
+using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
+    //[Authorize(Roles = nameof(Role.Administrador))]
     public class SalasController : Controller
     {
         private readonly CineDbContext _context;
@@ -24,9 +26,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Index()
         {
 
-            await _context.TiposSala.ToListAsync();
+            var salas = await _context.Salas
+                .Include(x => x.Tipo)
+                .ToListAsync();
 
-            return View(await _context.Salas.ToListAsync());
+            return View(salas);
 
         }
 
@@ -39,6 +43,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
                 var sala = await _context.Salas
+                .Include(x => x.Tipo)
                 .Include(x => x.Funciones).ThenInclude(x => x.Pelicula)
                 .FirstOrDefaultAsync(m => m.Id == id);
          
@@ -48,14 +53,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            await _context.TiposSala.ToListAsync();
             return View(sala);
         }
 
         // GET: Salas/Create
         public IActionResult Create()
         {
-            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
+            ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View();
         }
 
@@ -76,7 +80,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     return RedirectToAction(nameof(Index));                            
             }
 
-            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
+            ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
 
             return View(sala);
         }
@@ -90,13 +94,16 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
 
-            var sala = await _context.Salas.FindAsync(id);
+            var sala = await _context
+                .Salas
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (sala == null)
             {
                 return NotFound();
             }
-            await _context.TiposSala.ToListAsync();
-            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
+       
+            ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
 
@@ -135,8 +142,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            await _context.TiposSala.ToListAsync();
-            ViewBag.TiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
+         
+            ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
 
@@ -148,14 +155,15 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var sala = await _context.Salas
+            var sala = await _context
+                .Salas
+                .Include(x => x.Tipo)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sala == null)
             {
                 return NotFound();
             }
 
-            await _context.TiposSala.ToListAsync();
             return View(sala);
         }
 
@@ -181,7 +189,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             // se valida que no exista una sala con el mismo nombre, ignorando mayusculas y minisculas
             return _context.Salas.Any(e => e.Nombre.Equals(nombreSala, StringComparison.CurrentCultureIgnoreCase) &&  e.Id != id);  // De esta forma estoy recorriendo como si fuera un for la lista de salas. e.Nombre me trae el nombre del elemento en una posicion
         }
-
 
 
         //Función que compara que los nombres no sean iguales, ignorando espacios y case. 

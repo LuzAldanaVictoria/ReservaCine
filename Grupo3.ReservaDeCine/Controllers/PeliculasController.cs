@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
+using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -22,13 +24,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Peliculas
         public async Task<IActionResult> Index()
         {
-            //esta linea hace que se carguen los nombres de los generos
-            await _context.Generos.ToListAsync();
+            var peliculas = await _context
+               .Peliculas
+               .Include(x => x.Genero)
+               .Include(x => x.Clasificacion)
+               .ToListAsync();
 
-            //esta linea hace que se carguen las descripciones de las clasificaciones
-            await _context.Clasificaciones.ToListAsync();
-
-            return View(await _context.Peliculas.ToListAsync());
+            return View(peliculas);
         }
 
         // GET: Peliculas/Details/5
@@ -42,6 +44,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var pelicula = await _context.Peliculas
+                .Include(x => x.Genero)
+                .Include(x => x.Clasificacion)
                 .Include(x => x.Funciones)
                 .ThenInclude (x => x.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -54,11 +58,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
+        //[Authorize(Roles = nameof(Role.Administrador))]
         // GET: Peliculas/Create
         public IActionResult Create()
         {
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View();
         }
 
@@ -73,18 +78,19 @@ namespace Grupo3.ReservaDeCine.Controllers
             //valida si ya existe el nombre
             ValidarNombreExistente(pelicula);
 
-
             if (ModelState.IsValid)
             {
                 _context.Add(pelicula);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+            
+            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View(pelicula);
         }
 
+        //[Authorize(Roles = nameof(Role.Administrador))]
         // GET: Peliculas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -99,8 +105,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
             
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View(pelicula);
         }
 
@@ -140,11 +146,12 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.TiposDeGenero = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.Clasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View(pelicula);
         }
 
+        //[Authorize(Roles = nameof(Role.Administrador))]
         // GET: Peliculas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -153,15 +160,18 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas
+            var pelicula = await _context
+                .Peliculas
+                .Include(x => x.Genero)
+                .Include(x => x.Clasificacion)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            
             if (pelicula == null)
             {
                 return NotFound();
             }
 
-            await _context.Generos.ToListAsync();
-            await _context.Clasificaciones.ToListAsync();
             return View(pelicula);
         }
 

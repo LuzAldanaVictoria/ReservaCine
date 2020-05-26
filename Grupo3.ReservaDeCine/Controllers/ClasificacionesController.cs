@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
+using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
+    //[Authorize(Roles = nameof(Role.Administrador))]
     public class ClasificacionesController : Controller
     {
         private readonly CineDbContext _context;
@@ -79,8 +82,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-
             var clasificacion = await _context.Clasificaciones.FindAsync(id);
+
             if (clasificacion == null)
             {
                 return NotFound();

@@ -13,7 +13,7 @@ using Grupo3.ReservaDeCine.Models.Enums;
 namespace Grupo3.ReservaDeCine.Controllers
 {
 
-    [Authorize(Roles = nameof(Role.Administrador))]
+    //[Authorize(Roles = nameof(Role.Administrador))]
     public class UsuariosController : Controller
     {
         private readonly CineDbContext _context;
@@ -66,7 +66,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Roles = new SelectList(_context.Usuarios, "Role");
+            ViewBag.SelectRoles = new SelectList(_context.Usuarios, "Role");
             return View(usuario);
         }
     }

@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
+using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
+    //[Authorize(Roles = nameof(Role.Administrador))]
     public class ClientesController : Controller
     {
         private readonly CineDbContext _context;
@@ -70,7 +73,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             ComprobarFechaDeNacimiento(cliente);
             ValidarEmailExistente(cliente);
 
-
             if (ModelState.IsValid)
             {
                 cliente.FechaDeAlta = DateTime.Now;
@@ -115,15 +117,19 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
-               // cliente.FechaDeAlta = DateTime.Now;
+           
                 try
                 {
-                    _context.Update(cliente);
+                    var clienteDb = _context.Clientes.Find(id);
+                    cliente.FechaDeAlta = clienteDb.FechaDeAlta;
+
+                    _context.Update(clienteDb);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!clienteExists(cliente.Id))
+                    if (!ClienteExists(cliente.Id))
                     {
                         return NotFound();
                     }
@@ -166,7 +172,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool clienteExists(int id)
+        private bool ClienteExists(int id)
         {
             return _context.Clientes.Any(e => e.Id == id);
         }

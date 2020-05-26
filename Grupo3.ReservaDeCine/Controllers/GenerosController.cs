@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
+using Grupo3.ReservaDeCine.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
+    //[Authorize(Roles = nameof(Role.Administrador))]
     public class GenerosController : Controller
     {
         private readonly CineDbContext _context;
@@ -22,9 +25,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Generos
         public async Task<IActionResult> Index()
         {
-            //esta linea hace que se carguen los nombres de las peliculas
-            await _context.Peliculas.ToListAsync(); 
-
+  
             return View(await _context.Generos.ToListAsync());
         }
 
@@ -84,6 +85,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var genero = await _context.Generos.FindAsync(id);
+
             if (genero == null)
             {
                 return NotFound();
@@ -105,7 +107,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
 
-            //validacion
             ValidarNombreExistente(genero);
 
 

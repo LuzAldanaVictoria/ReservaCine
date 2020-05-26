@@ -10,6 +10,7 @@ using Grupo3.ReservaDeCine.Models;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
+
     public class ReservasController : Controller
     {
         private readonly CineDbContext _context;
@@ -22,12 +23,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas
         public async Task<IActionResult> Index()
         {
-            await _context.Clientes.ToListAsync();
-            await _context.Peliculas.ToListAsync();
-            await _context.Funciones.ToListAsync();
-            await _context.Salas.ToListAsync();
-            await _context.TiposSala.ToListAsync();
-            return View(await _context.Reservas.ToListAsync());
+            var reservas = await _context
+                 .Reservas
+                 .Include(x => x.Cliente)
+                 .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
+                 .ToListAsync();
+
+            return View(reservas);
         }
 
         // GET: Reservas/Details/5
@@ -39,15 +41,14 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var reserva = await _context.Reservas
-                .FirstOrDefaultAsync(m => m.Id == id);
+                 .Include(x => x.Cliente)
+                 .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
+                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (reserva == null)
             {
                 return NotFound();
             }
-
-            await _context.Clientes.ToListAsync();
-            await _context.Peliculas.ToListAsync();
-            await _context.Funciones.ToListAsync();
 
             return View(reserva);
         }
@@ -55,7 +56,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Email");
+            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Email");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
 
             return View();
@@ -93,7 +94,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Email");
+            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Email");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
    
             return View(reserva);
@@ -112,9 +113,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
-            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Nombre");
+            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
         
             return View(reserva);
         }
@@ -172,10 +172,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.TipoClientes = new SelectList(_context.Clientes, "Id", "Nombre");
-            // ViewBag.SelectPelicula = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-            ViewBag.TipoFunciones = new SelectList(_context.Funciones, "Id", "Fecha");
 
             return View(reserva);
         }
@@ -188,16 +186,17 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var reserva = await _context.Reservas
+            var reserva = await _context
+                .Reservas
+                .Include(x => x.Cliente)
+                .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (reserva == null)
             {
                 return NotFound();
             }
 
-            await _context.Clientes.ToListAsync();
-            await _context.Peliculas.ToListAsync();
-            await _context.Funciones.ToListAsync();
             return View(reserva);
         }
 
@@ -223,6 +222,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (funcion.CantButacasDisponibles < reserva.CantButacas)
             {
                 ModelState.AddModelError(nameof(reserva.CantButacas), "No hay suficiente cantidad de butacas disponibles para esta función");
+            }
+
+            if (funcion.CantButacasDisponibles > 10)
+            {
+                ModelState.AddModelError(nameof(reserva.CantButacas), "No es posible reservar más de 10 butacas.");
             }
         }
     }

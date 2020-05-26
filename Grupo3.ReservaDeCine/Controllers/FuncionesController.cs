@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
+using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
+
     public class FuncionesController : Controller
     {
         private readonly CineDbContext _context;
@@ -22,13 +25,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Funciones
         public async Task<IActionResult> Index()
         {
-            //esta linea hace que se carguen los nombres de las peliculas
-            await _context.Peliculas.ToListAsync();
+   
+            var funciones = await _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
+                .ToListAsync();
 
-            //esta linea hace que se carguen los nombres de las salas
-            await _context.Salas.ToListAsync();
-
-            return View(await _context.Funciones.ToListAsync());
+            return View(funciones);
         }
 
         // GET: Funciones/Details/5
@@ -40,8 +44,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+
             var funcion = await _context.Funciones
                 .Include(x => x.Reservas).ThenInclude(x => x.Cliente)
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (funcion == null)
@@ -49,22 +56,18 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            await _context.Peliculas.ToListAsync();
-            await _context.Salas.ToListAsync();
-            await _context.Reservas.ToListAsync();
 
             return View(funcion);
         }
 
-
-
+       
         // GET: Funciones/Create
+        //[Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
         {
-            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
-            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
            
-
             return View();
         }
 
@@ -91,14 +94,16 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
-            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 
 
             return View(funcion);
         }
 
+
         // GET: Funciones/Edit/5
+        //[Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -116,8 +121,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             ValidarHorario(funcion);
 
 
-            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
-            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View(funcion);
         }
 
@@ -180,12 +185,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Salas = new SelectList(_context.Salas, "Id", "Nombre");
-            ViewBag.Peliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+            ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
             return View(funcion);
         }
 
         // GET: Funciones/Delete/5
+        //[Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -193,15 +199,18 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var funcion = await _context.Funciones
+            var funcion = await _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
                 .FirstOrDefaultAsync(m => m.Id == id);
+           
             if (funcion == null)
             {
                 return NotFound();
             }
 
-            await _context.Peliculas.ToListAsync();
-            await _context.Salas.ToListAsync();
+
             return View(funcion);
         }
 
