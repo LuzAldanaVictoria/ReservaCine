@@ -11,7 +11,7 @@ using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-    //[Authorize(Roles = nameof(Role.Administrador))]
+    [Authorize(Roles = nameof(Role.Administrador))]
     public class ClasificacionesController : Controller
     {
         private readonly CineDbContext _context;

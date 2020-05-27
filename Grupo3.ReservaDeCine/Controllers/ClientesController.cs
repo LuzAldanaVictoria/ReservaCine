@@ -12,7 +12,7 @@ using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-    //[Authorize(Roles = nameof(Role.Administrador))]
+   
     public class ClientesController : Controller
     {
         private readonly CineDbContext _context;
@@ -22,7 +22,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
+
         // GET: clientes
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Clientes.ToListAsync());

@@ -69,31 +69,28 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
         {
+
             var funcion = await _context.Funciones
+            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
             .Where(x => x.Id == reserva.FuncionId)
             .FirstOrDefaultAsync();
 
-            var sala = await _context.Salas
-            .Where(x => x.Id == funcion.SalaId)
-            .FirstOrDefaultAsync();
-
-            var tipoSala = await _context.TiposSala
-            .Where(x => x.Id == sala.TipoId)
-            .FirstOrDefaultAsync();
+            if (funcion == null)
+                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
 
             ValidarCantButacas(reserva, funcion);
-          
 
             if (ModelState.IsValid)
             {
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
-                reserva.CostoTotal = reserva.CantButacas * tipoSala.PrecioEntrada;
+                reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
+               
             ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Email");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
    
@@ -128,20 +125,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
 
             var funcion = await _context.Funciones
+            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
             .Where(x => x.Id == reserva.FuncionId)
             .FirstOrDefaultAsync();
 
-            var sala = await _context.Salas
-            .Where(x => x.Id == funcion.SalaId)
-            .FirstOrDefaultAsync();
-
-            var tipoSala = await _context.TiposSala
-            .Where(x => x.Id == sala.TipoId)
-            .FirstOrDefaultAsync();
-
-            var Cliente = await _context.Clientes
-            .Where(x => x.Id == reserva.ClienteId)
-            .FirstOrDefaultAsync();
+            if (funcion == null)
+                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
 
 
             if (id != reserva.Id)
@@ -152,10 +141,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
-                reserva.CostoTotal = reserva.CantButacas * tipoSala.PrecioEntrada;
+                reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
                 try
                 {
-                    _context.Update(reserva);
+                    var reservaDb = _context.Reservas.Find(id);
+                    reserva.FechaDeAlta = reservaDb.FechaDeAlta;
+                    _context.Update(reservaDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -224,7 +215,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(reserva.CantButacas), "No hay suficiente cantidad de butacas disponibles para esta función");
             }
 
-            if (funcion.CantButacasDisponibles > 10)
+            if (reserva.CantButacas > 10)
             {
                 ModelState.AddModelError(nameof(reserva.CantButacas), "No es posible reservar más de 10 butacas.");
             }

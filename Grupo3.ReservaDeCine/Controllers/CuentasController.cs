@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace ConSeguridad.Controllers
 {
@@ -34,7 +36,7 @@ namespace ConSeguridad.Controllers
         {
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
-                Usuario usuario = _context.Usuarios.FirstOrDefault(x=> x.Username == username);
+                Usuario usuario = _context.Usuarios.FirstOrDefault(x => x.Username == username);
                 var passwordEncriptada = password.Encriptar();
 
                 if (usuario.Password.SequenceEqual(passwordEncriptada))
@@ -58,13 +60,47 @@ namespace ConSeguridad.Controllers
                 }
             }
 
- 
-            ViewBag.Error = "Usuario o contraseña incorrectos";
+            ViewBag.Error = "Usuario y/o contraseña incorrectos";
             ViewBag.UserName = username;
             ViewBag.ReturnUrl = returnUrl;
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Role)));
+
+            return View();
+       
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(string username, string password)
+        {
+            ValidarUserNameExistente(username);
+
+            if (ModelState.IsValid)
+            {
+                var usuario = new Usuario
+                {
+                    Username = username,
+                    Password = password.Encriptar(),
+                };
+                _context.Add(usuario);
+                await _context.SaveChangesAsync();
+                return View("CreateExitoso");
+            }
+
+       
+
+            return View();
+        }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> Salir()
@@ -79,5 +115,23 @@ namespace ConSeguridad.Controllers
         {
             return View();
         }
+
+        private void ValidarUserNameExistente(string username)
+        {
+            if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
+            {
+                ModelState.AddModelError(nameof(username), "Nombre de usuario no disponible");
+            }
+        }
+
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
+    
     }
 }

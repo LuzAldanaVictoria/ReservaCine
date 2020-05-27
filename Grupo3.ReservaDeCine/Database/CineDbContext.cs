@@ -1,6 +1,7 @@
 ﻿using Grupo3.ReservaDeCine.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Grupo3.ReservaDeCine.Database
         public DbSet<TipoSala> TiposSala { get; set; }
         public DbSet<Clasificacion> Clasificaciones { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public IEnumerable Roles { get; internal set; }
 
         public CineDbContext(DbContextOptions options) : base(options) { }
 

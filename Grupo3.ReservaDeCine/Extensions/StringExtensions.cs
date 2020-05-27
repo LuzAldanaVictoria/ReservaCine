@@ -12,5 +12,5 @@ namespace Grupo3.ReservaDeCine.Extensions
         public static byte[] Encriptar(this string data) =>
             new SHA256Managed().ComputeHash(Encoding.ASCII.GetBytes(data));
     }
-    
+
 }

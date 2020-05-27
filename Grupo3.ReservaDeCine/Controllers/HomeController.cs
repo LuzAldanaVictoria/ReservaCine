@@ -24,22 +24,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         public IActionResult Index()
         {
-            _context.Add(new Usuario()
-            {
-                Username = "administrador1",
-                Role = Role.Administrador,
-                Password = "1234".Encriptar()
-            });
-
-            _context.Add(new Usuario()
-            {
-                Username = "cliente1",
-                Role = Role.Cliente,
-                Password = "1234".Encriptar()
-            });
-
-
-            _context.SaveChanges();
 
             Seed();
             return View();
@@ -93,7 +77,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     },
                     CapacidadTotal = 100
                 };
-                
+
                 var sala4 = new Sala()
                 {
                     Nombre = "Sala 4",
@@ -105,7 +89,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CapacidadTotal = 80
                 };
 
-                var Cliente1 = new Cliente() {
+                var Cliente1 = new Cliente()
+                {
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
@@ -163,7 +148,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                 Fecha = new DateTime(2020,06,17),
                                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                                 CantButacasDisponibles = sala3.CapacidadTotal
-                         
+
                             },
                             CantButacas = 4,
                             CostoTotal = 1800,
@@ -180,7 +165,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "Carlos",
                     Apellido = "Pereyra",
                     Email = "cp2020@gmail.com",
-                    FechaDeNacimiento = new DateTime(2000,11,04),
+                    FechaDeNacimiento = new DateTime(2000, 11, 04),
                     FechaDeAlta = DateTime.Now
                 };
 
@@ -189,42 +174,62 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "Carla",
                     Apellido = "Rodriguez",
                     Email = "carla@gmail.com",
-                    FechaDeNacimiento = new DateTime(1987,01,03),
+                    FechaDeNacimiento = new DateTime(1987, 01, 03),
                     FechaDeAlta = DateTime.Now
                 };
 
-                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
-                _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
+
+                if (!_context.Usuarios.Any())
+                {
+                    _context.Add(new Usuario()
+                    {
+                        Username = "administrador1",
+                        Role = Role.Administrador,
+                        Password = "1234".Encriptar()
+                    }); 
+
+                    _context.Add(new Usuario()
+                    {
+                        Username = "cliente1",
+                        Role = Role.Cliente,
+                        Password = "1234".Encriptar()
+                    });
 
 
-                _context.SaveChanges();
+                    _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
+                    _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
+
+
+                    _context.SaveChanges();
+                }
             }
+
+            //[Authorize(Roles = nameof(Role.Cliente))]
+            //public IActionResult SoloParaCliente()
+            //{
+            //    return View();
+            //}
+
+            //[Authorize(Roles = nameof(Role.Administrador))]
+            //public IActionResult SoloParaAdministrador()
+            //{
+            //    return View();
+            //}
+
+            //[Authorize(Roles = "Administrador, Cliente")]
+            //public IActionResult ParaClienteyAdministrador()
+            //{
+            //    return View();
+            //}
+
+            //[Authorize]
+            //public IActionResult SoloParaAutenticados()
+            //{
+            //    return View();
+            //}
+
+
+
         }
-
-        //[Authorize(Roles = nameof(Role.Cliente))]
-        //public IActionResult SoloParaCliente()
-        //{
-        //    return View();
-        //}
-
-        //[Authorize(Roles = nameof(Role.Administrador))]
-        //public IActionResult SoloParaAdministrador()
-        //{
-        //    return View();
-        //}
-
-        //[Authorize(Roles = "Administrador, Cliente")]
-        //public IActionResult ParaClienteyAdministrador()
-        //{
-        //    return View();
-        //}
-
-        //[Authorize]
-        //public IActionResult SoloParaAutenticados()
-        //{
-        //    return View();
-        //}
-
-
     }
 }

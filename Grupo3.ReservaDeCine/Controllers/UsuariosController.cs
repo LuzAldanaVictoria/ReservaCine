@@ -50,6 +50,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
+
+            ViewBag.SelectRoles = new SelectList(_context.Usuarios, "Id", "Role"); 
             return View();
         }
 
@@ -66,7 +68,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.SelectRoles = new SelectList(_context.Usuarios, "Role");
+
             return View(usuario);
         }
     }

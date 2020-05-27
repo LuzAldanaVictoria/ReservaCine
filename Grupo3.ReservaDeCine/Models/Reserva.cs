@@ -27,7 +27,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Required(ErrorMessage = "El campo Cantidade de Butacas es requerido")]
-        [Range (1,200, ErrorMessage = "La cantidad de butacas debe ser entre 1 y 200")]
+        [Range (1,10, ErrorMessage = "La cantidad de butacas debe ser entre 1 y 10")]
         [Display(Name = "Cantidad de butacas")]
         public int CantButacas { get; set; }
 

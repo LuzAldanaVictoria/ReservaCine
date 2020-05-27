@@ -22,6 +22,17 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Peliculas
+        public async Task<IActionResult> Cartelera()
+        {
+            var peliculas = await _context
+               .Peliculas
+               .Include(x => x.Genero)
+               .Include(x => x.Clasificacion)
+               .ToListAsync();
+
+            return View(peliculas);
+        }
+        
         public async Task<IActionResult> Index()
         {
             var peliculas = await _context
@@ -58,7 +69,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
-        //[Authorize(Roles = nameof(Role.Administrador))]
+        [Authorize(Roles = nameof(Role.Administrador))]
         // GET: Peliculas/Create
         public IActionResult Create()
         {
@@ -90,7 +101,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
-        //[Authorize(Roles = nameof(Role.Administrador))]
+        [Authorize(Roles = nameof(Role.Administrador))]
         // GET: Peliculas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

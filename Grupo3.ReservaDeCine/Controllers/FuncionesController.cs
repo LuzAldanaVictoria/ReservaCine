@@ -62,7 +62,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
        
         // GET: Funciones/Create
-        //[Authorize(Roles = nameof(Role.Administrador))]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
         {
             ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
@@ -103,7 +103,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
         // GET: Funciones/Edit/5
-        //[Authorize(Roles = nameof(Role.Administrador))]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

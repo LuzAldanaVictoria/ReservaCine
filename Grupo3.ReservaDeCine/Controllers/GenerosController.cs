@@ -50,6 +50,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Generos/Create
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
         {
 
@@ -98,6 +99,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion")] Genero genero)
         {
             
@@ -134,6 +136,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Generos/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
