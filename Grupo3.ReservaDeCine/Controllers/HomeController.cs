@@ -9,6 +9,7 @@ using Grupo3.ReservaDeCine.Database;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
 using Grupo3.ReservaDeCine.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -24,6 +25,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         public IActionResult Index()
         {
+            var primerLogin = TempData["primerLogin"] as bool?;
+            ViewBag.PrimerLogin = primerLogin ?? false;
 
             Seed();
             return View();
@@ -186,7 +189,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                         Username = "administrador1",
                         Role = Role.Administrador,
                         Password = "1234".Encriptar()
-                    }); 
+                    });
 
                     _context.Add(new Usuario()
                     {
@@ -203,33 +206,48 @@ namespace Grupo3.ReservaDeCine.Controllers
                     _context.SaveChanges();
                 }
             }
-
-            //[Authorize(Roles = nameof(Role.Cliente))]
-            //public IActionResult SoloParaCliente()
-            //{
-            //    return View();
-            //}
-
-            //[Authorize(Roles = nameof(Role.Administrador))]
-            //public IActionResult SoloParaAdministrador()
-            //{
-            //    return View();
-            //}
-
-            //[Authorize(Roles = "Administrador, Cliente")]
-            //public IActionResult ParaClienteyAdministrador()
-            //{
-            //    return View();
-            //}
-
-            //[Authorize]
-            //public IActionResult SoloParaAutenticados()
-            //{
-            //    return View();
-            //}
-
-
-
         }
+
+
+        public async Task<IActionResult> Cartelera()
+        {
+            var cartelera = await _context
+               .Peliculas
+               .Include(x => x.Genero)
+               .Include(x => x.Clasificacion)
+               .ToListAsync();
+
+            return View(cartelera);
+        }
+
+        //[Authorize(Roles = nameof(Role.Cliente))]
+        //public IActionResult SoloParaCliente()
+        //{
+        //    return View();
+        //}
+
+        //[Authorize(Roles = nameof(Role.Administrador))]
+        //public IActionResult SoloParaAdministrador()
+        //{
+        //    return View();
+        //}
+
+        //[Authorize(Roles = "Administrador, Cliente")]
+        //public IActionResult ParaClienteyAdministrador()
+        //{
+        //    return View();
+        //}
+
+        //[Authorize]
+        //public IActionResult SoloParaAutenticados()
+        //{
+        //    return View();
+        //}
+
+
+
+
     }
+
+
 }

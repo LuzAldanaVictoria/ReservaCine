@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-    //[Authorize(Roles = nameof(Role.Administrador))]
+    [Authorize(Roles = nameof(Role.Administrador))]
     public class GenerosController : Controller
     {
         private readonly CineDbContext _context;

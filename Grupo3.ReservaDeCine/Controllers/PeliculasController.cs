@@ -21,17 +21,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: Peliculas
-        public async Task<IActionResult> Cartelera()
-        {
-            var peliculas = await _context
-               .Peliculas
-               .Include(x => x.Genero)
-               .Include(x => x.Clasificacion)
-               .ToListAsync();
-
-            return View(peliculas);
-        }
+  
+      
         
         public async Task<IActionResult> Index()
         {

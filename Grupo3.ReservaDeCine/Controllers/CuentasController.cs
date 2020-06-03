@@ -116,6 +116,7 @@ namespace ConSeguridad.Controllers
             return View();
         }
 
+
         private void ValidarUserNameExistente(string username)
         {
             if (_context.Usuarios.Any(x => Comparar(x.Username, username)))

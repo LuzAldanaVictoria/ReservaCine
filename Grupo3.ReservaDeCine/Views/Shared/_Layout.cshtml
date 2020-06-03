@@ -40,57 +40,50 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Cuentas" asp-action="Create">Registrarse</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="Index">Cartelera</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cartelera">Cartelera</a>
                             </li>
                         }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Funciones" asp-action="Index">Funciones</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Generos" asp-action="Index">Géneros</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="Index">Películas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Salas" asp-action="Index">Salas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="TiposSalas" asp-action="Index">Tipos de Salas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Clasificaciones" asp-action="Index">Clasificaciones</a>
-                                </li>
-                                <li class="nav-item">
-                                    <form asp-action="Salir" asp-controller="Cuentas" method="post">
-                                        <button type="submit" class="btn btn-danger">Salir</button>
-                                    </form>
-                                </li>
-                            }
-                            @*<li class="nav-item">
-                <a class="nav-link text-dark" asp-controller="Home" asp-action="SoloParaCliente">SoloParaCliente</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-controller="Home" asp-action="SoloParaAdmin">SoloParaAdmin</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-controller="Home" asp-action="ParaClienteYAdmin">ParaClienteYAdmin</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-controller="Home" asp-action="SoloParaAutenticados">SoloParaAutenticados</a>
-            </li>*@
-                        </ul>
+                        else
+                        {
+                         
+                    @*<li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                    </li>*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Funciones" asp-action="Index">Funciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Generos" asp-action="Index">Géneros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="Index">Películas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="Index">Reservas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Salas" asp-action="Index">Salas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TiposSalas" asp-action="Index">Tipos de Salas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Clasificaciones" asp-action="Index">Clasificaciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-action="Salir" asp-controller="Cuentas" method="post">
+                                    <button type="submit" class="btn btn-danger">Salir</button>
+                                </form>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Detalles"><text>@User.Identity.Name</text></a>
+                            </li>
+
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -127,6 +120,8 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/notify/notify.js"></script>
+
 
     @RenderSection("Scripts", required: false)
 </body>
