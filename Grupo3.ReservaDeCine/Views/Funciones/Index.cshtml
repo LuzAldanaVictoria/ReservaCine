@@ -22,10 +22,7 @@
                 @Html.DisplayNameFor(model => model.Pelicula)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Horario)
+                @Html.DisplayNameFor(model => model.FechaHora)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CantButacasDisponibles)
@@ -47,10 +44,7 @@
                 @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
             </td>
             <td>
-                @item.Fecha.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @item.Horario.ToString("HH:mm")
+                @Html.DisplayFor(modelItem => item.FechaHora)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CantButacasDisponibles)

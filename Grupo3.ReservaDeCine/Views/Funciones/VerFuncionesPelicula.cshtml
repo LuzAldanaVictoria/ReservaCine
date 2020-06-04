@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Grupo3.ReservaDeCine.Models.Funcion>
+
+@{
+    ViewData["Title"] = "VerFuncionesPelicula";
+}
+
+
+    <h1>Funciones por Pelicula</h1>
+<<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sala)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pelicula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Horario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantButacasDisponibles)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sala.Nombre)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
+                </td>
+                <td>
+                    @item.Fecha.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @item.Horario.ToString("HH:mm")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
+                </td>
+                <td>
+                    <a asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

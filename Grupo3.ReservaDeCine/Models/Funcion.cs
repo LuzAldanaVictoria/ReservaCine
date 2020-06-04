@@ -44,6 +44,17 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Cantidad de butacas disponibles")]
         public int CantButacasDisponibles { get; set; }
 
+        [Display(Name = "Fecha y Hora")]
+        public String FechaHora
+        {
+            get
+            {
+                return $"{Fecha.ToString("dd/MM/yyyy")} {Horario.ToString("HH:mm")}";
+            }
+        }
+
+
+
 
 
     }

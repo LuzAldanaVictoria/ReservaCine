@@ -13,7 +13,6 @@ namespace Grupo3.ReservaDeCine.Models
         public int Id { get; set; }
 
         [ForeignKey("Cliente")]
-        [Required(ErrorMessage = "El campo Cliente es requerido")]
         [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }

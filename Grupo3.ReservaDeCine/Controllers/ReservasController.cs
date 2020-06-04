@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
+using Microsoft.AspNetCore.Authorization;
+using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-
+    [Authorize]
     public class ReservasController : Controller
     {
         private readonly CineDbContext _context;
@@ -53,14 +55,33 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
+        [Authorize(Roles = nameof(Role.Cliente))]
         // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Email");
-            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
+            ViewBag.SelectFechaHora = new SelectList(_context.Funciones, "Id", "FechaHora");
 
             return View();
         }
+
+        public IActionResult CrearReservaPorFuncion(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var funcion = _context
+                .Funciones
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+     
+            ViewData["FechaHora"] = funcion.FechaHora;
+            ViewData["Pelicula"] = funcion.Pelicula;
+
+            return View();
+        }
+
 
         // POST: Reservas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -85,14 +106,14 @@ namespace Grupo3.ReservaDeCine.Controllers
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
+                //no guarda el usuario 
+                reserva.Cliente = User.Identity as Cliente;
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-               
-            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Email");
-            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
+            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "FechaHora");
    
             return View(reserva);
         }

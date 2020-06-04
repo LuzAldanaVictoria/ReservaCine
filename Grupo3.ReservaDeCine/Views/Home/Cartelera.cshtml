@@ -7,7 +7,7 @@
 <h1></h1>
 
 <p>
-    <a asp-action="Reservar">Nueva reserva</a>
+    <a asp-controller="Reservas" asp-action="Create">Nueva reserva</a>
 </p>
 <table class="table">
     <thead>
@@ -42,7 +42,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Clasificacion.Descripcion)
             </td>
+            <td>
+                <a asp-controller="Funciones" asp-action="VerFuncionesPelicula" asp-route-id="@item.Id">Ver funciones</a>
+            </td>
         </tr>
+
+
 }
     </tbody>
 </table>

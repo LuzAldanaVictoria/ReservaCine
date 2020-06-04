@@ -12,21 +12,16 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ClienteId" class="control-label"></label>
-                <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.SelectClientes"></select>
-                <span asp-validation-for="ClienteId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FuncionId" class="control-label"></label>
-                <select asp-for="FuncionId" class="form-control" asp-items="ViewBag.SelectFunciones"></select>
-                <span asp-validation-for="FuncionId" class="text-danger"></span>
-            </div>
             @*<div class="form-group">
-                <label asp-for="FuncionId" class="control-label">Fecha</label>
-                <select asp-for="FuncionId" class="form-control"  asp-items="ViewBag.TipoFunciones"></select>
+                <label asp-for="FuncionId" class="control-label"></label>
+                <select asp-for="FuncionId" class="form-control" asp-items="ViewBag.SelectFechaHora"></select>
                 <span asp-validation-for="FuncionId" class="text-danger"></span>
             </div>*@
+            <div class="form-group">
+                <label asp-for="FuncionId" class="control-label">Fecha y hora</label>
+                <select asp-for="FuncionId" class="form-control"  asp-items="ViewBag.SelectFechaHora"></select>
+                <span asp-validation-for="FuncionId" class="text-danger"></span>
+            </div>
       
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>

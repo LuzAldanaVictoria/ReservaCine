@@ -12,7 +12,7 @@ using Grupo3.ReservaDeCine.Models.Enums;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-
+  
     public class FuncionesController : Controller
     {
         private readonly CineDbContext _context;
@@ -25,7 +25,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Funciones
         public async Task<IActionResult> Index()
         {
-   
             var funciones = await _context
                 .Funciones
                 .Include(x => x.Pelicula)
@@ -245,6 +244,20 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(funcion.Horario), "El horario debe estar comprendido entre las 9:00 y la 01:59 (A.M.)");
             }
         }
+
+        public IActionResult VerFuncionesPelicula(Pelicula pelicula)
+        {
+ 
+            var funciones = _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
+                .Where(x => x.Pelicula == pelicula)
+                .ToList();
+         
+            return View(funciones);
+        }
+
 
 
 

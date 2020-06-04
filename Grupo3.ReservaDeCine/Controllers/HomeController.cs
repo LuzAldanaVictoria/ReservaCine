@@ -215,35 +215,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                .Peliculas
                .Include(x => x.Genero)
                .Include(x => x.Clasificacion)
+               .Include(x => x.Funciones)
                .ToListAsync();
 
             return View(cartelera);
         }
 
-        //[Authorize(Roles = nameof(Role.Cliente))]
-        //public IActionResult SoloParaCliente()
-        //{
-        //    return View();
-        //}
-
-        //[Authorize(Roles = nameof(Role.Administrador))]
-        //public IActionResult SoloParaAdministrador()
-        //{
-        //    return View();
-        //}
-
-        //[Authorize(Roles = "Administrador, Cliente")]
-        //public IActionResult ParaClienteyAdministrador()
-        //{
-        //    return View();
-        //}
-
-        //[Authorize]
-        //public IActionResult SoloParaAutenticados()
-        //{
-        //    return View();
-        //}
-
+     
 
 
 
