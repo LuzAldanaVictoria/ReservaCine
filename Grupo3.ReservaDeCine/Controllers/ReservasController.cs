@@ -9,6 +9,7 @@ using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
+using System.Security.Claims;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -64,6 +65,23 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Authorize(Roles = nameof(Role.Cliente))]
+        public IActionResult MisReservas()
+        {
+            int clienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            List<Reserva> reservas = _context
+                .Reservas
+                .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
+                .Where(reserva => reserva.ClienteId == clienteId)
+                .ToList();
+
+            return View(reservas);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult CrearReservaPorFuncion(int? id)
         {
             if (id == null)
@@ -73,22 +91,56 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var funcion = _context
                 .Funciones
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
-     
-            ViewData["FechaHora"] = funcion.FechaHora;
-            ViewData["Pelicula"] = funcion.Pelicula;
+                .FirstOrDefault(x => x.Id == id);
 
-            return View();
+            ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
+
+            Reserva reserva = new Reserva()
+            {
+                FuncionId = funcion.Id,
+                Funcion = funcion
+            };
+
+            return View(reserva);
         }
 
+        [HttpPost]
+        [Authorize(Roles = nameof(Role.Cliente))]
+        public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva)
+        {
+            var funcion = _context.Funciones
+            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
+            .Where(x => x.Id == reserva.FuncionId)
+            .FirstOrDefault();
+
+            if (ModelState.IsValid)
+            {
+                reserva.FechaDeAlta = DateTime.Now;
+                funcion.CantButacasDisponibles -= reserva.CantButacas;
+                reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
+
+                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                _context.Add(reserva);
+
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(MisReservas));
+            }
+
+            ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
+
+            reserva.Funcion = funcion;
+
+            return View(reserva);
+        }
 
         // POST: Reservas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion" ,"CantButacas")] Reserva reserva)
+        public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion", "CantButacas")] Reserva reserva)
         {
 
             var funcion = await _context.Funciones
@@ -114,7 +166,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "FechaHora");
-   
+
             return View(reserva);
         }
 
@@ -133,7 +185,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
             ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Nombre");
             ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-        
+
             return View(reserva);
         }
 
@@ -142,7 +194,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,  Reserva reserva)
+        public async Task<IActionResult> Edit(int id, Reserva reserva)
         {
 
             var funcion = await _context.Funciones
@@ -229,7 +281,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         }
 
-       private void ValidarCantButacas (Reserva reserva, Funcion funcion)
+        private void ValidarCantButacas(Reserva reserva, Funcion funcion)
         {
             if (funcion.CantButacasDisponibles < reserva.CantButacas)
             {

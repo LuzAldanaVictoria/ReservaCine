@@ -44,6 +44,7 @@ namespace ConSeguridad.Controllers
                     ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                     identity.AddClaim(new Claim(ClaimTypes.Name, username));
                     identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role.ToString()));
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
                     ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);

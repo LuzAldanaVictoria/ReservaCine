@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Grupo3.ReservaDeCine.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Mis Reservas";
+}
+
+<h1>Mis Reservas</h1>
+
+<p>
+    <a asp-controller="Home" asp-action="Cartelera">
+        Crear nueva reserva
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcion.Pelicula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantButacas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostoTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeAlta)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funcion.Pelicula.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantButacas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostoTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaDeAlta)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
