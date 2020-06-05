@@ -164,8 +164,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                //no guarda el usuario 
-                reserva.Cliente = User.Identity as Cliente;
+                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 _context.Add(reserva);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

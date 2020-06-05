@@ -31,9 +31,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cartelera">Cartelera</a>
-                        </li>
+
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -41,6 +39,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Cuentas" asp-action="Ingresar">Ingresar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cartelera">Cartelera</a>
                             </li>
 
                         }
@@ -50,9 +51,12 @@
                             @if (User.IsInRole(nameof(Role.Cliente)))
                             {
                                 <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cartelera">Cartelera</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="MisReservas">Mis Reservas</a>
                                 </li>
-
+                       
                             }
                             else
                             {
@@ -85,7 +89,8 @@
                             }
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Detalles"><text>@User.Identity.Name</text></a>
+                                @*<a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Details">*@
+                                <a class="nav-link text-dark">@User.Identity.Name</a>
                             </li>
                             <li class="nav-item">
                                 <form asp-action="Salir" asp-controller="Cuentas" method="post">

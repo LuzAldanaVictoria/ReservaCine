@@ -9,6 +9,7 @@ using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
+using System.Security.Claims;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -58,6 +59,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
+
         // GET: clientes/Create
         public IActionResult Create()
         {
@@ -85,7 +87,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
+
         // GET: clientes/Edit/5
+        [Authorize(Roles = nameof(Role.Cliente))]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,6 +110,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Cliente))]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento,FechaDeAlta")] Cliente cliente)
         {
             if (id != cliente.Id)
@@ -199,6 +204,19 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = nameof(Role.Cliente))]
+        public async Task<IActionResult> MiPerfilAsync(int ? id)
+        {
+
+            var cliente = await _context.Clientes
+               .Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
+               .FirstOrDefaultAsync(m => m.Id == id);
+      
+
+            return View(cliente);
         }
     }
 }

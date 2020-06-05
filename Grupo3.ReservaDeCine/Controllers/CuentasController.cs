@@ -37,30 +37,35 @@ namespace ConSeguridad.Controllers
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
                 Usuario usuario = _context.Usuarios.FirstOrDefault(x => x.Username == username);
-                var passwordEncriptada = password.Encriptar();
 
-                if (usuario.Password.SequenceEqual(passwordEncriptada))
+
+                if (usuario != null)
                 {
-                    ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                    identity.AddClaim(new Claim(ClaimTypes.Name, username));
-                    identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role.ToString()));
-                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
-                    ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    var passwordEncriptada = password.Encriptar();
 
-                    usuario.FechaUltimoAcceso = DateTime.Now;
-                    _context.SaveChanges();
+                    if (usuario.Password.SequenceEqual(passwordEncriptada))
+                    {
+                        ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                        identity.AddClaim(new Claim(ClaimTypes.Name, username));
+                        identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role.ToString()));
+                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
+                        ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
-                    if (!string.IsNullOrWhiteSpace(returnUrl))
-                        return Redirect(returnUrl);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    TempData["primerLogin"] = true;
+                        usuario.FechaUltimoAcceso = DateTime.Now;
+                        _context.SaveChanges();
 
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                        if (!string.IsNullOrWhiteSpace(returnUrl))
+                            return Redirect(returnUrl);
+
+                        TempData["primerLogin"] = true;
+
+                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                    }
                 }
             }
-
             ViewBag.Error = "Usuario y/o contraseña incorrectos";
             ViewBag.UserName = username;
             ViewBag.ReturnUrl = returnUrl;
