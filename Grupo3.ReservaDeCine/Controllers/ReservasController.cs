@@ -113,6 +113,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             .Where(x => x.Id == reserva.FuncionId)
             .FirstOrDefault();
 
+
+            if (funcion == null)
+                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
+
+            ValidarCantButacas(reserva, funcion);
+
             if (ModelState.IsValid)
             {
                 reserva.FechaDeAlta = DateTime.Now;

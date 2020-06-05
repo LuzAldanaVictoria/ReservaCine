@@ -71,36 +71,11 @@ namespace ConSeguridad.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Role)));
+            ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Role)), "Id");
 
             return View();
        
         }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Create(string username, string password)
-        {
-            ValidarUserNameExistente(username);
-
-            if (ModelState.IsValid)
-            {
-                var usuario = new Usuario
-                {
-                    Username = username,
-                    Password = password.Encriptar(),
-                };
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return View("CreateExitoso");
-            }
-
-       
-
-            return View();
-        }
-
-
 
 
         [HttpPost]
@@ -118,22 +93,7 @@ namespace ConSeguridad.Controllers
         }
 
 
-        private void ValidarUserNameExistente(string username)
-        {
-            if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
-            {
-                ModelState.AddModelError(nameof(username), "Nombre de usuario no disponible");
-            }
-        }
-
-
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
-        private static bool Comparar(string s1, string s2)
-        {
-            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
-                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
-        }
-
+    
     
     }
 }

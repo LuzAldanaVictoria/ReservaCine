@@ -75,7 +75,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, SalaId, Sala, PeliculaId, Pelicula, Fecha, Horario, CantButacasDisponibles, CapacidadTotal ")]Funcion funcion)
+        public async Task<IActionResult> Create([Bind("Id, SalaId, Sala, PeliculaId, Pelicula, Fecha, Horario, CantButacasDisponibles, CapacidadTotal")]Funcion funcion)
         {
            var sala = await _context.Salas
            .Where(x => x.Id == funcion.SalaId)
