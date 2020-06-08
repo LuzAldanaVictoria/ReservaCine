@@ -94,6 +94,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .FirstOrDefault(x => x.Id == id);
 
             ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
+            ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
+     
 
             Reserva reserva = new Reserva()
             {
@@ -108,10 +110,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva)
         {
-            var funcion = _context.Funciones
-            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
-            .Where(x => x.Id == reserva.FuncionId)
-            .FirstOrDefault();
+            var funcion = _context
+                .Funciones
+                .Include(x => x.Sala).ThenInclude(x => x.Tipo)
+                .FirstOrDefault(x => x.Id == reserva.FuncionId);
 
 
             if (funcion == null)
@@ -124,17 +126,15 @@ namespace Grupo3.ReservaDeCine.Controllers
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-
+                //ViewData["CostoTotal"] = reserva.CostoTotal;
                 reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
                 _context.Add(reserva);
-
                 _context.SaveChanges();
-
                 return RedirectToAction(nameof(MisReservas));
             }
 
             ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
+            ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
 
             reserva.Funcion = funcion;
 
@@ -298,5 +298,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(reserva.CantButacas), "No es posible reservar más de 10 butacas.");
             }
         }
+
+
     }
 }

@@ -10,15 +10,17 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+
         <form asp-action="CrearReservaPorFuncion" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input type="hidden" asp-for="FuncionId" />
-                <span>@Model.Funcion.FechaHora</span>
+                <label class="control-label">Película</label><br>
+                <select disabled asp-items="@ViewBag.Peliculas"></select>
             </div>
             <div class="form-group">
-                <label class="control-label">Pelicula</label>
-                <select disabled asp-items="@ViewBag.Peliculas"></select>
+                <input type="hidden" asp-for="FuncionId" />
+                <label class="control-label">Función</label><br>
+                <select disabled asp-items="@ViewBag.FechaHora"></select>
             </div>
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>

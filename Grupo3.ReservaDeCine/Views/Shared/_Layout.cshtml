@@ -41,7 +41,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Cuentas" asp-action="Ingresar">Ingresar</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cartelera">Cartelera</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="Cartelera">Cartelera</a>
                             </li>
 
                         }
@@ -51,7 +51,7 @@
                             @if (User.IsInRole(nameof(Role.Cliente)))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Cartelera">Cartelera</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Peliculas" asp-action="Cartelera">Cartelera</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="MisReservas">Mis Reservas</a>

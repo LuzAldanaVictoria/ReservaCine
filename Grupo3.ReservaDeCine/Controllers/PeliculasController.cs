@@ -188,6 +188,19 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public async Task<IActionResult> Cartelera()
+        {
+            var cartelera = await _context
+               .Peliculas
+               .Include(x => x.Genero)
+               .Include(x => x.Clasificacion)
+               .Include(x => x.Funciones)
+               .ToListAsync();
+
+            return View(cartelera);
+        }
+
         private bool PeliculaExists(int id)
         {
             return _context.Peliculas.Any(e => e.Id == id);

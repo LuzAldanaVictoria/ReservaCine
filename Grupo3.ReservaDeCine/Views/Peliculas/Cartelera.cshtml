@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.Clasificacion.Descripcion)
             </td>
             <td>
-                <a asp-controller="Funciones" asp-action="VerFuncionesPelicula" asp-route-id="@item.Id">Ver funciones</a>
+                <a asp-controller="Funciones" asp-action="FiltrarPorPelicula" asp-route-id="@item.Id">Ver funciones</a>
             </td>
         </tr>
 

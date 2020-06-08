@@ -121,7 +121,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                         EdadMinima = 0
                                     },
                                 },
-                                Fecha = new DateTime(2020,06,15),
+                                Fecha = new DateTime(2020,07,15),
                                 Horario = new DateTime().AddHours(14).AddMinutes(00),
                                 CantButacasDisponibles = sala1.CapacidadTotal
                             },
@@ -152,7 +152,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                         EdadMinima = 16
                                     },
                                 },
-                                Fecha = new DateTime(2020,06,17),
+                                Fecha = new DateTime(2020,07,17),
                                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                                 CantButacasDisponibles = sala3.CapacidadTotal
 
@@ -228,21 +228,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        public async Task<IActionResult> Cartelera()
-        {
-            var cartelera = await _context
-               .Peliculas
-               .Include(x => x.Genero)
-               .Include(x => x.Clasificacion)
-               .Include(x => x.Funciones)
-               .ToListAsync();
-
-            return View(cartelera);
-        }
-
-     
-
-
+    
 
     }
 

@@ -245,9 +245,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
-        public IActionResult VerFuncionesPelicula(Pelicula pelicula)
+        public IActionResult FiltrarPorPelicula(Pelicula pelicula)
         {
- 
             var funciones = _context
                 .Funciones
                 .Include(x => x.Pelicula)
@@ -257,6 +256,29 @@ namespace Grupo3.ReservaDeCine.Controllers
          
             return View(funciones);
         }
+
+
+        public IActionResult FiltrarPorDia(DateTime dia)
+        {
+
+            var funciones = _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
+                .Where(x => x.Fecha.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
+                .ToList();
+
+            return View(funciones);
+        }
+
+        public IActionResult SeleccionarFiltro()
+        {
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
+            return View();
+        }
+
+
 
 
 
