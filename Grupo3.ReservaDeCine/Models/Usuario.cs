@@ -14,7 +14,6 @@ namespace Grupo3.ReservaDeCine.Models
         public int Id { get; set; }
 
 
-        [Required]
         [Display(Name = "Rol")]
         public Role Role { get; set; }
 
@@ -33,7 +32,6 @@ namespace Grupo3.ReservaDeCine.Models
         [RegularExpression("[a-zA-ZñÑáéíóúÁÉÍÓÚ]*", ErrorMessage = "Formato inválido. El Apellido sólo admite letras")]
         [Display(Name = "Apellido")]
         public string Apellido { get; set; }
-
 
 
         [Required(ErrorMessage = "El campo Email es requerido")]

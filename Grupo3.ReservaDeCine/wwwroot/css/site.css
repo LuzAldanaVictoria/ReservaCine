@@ -59,11 +59,14 @@ th, td{
     text-align: center;
 }
 
-.text-whitesmoke {
-    text-align: center;
-}
 
 .disabled {
     pointer-events: none;
     color: gray;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }

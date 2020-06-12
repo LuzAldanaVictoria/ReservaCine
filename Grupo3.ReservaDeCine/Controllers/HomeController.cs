@@ -206,8 +206,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Legajo = 0001 
                 };
 
-                _context.Add(administrador1);
+
                 _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
+                _context.Add(administrador1);
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
                 _context.SaveChanges();
 
