@@ -17,4 +17,12 @@
     <Folder Include="Documentacion\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Content Update="Views\Cuentas\Registrar.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

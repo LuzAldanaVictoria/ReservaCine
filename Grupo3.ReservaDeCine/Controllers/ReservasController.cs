@@ -74,7 +74,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             List<Reserva> reservas = _context
                 .Reservas
                 .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
-                .Where(reserva => reserva.ClienteId == clienteId)
+                .Where(reserva => reserva.ClienteId == clienteId && reserva.Funcion.Fecha >= DateTime.Today)
                 .ToList();
 
             return View(reservas);
@@ -101,6 +101,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 FuncionId = funcion.Id,
                 Funcion = funcion
+
             };
 
             return View(reserva);

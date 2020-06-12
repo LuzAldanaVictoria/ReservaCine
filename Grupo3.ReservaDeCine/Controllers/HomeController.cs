@@ -94,6 +94,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente1 = new Cliente()
                 {
+                    Role = Role.Cliente,
+                    Username ="cliente1",
+                    Password = "1234".Encriptar(),
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
@@ -169,6 +172,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente2 = new Cliente()
                 {
+                    Role = Role.Cliente,
+                    Username = "cliente2",
+                    Password = "1234".Encriptar(),
                     Nombre = "Carlos",
                     Apellido = "Pereyra",
                     Email = "cp2020@gmail.com",
@@ -178,6 +184,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente3 = new Cliente()
                 {
+                    Role = Role.Cliente,
+                    Username = "cliente3",
+                    Password = "1234".Encriptar(),
                     Nombre = "Carla",
                     Apellido = "Rodriguez",
                     Email = "carla@gmail.com",
@@ -186,43 +195,22 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
-                if (!_context.Usuarios.Any())
+                var administrador1 = new Administrador()
                 {
-                    _context.Add(new Usuario()
-                    {
-                        Username = "cliente1",
-                        Role = Role.Cliente,
-                        Password = "1234".Encriptar()
-                    });
+                    Role = Role.Administrador,
+                    Username = "administrador1",
+                    Password = "1234".Encriptar(),
+                    Nombre = "Juan Carlos",
+                    Apellido = "Gonzalez",
+                    Email = "jcgonzalez@gmail.com",
+                    Legajo = 0001 
+                };
 
-                    _context.Add(new Usuario()
-                    {
-                        Username = "cliente2",
-                        Role = Role.Cliente,
-                        Password = "1234".Encriptar()
-                    });
+                _context.Add(administrador1);
+                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
+                _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
+                _context.SaveChanges();
 
-                    _context.Add(new Usuario()
-                    {
-                        Username = "cliente3",
-                        Role = Role.Cliente,
-                        Password = "1234".Encriptar()
-                    });
-
-                    _context.Add(new Usuario()
-                    {
-                        Username = "administrador1",
-                        Role = Role.Administrador,
-                        Password = "1234".Encriptar()
-                    });
-
-                  
-
-                    _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
-                    _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
-
-
-                    _context.SaveChanges();
                 }
             }
         }
@@ -233,4 +221,4 @@ namespace Grupo3.ReservaDeCine.Controllers
     }
 
 
-}
+

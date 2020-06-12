@@ -9,6 +9,8 @@ using Grupo3.ReservaDeCine.Database;
 using Grupo3.ReservaDeCine.Models;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
+using Remotion.Linq.Clauses;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -196,6 +198,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                .Include(x => x.Genero)
                .Include(x => x.Clasificacion)
                .Include(x => x.Funciones)
+               //.Where(x => x.Funciones.IndexOf(x.Funciones.) > DateTime.Now)
                .ToListAsync();
 
             return View(cartelera);

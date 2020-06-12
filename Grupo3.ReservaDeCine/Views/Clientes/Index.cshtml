@@ -6,9 +6,7 @@
 
 <h1>Clientes</h1>
 
-<p>
-    <a asp-action="Create">Crear nuevo Cliente</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -31,9 +29,7 @@
                 @Html.DisplayNameFor(model => model.FechaDeAlta)
             </th>
             <th></th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.Reservas)
-        </th>*@
+     
 </thead>
     <tbody>
 @foreach (var item in Model) {
@@ -56,9 +52,6 @@
             <td>
                 @item.FechaDeAlta.ToString("dd/MM/yyyy")
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Reservas)
-            </td>*@
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>

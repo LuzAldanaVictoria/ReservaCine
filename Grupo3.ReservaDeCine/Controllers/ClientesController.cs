@@ -14,7 +14,7 @@ using System.Security.Claims;
 namespace Grupo3.ReservaDeCine.Controllers
 {
    
-    public class ClientesController : Controller
+    public class ClientesController : Controller 
     {
         private readonly CineDbContext _context;
 
@@ -205,6 +205,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
+
+
 
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]

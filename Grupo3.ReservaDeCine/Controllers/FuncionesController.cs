@@ -251,13 +251,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .Where(x => x.Pelicula == pelicula)
+                .Where(x => x.Pelicula == pelicula && x.Fecha >= DateTime.Now)
                 .ToList();
-         
+
             return View(funciones);
         }
-
-
         public IActionResult FiltrarPorDia(DateTime dia)
         {
 
@@ -271,11 +269,23 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funciones);
         }
 
-        public IActionResult SeleccionarFiltro()
+        public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
         {
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 
+            List<Funcion> funcionesPelicula = _context
+                                                .Funciones
+                                                .Include(x => x.Pelicula)
+                                                .Where(x => x.PeliculaId == PeliculaId)
+                                                .ToList();
+
+           List<Funcion> funcionesFecha = _context
+                                            .Funciones
+                                            .Where(x => x.Fecha == fecha)
+                                            .ToList();
+
             return View();
+
         }
 
 

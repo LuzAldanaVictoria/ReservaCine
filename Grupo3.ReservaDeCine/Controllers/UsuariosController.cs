@@ -51,7 +51,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-
             ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Role)), "Id");
             return View();
         }
@@ -71,14 +70,15 @@ namespace Grupo3.ReservaDeCine.Controllers
                 usuario.Password = password.Encriptar();
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
-                return View("CreateExitoso");
+              
+                return RedirectToAction("Index");
             }
          
             ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Role)), "Id");
-
             return View(usuario);
         }
-    
+
+
 
         private void ValidarUserNameExistente(string username)
         {

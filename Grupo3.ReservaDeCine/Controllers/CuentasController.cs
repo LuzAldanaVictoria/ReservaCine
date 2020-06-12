@@ -36,12 +36,16 @@ namespace ConSeguridad.Controllers
         {
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
-                Usuario usuario = _context.Usuarios.FirstOrDefault(x => x.Username == username);
+                Usuario usuario = _context.Clientes.FirstOrDefault(x => x.Username == username);
 
+                if(usuario == null)
+                {
+                    usuario = _context.Administradores.FirstOrDefault(x => x.Username == username);
+                    usuario.Role = Role.Administrador;
+                }
 
                 if (usuario != null)
                 {
-
                     var passwordEncriptada = password.Encriptar();
 
                     if (usuario.Password.SequenceEqual(passwordEncriptada))
@@ -73,13 +77,43 @@ namespace ConSeguridad.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            ViewBag.SelectRoles = new SelectList(Enum.GetNames(typeof(Role)), "Id");
 
+        [HttpGet]
+        public IActionResult Registrar()
+        {
             return View();
        
+        }
+
+        // POST: Usuarios/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registrar (string password, Cliente cliente)
+        {
+            ComprobarFechaDeNacimiento(cliente);
+            ValidarEmailExistente(cliente);
+            ValidarUserNameExistente(cliente.Username);
+
+            if (ModelState.IsValid)
+            {
+                cliente.Role = Role.Cliente;
+                cliente.FechaDeAlta = DateTime.Now;
+                cliente.Password = password.Encriptar();
+                _context.Add(cliente);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Ingresar");
+            }
+
+            return View(cliente);
+        }
+
+   
+        public IActionResult CreateExitoso(Cliente cliente)
+        {
+            return View();
         }
 
 
@@ -98,7 +132,38 @@ namespace ConSeguridad.Controllers
         }
 
 
-    
-    
+        private void ValidarUserNameExistente(string username)
+        {
+            if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
+            {
+                ModelState.AddModelError(nameof(username), "Nombre de usuario no disponible");
+            }
+        }
+
+        private void ComprobarFechaDeNacimiento(Cliente cliente)
+        {
+            if (cliente.FechaDeNacimiento.Year < 1920 || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
+            {
+                ModelState.AddModelError(nameof(cliente.FechaDeNacimiento), "Año de nacimiento inválido");
+            }
+        }
+
+        private void ValidarEmailExistente(Cliente cliente)
+        {
+            if (_context.Clientes.Any(e => Comparar(e.Email, cliente.Email) && e.Id != cliente.Id))
+            {
+                ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
+            }
+        }
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
+
+
     }
 }
