@@ -56,7 +56,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                         Nombre = "Premium",
                         PrecioEntrada = 550
                     },
-                    CapacidadTotal = 50
+                    CapacidadTotal = 10
                 };
 
                 var sala2 = new Sala()

@@ -254,6 +254,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Where(x => x.Pelicula == pelicula && x.Fecha >= DateTime.Now)
                 .ToList();
 
+          
+
             return View(funciones);
         }
         public IActionResult FiltrarPorDia(DateTime dia)

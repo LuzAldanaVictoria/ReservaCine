@@ -30,26 +30,38 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sala.Nombre)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sala.Nombre)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
-                </td>
-                <td>
-                    @item.Fecha.ToString("dd/MM/yyyy")
-                </td>
-                <td>
-                    @item.Horario.ToString("HH:mm")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
+            </td>
+            <td>
+                @item.Fecha.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @item.Horario.ToString("HH:mm")
+            </td>
+            
+                @if (item.CantButacasDisponibles != 0)
+                {
+                    @Html.DisplayFor(modelItem => item.CantButacasDisponibles);
                 <td>
                     <a asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
                 </td>
+            }
+
+                @if (item.CantButacasDisponibles == 0)
+                {
+                    <p>Agotadas</p>
+                    <td>
+                        <a class= "disabled" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                    </td>
+                }
+                
+
             </tr>
         }
     </tbody>
