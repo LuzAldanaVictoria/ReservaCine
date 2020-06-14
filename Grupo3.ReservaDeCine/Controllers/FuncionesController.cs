@@ -245,13 +245,13 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
-        public IActionResult FiltrarPorPelicula(Pelicula pelicula)
+        public IActionResult FiltrarPorPelicula(int? PeliculaId)
         {
             var funciones = _context
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .Where(x => x.Pelicula == pelicula && x.Fecha >= DateTime.Now)
+                .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
                 .ToList();
 
           
@@ -276,15 +276,15 @@ namespace Grupo3.ReservaDeCine.Controllers
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 
             List<Funcion> funcionesPelicula = _context
-                                                .Funciones
-                                                .Include(x => x.Pelicula)
-                                                .Where(x => x.PeliculaId == PeliculaId)
-                                                .ToList();
+                                               .Funciones
+                                               .Include(x => x.Pelicula)
+                                               .Where(x => x.PeliculaId == PeliculaId)
+                                               .ToList();
 
            List<Funcion> funcionesFecha = _context
-                                            .Funciones
-                                            .Where(x => x.Fecha == fecha)
-                                            .ToList();
+                                           .Funciones
+                                           .Where(x => x.Fecha == fecha)
+                                           .ToList();
 
             return View();
 
