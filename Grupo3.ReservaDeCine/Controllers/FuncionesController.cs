@@ -260,7 +260,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
         public IActionResult FiltrarPorDia(DateTime dia)
         {
-
+           
             var funciones = _context
                 .Funciones
                 .Include(x => x.Pelicula)
