@@ -245,7 +245,22 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
-        public IActionResult FiltrarPorPelicula(int? PeliculaId)
+        public IActionResult FiltrarPorPelicula(Pelicula pelicula)
+        {
+            var funciones = _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
+                .Where(x => x.Pelicula == pelicula && x.Fecha >= DateTime.Now)
+                .ToList();
+
+          
+
+            return View(funciones);
+        }
+
+
+        public IActionResult FiltrarPorPeliculaId(int? PeliculaId)
         {
             var funciones = _context
                 .Funciones
@@ -254,10 +269,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
                 .ToList();
 
-          
 
             return View(funciones);
         }
+
+
         public IActionResult FiltrarPorDia(DateTime dia)
         {
            
@@ -271,7 +287,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funciones);
         }
 
-        public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
+
+         public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
+        //public IActionResult SeleccionarFiltro()
         {
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 
@@ -281,10 +299,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                                                .Where(x => x.PeliculaId == PeliculaId)
                                                .ToList();
 
-           List<Funcion> funcionesFecha = _context
-                                           .Funciones
-                                           .Where(x => x.Fecha == fecha)
-                                           .ToList();
+            List<Funcion> funcionesFecha = _context
+                                            .Funciones
+                                            .Where(x => x.Fecha == fecha)
+                                            .ToList();
 
             return View();
 

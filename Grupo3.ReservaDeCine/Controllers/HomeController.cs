@@ -155,7 +155,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                                         EdadMinima = 16
                                     },
                                 },
-                                Fecha = new DateTime(2020,07,17),
+                                Fecha = new DateTime(2020,04,17),
                                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                                 CantButacasDisponibles = sala3.CapacidadTotal
 
