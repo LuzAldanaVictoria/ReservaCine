@@ -165,9 +165,49 @@ namespace Grupo3.ReservaDeCine.Controllers
                             FechaDeAlta = DateTime.Now
                         },
 
+
+                         new Reserva()
+                        {
+                            Funcion = new Funcion()
+                            {
+                                Sala = sala3,
+                                Pelicula = new Pelicula()
+                                {
+                                    Nombre = "It",
+                                    Genero = new Genero
+                                    {
+                                        Descripcion = "Terror"
+                                    },
+                                    Sinopsis = "En el pueblo de Derry, Maine, un joven de 14 años llamado Bill Denbrough (Jaeden Martell) ayuda a su hermano pequeño, George Denbrough (Jackson Robert Scott) a hacer un barco de papel." +
+                                    " Bill le pide que baje al sótano por parafina para impermeabilizarlo, George baja y consigue la parafina para el barco aunque nota allí una presencia que lo asusta. Bill, con su hermano abrazándole," +
+                                    " unta el barco con la parafina y se lo entrega a Georgie para que vaya a jugar en la lluvia excusándose de no poder acompañarlo ya que está muy enfermo.",
+
+                                    Clasificacion = new Clasificacion
+                                    {
+                                        Descripcion = "+16",
+                                        EdadMinima = 16
+                                    },
+                                },
+                                Fecha = new DateTime(2020,08,17),
+                                Horario = new DateTime().AddHours(20).AddMinutes(20),
+                                CantButacasDisponibles = sala3.CapacidadTotal
+
+                            },
+                            CantButacas = 4,
+                            CostoTotal = 1800,
+                            FechaDeAlta = DateTime.Now
+                        },
+
+
                     },
                     FechaDeAlta = DateTime.Now
                 };
+
+
+
+
+
+
 
 
                 var Cliente2 = new Cliente()
@@ -205,6 +245,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Email = "jcgonzalez@gmail.com",
                     Legajo = 0001 
                 };
+
+
+
 
 
                 _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });

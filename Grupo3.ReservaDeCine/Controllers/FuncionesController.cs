@@ -66,7 +66,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
-           
+            
             return View();
         }
 
