@@ -31,9 +31,14 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(await _context.Clientes.ToListAsync());
         }
 
+       
+       
+        
         // GET: clientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
+
             if (id == null)
             {
                 return NotFound();
@@ -210,15 +215,22 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
-        public async Task<IActionResult> MiPerfilAsync(int ? id)
+        public IActionResult MiPerfil()
         {
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+            var cliente = _context.Clientes.Find(id);
 
-            var cliente = await _context.Clientes
-               .Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
-               .FirstOrDefaultAsync(m => m.Id == id);
-      
+               //.Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
+               //.FirstOrDefaultAsync(m => m.Id == id);
 
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
             return View(cliente);
         }
+
+       
     }
 }
