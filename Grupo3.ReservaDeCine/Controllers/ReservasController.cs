@@ -149,39 +149,39 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
-        // POST: Reservas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //POST: Reservas/Create
+        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion", "CantButacas")] Reserva reserva)
-        //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion", "CantButacas")] Reserva reserva)
+        {
 
-        //    var funcion = await _context.Funciones
-        //    .Include(x => x.Sala).ThenInclude(x => x.Tipo)
-        //    .Where(x => x.Id == reserva.FuncionId)
-        //    .FirstOrDefaultAsync();
+            var funcion = await _context.Funciones
+            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
+            .Where(x => x.Id == reserva.FuncionId)
+            .FirstOrDefaultAsync();
 
-        //    if (funcion == null)
-        //        ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
+            if (funcion == null)
+                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
 
-        //    ValidarCantButacas(reserva, funcion);
+            ValidarCantButacas(reserva, funcion);
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        reserva.FechaDeAlta = DateTime.Now;
-        //        funcion.CantButacasDisponibles -= reserva.CantButacas;
-        //        reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-        //        reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        //        _context.Add(reserva);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
+            if (ModelState.IsValid)
+            {
+                reserva.FechaDeAlta = DateTime.Now;
+                funcion.CantButacasDisponibles -= reserva.CantButacas;
+                reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
+                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                _context.Add(reserva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
 
-        //    ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "FechaHora");
+            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "FechaHora");
 
-        //    return View(reserva);
-        //}
+            return View(reserva);
+        }
 
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -308,8 +308,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-
        
+
 
     }
 }

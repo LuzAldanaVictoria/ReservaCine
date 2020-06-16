@@ -289,7 +289,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
          public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
-        //public IActionResult SeleccionarFiltro()
+        
         {
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 

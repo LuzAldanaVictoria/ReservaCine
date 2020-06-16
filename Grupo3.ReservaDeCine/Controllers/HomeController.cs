@@ -206,10 +206,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-
-
-
-
                 var Cliente2 = new Cliente()
                 {
                     Role = Role.Cliente,
