@@ -10,6 +10,8 @@ using Grupo3.ReservaDeCine.Models;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
 using System.Security.Claims;
+using Grupo3.ReservaDeCine.Extensions;
+using System.Text.RegularExpressions;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -65,81 +67,124 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-
-        // GET: clientes/Create
+        // GET: Usuarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: clientes/Create
+        // POST: Usuarios/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento")] Cliente cliente)
+        public async Task<IActionResult> Create(string password, Cliente cliente)
         {
-
             ComprobarFechaDeNacimiento(cliente);
-            ValidarEmailExistente(cliente);
+            ValidarUserNameExistente(cliente.Username);
+            ValidarPassword(password);
 
             if (ModelState.IsValid)
             {
-                cliente.FechaDeAlta = DateTime.Now;
+                cliente.Password = password.Encriptar();
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("Index");
             }
+
             return View(cliente);
         }
 
+            // GET: clientes/Edit/5
+            [Authorize(Roles = nameof(Role.Cliente))]
+            public async Task<IActionResult> Edit(int? id)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-        // GET: clientes/Edit/5
-        [Authorize(Roles = nameof(Role.Cliente))]
-        public async Task<IActionResult> Edit(int? id)
+                var cliente = await _context.Clientes.FindAsync(id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
+                return View(cliente);
+            }
+
+            // POST: clientes/Edit/5
+            // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+            // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            [Authorize(Roles = nameof(Role.Administrador))]
+            public IActionResult Edit(int id, Cliente cliente, string password)
+            {
+                return EditarCliente(id, cliente, password);
+            }
+
+
+            [Authorize(Roles = nameof(Role.Cliente))]
+            [HttpGet]
+            public IActionResult EditMe()
+            {
+                int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+                var cliente = _context.Clientes.Find(id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
+                return View(cliente);
+            }
+
+
+            [Authorize(Roles = nameof(Role.Cliente))]
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public IActionResult EditMe(Cliente cliente, string password)
+            {
+                int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+                return EditarCliente(id, cliente, password);
+            }
+
+
+        private IActionResult EditarCliente(int id, Cliente cliente, string password)
         {
-            if (id == null)
+            if (cliente.Id != id)
             {
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-            return View(cliente);
-        }
-
-        // POST: clientes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = nameof(Role.Cliente))]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,FechaDeNacimiento,FechaDeAlta")] Cliente cliente)
-        {
-            if (id != cliente.Id)
-            {
-                return NotFound();
-            }
-         
             ComprobarFechaDeNacimiento(cliente);
             ValidarEmailExistente(cliente);
-       
+
+            ModelState.Remove(nameof(Cliente.Username));
+
+            if (!string.IsNullOrWhiteSpace(password))
+            {
+                ValidarPassword(password);
+            }
 
             if (ModelState.IsValid)
             {
-           
                 try
                 {
-                    var clienteDb = _context.Clientes.Find(id);
-                    cliente.FechaDeAlta = clienteDb.FechaDeAlta;
+                    Cliente clienteDb = _context.Clientes.Find(cliente.Id);
 
+                    clienteDb.Email = cliente.Email;
+                    clienteDb.FechaDeNacimiento = cliente.FechaDeNacimiento;
+                    clienteDb.Nombre = cliente.Nombre;
+                    clienteDb.Apellido = cliente.Apellido;
+
+                    if (!string.IsNullOrWhiteSpace(password))
+                    {
+                        clienteDb.Password = password.Encriptar();
+                    }
+             
                     _context.Update(clienteDb);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
-
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ClienteExists(cliente.Id))
@@ -151,12 +196,19 @@ namespace Grupo3.ReservaDeCine.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if (User.IsInRole(nameof(Role.Administrador)))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+
             return View(cliente);
         }
-
-        // GET: clientes/Delete/5
+   
+    [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,6 +226,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
+  
+
         // POST: clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -190,7 +244,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return _context.Clientes.Any(e => e.Id == id);
         }
 
-        private void ComprobarFechaDeNacimiento (Cliente cliente)
+
+      
+        private void ComprobarFechaDeNacimiento(Cliente cliente)
         {
             if (cliente.FechaDeNacimiento.Year < 1920 || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
             {
@@ -198,23 +254,53 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
-        private void ValidarEmailExistente (Cliente cliente)
+        private void ValidarUserNameExistente(string username)
         {
-            if (_context.Clientes.Any(e => Comparar(e.Email, cliente.Email) && e.Id != cliente.Id))
+            if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
             {
-                ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
+                ModelState.AddModelError(nameof(username), "Nombre de usuario no disponible");
             }
         }
 
-        private bool Comparar(string s1, string s2)
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
 
 
+        public void ValidarPassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
+            }
 
-      
-       
+            if (password.Length < 8)
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres.");
+            }
+
+            bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
+            bool contieneUnaMinuscula = new Regex("[a-z]").Match(password).Success;
+            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;
+
+            if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula.");
+            }
+        }
+
+
+        private void ValidarEmailExistente(Cliente cliente)
+        {
+            if (_context.Clientes.Any(e => Comparar(e.Email, cliente.Email) && e.Id != cliente.Id))
+            {
+                ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
+            }
+        }
     }
+
 }

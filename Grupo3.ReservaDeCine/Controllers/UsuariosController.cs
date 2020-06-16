@@ -99,7 +99,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        private void ValidarPassword(string password)
+        public void ValidarPassword (string password)
         {
             if (string.IsNullOrWhiteSpace(password))
             {

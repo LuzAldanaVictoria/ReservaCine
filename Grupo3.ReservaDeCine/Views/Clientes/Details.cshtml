@@ -66,6 +66,14 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Index">Volver a la lista</a>
+    @if (User.IsInRole(nameof(Role.Administrador)))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+        <a asp-action="Index"> | Volver a la lista</a>
+    }
+    else
+    {
+        <a asp-action="EditMe" asp-route-id="@Model.Id">Editar</a>
+    }
+
 </div>
