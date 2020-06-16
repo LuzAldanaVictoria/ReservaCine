@@ -237,6 +237,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
+
+
         private void ValidarHorario(Funcion funcion)
         {
             if (funcion.Horario.Hour > 1 && funcion.Horario.Hour < 9)
@@ -308,7 +310,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         }
 
-
+ 
 
 
 

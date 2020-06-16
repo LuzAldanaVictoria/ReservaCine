@@ -36,7 +36,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+       
             }
 
             // Esta es la consulta de la base de datos que hacemos a través de Entity Framework.
