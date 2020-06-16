@@ -20,11 +20,10 @@ namespace Grupo3.ReservaDeCine.Models
         public string Nombre { get; set; }
 
 
-        [ForeignKey("Genero")]
-        [Required(ErrorMessage = "El campo Género es requerido")]
+        [Required(ErrorMessage = "El campo Géneros es requerido")]
         [Display(Name = "Género")]
-        public int GeneroId { get; set; }
-        public Genero Genero { get; set; }
+        //public int GeneroId { get; set; }
+        public List<PeliculaGenero> Generos { get; set; }
 
 
         [MaxLength(1000, ErrorMessage ="La longitud máxima de la sinopsis es de 1000 caracteres")]

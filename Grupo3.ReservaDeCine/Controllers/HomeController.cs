@@ -92,114 +92,37 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CapacidadTotal = 80
                 };
 
+                var genero1 = new Genero()
+                {
+                    Descripcion = "Infantil"
+                };
+
+                var genero2 = new Genero()
+                {
+                    Descripcion = "Fantasía"
+                };
+
+                var genero3 = new Genero()
+                {
+                    Descripcion = "Ciencia Ficción"
+                };
+
+                var genero4 = new Genero()
+                {
+                    Descripcion = "Terror"
+                };
+
+
                 var Cliente1 = new Cliente()
                 {
                     Role = Role.Cliente,
-                    Username ="cliente1",
+                    Username = "cliente1",
                     Password = "1234".Encriptar(),
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
                     FechaDeNacimiento = new DateTime(1992, 06, 20),
-                    Reservas = new List<Reserva>()
-                    {
-                        new Reserva()
-                        {
-                            Funcion = new Funcion()
-                            {
-                                Sala = sala1,
-                                Pelicula = new Pelicula()
-                                {
-                                    Nombre = "La Bella y La Bestia",
-                                    Genero = new Genero
-                                    {
-                                        Descripcion = "Infantil"
-                                    },
-                                    Sinopsis = "Bella es una brillante y guapa joven que utiliza la lectura como válvula de escape de su rutinaria vida. Cuando su padre es apresado en un misterioso castillo, " +
-                                    "Bella acude en su búsqueda y se presta a ocupar su lugar. El castillo es propiedad de una atormentada Bestia que, como Bella comprobará con el tiempo, resulta ser un joven príncipe " +
-                                    "bajo los efectos de un hechizo. Sólo cuando conozca el amor, el príncipe podrá volver a su verdadero cuerpo.",
-                                    Clasificacion = new Clasificacion
-                                    {
-                                        Descripcion = "ATP",
-                                        EdadMinima = 0
-                                    },
-                                },
-                                Fecha = new DateTime(2020,07,15),
-                                Horario = new DateTime().AddHours(14).AddMinutes(00),
-                                CantButacasDisponibles = sala1.CapacidadTotal
-                            },
-                            CantButacas = 2,
-                            CostoTotal = 1100,
-                            FechaDeAlta = DateTime.Now
-
-                        },
-
-                         new Reserva()
-                        {
-                            Funcion = new Funcion()
-                            {
-                                Sala = sala2,
-                                Pelicula = new Pelicula()
-                                {
-                                    Nombre = "Matrix",
-                                    Genero = new Genero
-                                    {
-                                        Descripcion = "Ciencia ficción"
-                                    },
-                                    Sinopsis = "Neo es un joven pirata informático que lleva una doble vida: durante el día ejerce en una empresa de servicios informáticos, mientras que por la noche se dedica a piratear " +
-                                    "bases de datos y saltarse sistemas de alta seguridad. Su vida cambiará cuando una noche conozca a Trinity, una misteriosa joven que parece ser una leyenda en el mundo de los 'hackers' informáticos," +
-                                    " que lo llevará a Neo ante su líder: Morfeo. Así descubrirá una terrible realidad y el joven deberá decidir si unirse a la resistencia o vivir su vida como hasta ahora.",
-                                    Clasificacion = new Clasificacion
-                                    {
-                                        Descripcion = "+16",
-                                        EdadMinima = 16
-                                    },
-                                },
-                                Fecha = new DateTime(2020,04,17),
-                                Horario = new DateTime().AddHours(20).AddMinutes(20),
-                                CantButacasDisponibles = sala3.CapacidadTotal
-
-                            },
-                            CantButacas = 4,
-                            CostoTotal = 1800,
-                            FechaDeAlta = DateTime.Now
-                        },
-
-
-                         new Reserva()
-                        {
-                            Funcion = new Funcion()
-                            {
-                                Sala = sala3,
-                                Pelicula = new Pelicula()
-                                {
-                                    Nombre = "It",
-                                    Genero = new Genero
-                                    {
-                                        Descripcion = "Terror"
-                                    },
-                                    Sinopsis = "En el pueblo de Derry, Maine, un joven de 14 años llamado Bill Denbrough (Jaeden Martell) ayuda a su hermano pequeño, George Denbrough (Jackson Robert Scott) a hacer un barco de papel." +
-                                    " Bill le pide que baje al sótano por parafina para impermeabilizarlo, George baja y consigue la parafina para el barco aunque nota allí una presencia que lo asusta. Bill, con su hermano abrazándole," +
-                                    " unta el barco con la parafina y se lo entrega a Georgie para que vaya a jugar en la lluvia excusándose de no poder acompañarlo ya que está muy enfermo.",
-
-                                    Clasificacion = new Clasificacion
-                                    {
-                                        Descripcion = "+16",
-                                        EdadMinima = 16
-                                    },
-                                },
-                                Fecha = new DateTime(2020,08,17),
-                                Horario = new DateTime().AddHours(20).AddMinutes(20),
-                                CantButacasDisponibles = sala3.CapacidadTotal
-
-                            },
-                            CantButacas = 4,
-                            CostoTotal = 1800,
-                            FechaDeAlta = DateTime.Now
-                        },
-
-
-                    },
+                    Reservas = new List<Reserva>(),
                     FechaDeAlta = DateTime.Now
                 };
 
@@ -215,6 +138,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Apellido = "Pereyra",
                     Email = "cp2020@gmail.com",
                     FechaDeNacimiento = new DateTime(2000, 11, 04),
+                    Reservas = new List<Reserva>(),
                     FechaDeAlta = DateTime.Now
                 };
 
@@ -227,6 +151,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Apellido = "Rodriguez",
                     Email = "carla@gmail.com",
                     FechaDeNacimiento = new DateTime(1987, 01, 03),
+                    Reservas = new List<Reserva>(),
                     FechaDeAlta = DateTime.Now
                 };
 
@@ -243,9 +168,161 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
+                var pelicula1 = new Pelicula()
+                {
+                    Nombre = "La Bella y La Bestia",
+                    Generos = new List<PeliculaGenero>(),
+                    Sinopsis = "Bella es una brillante y guapa joven que utiliza la lectura como válvula de escape de su rutinaria vida. Cuando su padre es apresado en un misterioso castillo, " +
+                                    "Bella acude en su búsqueda y se presta a ocupar su lugar. El castillo es propiedad de una atormentada Bestia que, como Bella comprobará con el tiempo, resulta ser un joven príncipe " +
+                                    "bajo los efectos de un hechizo. Sólo cuando conozca el amor, el príncipe podrá volver a su verdadero cuerpo.",
+                    Clasificacion = new Clasificacion
+                    {
+                        Descripcion = "ATP",
+                        EdadMinima = 0
+                    },
+                };
+
+                var pelicula2 = new Pelicula()
+                {
+                    Nombre = "Matrix",
+                    Generos = new List<PeliculaGenero>(),
+                    Sinopsis = "Neo es un joven pirata informático que lleva una doble vida: durante el día ejerce en una empresa de servicios informáticos, mientras que por la noche se dedica a piratear " +
+                                    "bases de datos y saltarse sistemas de alta seguridad. Su vida cambiará cuando una noche conozca a Trinity, una misteriosa joven que parece ser una leyenda en el mundo de los 'hackers' informáticos," +
+                                    " que lo llevará a Neo ante su líder: Morfeo. Así descubrirá una terrible realidad y el joven deberá decidir si unirse a la resistencia o vivir su vida como hasta ahora.",
+                    Clasificacion = new Clasificacion
+                    {
+                        Descripcion = "+16",
+                        EdadMinima = 16
+                    },
+                };
+
+                var pelicula3 = new Pelicula()
+                {
+                    Nombre = "It",
+                    Generos = new List<PeliculaGenero>(),
+                    Sinopsis = "En el pueblo de Derry, Maine, un joven de 14 años llamado Bill Denbrough (Jaeden Martell) ayuda a su hermano pequeño, George Denbrough (Jackson Robert Scott) a hacer un barco de papel." +
+                                    " Bill le pide que baje al sótano por parafina para impermeabilizarlo, George baja y consigue la parafina para el barco aunque nota allí una presencia que lo asusta. Bill, con su hermano abrazándole," +
+                                    " unta el barco con la parafina y se lo entrega a Georgie para que vaya a jugar en la lluvia excusándose de no poder acompañarlo ya que está muy enfermo.",
+
+                    Clasificacion = new Clasificacion
+                    {
+                        Descripcion = "+14",
+                        EdadMinima = 14
+                    },
+                };
 
 
+                var funcion1 = new Funcion()
+                {
+                    Sala = sala1,
+                    Pelicula = pelicula1,
+                    Fecha = new DateTime(2020, 07, 15),
+                    Horario = new DateTime().AddHours(14).AddMinutes(00),
+                    CantButacasDisponibles = sala1.CapacidadTotal
+                };
 
+                var funcion2 = new Funcion()
+                {
+                    Sala = sala2,
+                    Pelicula = pelicula2,
+                    Fecha = new DateTime(2020, 04, 17),
+                    Horario = new DateTime().AddHours(20).AddMinutes(20),
+                    CantButacasDisponibles = sala2.CapacidadTotal
+                };
+
+
+                var funcion3 = new Funcion()
+                {
+                    Sala = sala3,
+                    Pelicula = pelicula3,
+                    Fecha = new DateTime(2020, 08, 17),
+                    Horario = new DateTime().AddHours(20).AddMinutes(20),
+                    CantButacasDisponibles = sala3.CapacidadTotal
+                };
+
+
+                var funcion4 = new Funcion()
+                {
+                    Sala = sala4,
+                    Pelicula = pelicula1,
+                    Fecha = new DateTime(2020, 08, 17),
+                    Horario = new DateTime().AddHours(21).AddMinutes(40),
+                    CantButacasDisponibles = sala4.CapacidadTotal
+                };
+
+
+                var funcion5 = new Funcion()
+                {
+                    Sala = sala1,
+                    Pelicula = pelicula3,
+                    Fecha = new DateTime(2020, 07, 15),
+                    Horario = new DateTime().AddHours(23).AddMinutes(30),
+                    CantButacasDisponibles = sala1.CapacidadTotal
+                };
+
+
+                var funcion6 = new Funcion()
+                {
+                    Sala = sala2,
+                    Pelicula = pelicula2,
+                    Fecha = new DateTime(2020, 07, 15),
+                    Horario = new DateTime().AddHours(18).AddMinutes(30),
+                    CantButacasDisponibles = sala2.CapacidadTotal
+                };
+
+                var reserva1 = new Reserva()
+                {
+                    Cliente = Cliente1,
+                    Funcion = funcion1,
+                    CantButacas = 2,
+                    CostoTotal = 1100,
+                    FechaDeAlta = DateTime.Now
+                };
+
+
+                var reserva2 = new Reserva()
+                {
+                    Cliente = Cliente1,
+                    Funcion = funcion2,
+                    CantButacas = 4,
+                    CostoTotal = 1800,
+                    FechaDeAlta = DateTime.Now
+                };
+
+
+                var reserva3 = new Reserva()
+                {
+                    Cliente = Cliente1,
+                    Funcion = funcion3,
+                    CantButacas = 4,
+                    CostoTotal = 1800,
+                    FechaDeAlta = DateTime.Now
+                };
+
+
+                var reserva4 = new Reserva()
+                {
+                    Cliente = Cliente2,
+                    Funcion = funcion3,
+                    CantButacas = 4,
+                    CostoTotal = 1800,
+                    FechaDeAlta = DateTime.Now
+                };
+
+
+                var reserva5 = new Reserva()
+                {
+                    Cliente = Cliente3,
+                    Funcion = funcion1,
+                    CantButacas = 2,
+                    CostoTotal = 1100,
+                    FechaDeAlta = DateTime.Now
+                };
+
+
+                _context.AddRange(new[] { genero1, genero2, genero3, genero4 });
+                _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6 });
+                _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
                 _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
                 _context.Add(administrador1);
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });

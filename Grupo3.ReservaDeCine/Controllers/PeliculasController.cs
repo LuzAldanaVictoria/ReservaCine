@@ -23,14 +23,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-  
-      
         
         public async Task<IActionResult> Index()
         {
             var peliculas = await _context
                .Peliculas
-               .Include(x => x.Genero)
+               .Include(x => x.Generos)
                .Include(x => x.Clasificacion)
                .ToListAsync();
 
@@ -48,7 +46,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var pelicula = await _context.Peliculas
-                .Include(x => x.Genero)
+                .Include(x => x.Generos)
                 .Include(x => x.Clasificacion)
                 .Include(x => x.Funciones)
                 .ThenInclude (x => x.Sala)
@@ -66,7 +64,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: Peliculas/Create
         public IActionResult Create()
         {
-            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
+            ViewData["GenerosId"] = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion));
             ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
             return View();
         }
@@ -76,21 +74,30 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Genero,Sinopsis")] Pelicula pelicula)
+        public async Task<IActionResult> Create(Pelicula pelicula, List<int> generoIds)
         {
 
             //valida si ya existe el nombre
             ValidarNombreExistente(pelicula);
+            ValidarGeneros(generoIds);
 
             if (ModelState.IsValid)
             {
+
+                pelicula.Generos = new List<PeliculaGenero>();
+
+                foreach (var generoId in generoIds)
+                {
+                    pelicula.Generos.Add(new PeliculaGenero { Pelicula = pelicula, GeneroId = generoId });
+                }
+
                 _context.Add(pelicula);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
-            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+
+            ViewData["GenerosId"] = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion), generoIds);
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion", pelicula.ClasificacionId);
             return View(pelicula);
         }
 
@@ -103,23 +110,30 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.FindAsync(id);
+            var pelicula = _context.Peliculas
+                             .Include(x => x.Generos)
+                             .FirstOrDefault(x => x.Id == id);
+
             if (pelicula == null)
             {
                 return NotFound();
             }
-            
-            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
+
+            ViewData["GenerosId"] = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion), pelicula.Generos.Select(x => x.GeneroId).ToList());
             ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+           
             return View(pelicula);
         }
 
-        // POST: Peliculas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        
+
+
+// POST: Peliculas/Edit/5
+// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Sinopsis, ClasificacionId, Clasificacion")] Pelicula pelicula)
+        public async Task<IActionResult> Edit(int id, Pelicula pelicula, List<int> generoIds)
         {
             if (id != pelicula.Id)
             {
@@ -128,12 +142,34 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             //valida si ya existe el nombre
             ValidarNombreExistente(pelicula);
+            ValidarGeneros(generoIds);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(pelicula);
+                    var peliculaDb = _context
+                        .Peliculas
+                        .Include(x => x.Generos)
+                        .FirstOrDefault(x => x.Id == id);
+
+                    peliculaDb.Nombre = pelicula.Nombre;
+                    peliculaDb.ClasificacionId = pelicula.ClasificacionId;
+                    peliculaDb.Sinopsis = pelicula.Sinopsis;
+                   
+                    
+                    foreach (var peliculaGenero in peliculaDb.Generos)
+                    {
+                        _context.Remove(peliculaGenero);
+                    }
+
+                    foreach (var generoId in generoIds)
+                    {
+                        peliculaDb.Generos.Add(new PeliculaGenero { PeliculaId = peliculaDb.Id, GeneroId = generoId });
+                    }
+
+
+                    _context.Update(peliculaDb);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -150,8 +186,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.SelectGeneros = new SelectList(_context.Generos, "Id", "Descripcion");
-            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
+            ViewData["GenerosId"] = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion), generoIds);
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion", pelicula.ClasificacionId);
+
             return View(pelicula);
         }
 
@@ -166,7 +203,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var pelicula = await _context
                 .Peliculas
-                .Include(x => x.Genero)
+                .Include(x => x.Generos)
                 .Include(x => x.Clasificacion)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -195,7 +232,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             var cartelera = await _context
                .Peliculas
-               .Include(x => x.Genero)
+               .Include(x => x.Generos)
                .Include(x => x.Clasificacion)
                .Include(x => x.Funciones)
                //.Where(x => x.Funciones.IndexOf(x.Funciones.) > DateTime.Now)
@@ -224,6 +261,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
+        private void ValidarGeneros(List<int> generoIds)
+        {
+            if (generoIds.Count == 0)
+            {
+                ModelState.AddModelError(nameof(Pelicula.Generos), "La pelicula debe tener al menos un género.");
+            }
         }
     }
 }

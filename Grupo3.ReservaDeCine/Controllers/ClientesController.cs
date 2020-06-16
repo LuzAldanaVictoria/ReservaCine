@@ -97,7 +97,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
             // GET: clientes/Edit/5
-            [Authorize(Roles = nameof(Role.Cliente))]
+            [Authorize(Roles = nameof(Role.Administrador))]
             public async Task<IActionResult> Edit(int? id)
             {
                 if (id == null)

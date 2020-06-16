@@ -12,6 +12,7 @@ namespace Grupo3.ReservaDeCine.Database
     {
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
+        public DbSet<PeliculaGenero> PeliculaGeneros { get; set; }
         public DbSet<Sala> Salas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<Pelicula> Peliculas { get; set; }

@@ -21,7 +21,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Display(Name = "Películas")]
-        public List<Pelicula> Peliculas { get; set; }
+        public List<PeliculaGenero> Peliculas { get; set; }
 
 
     }
