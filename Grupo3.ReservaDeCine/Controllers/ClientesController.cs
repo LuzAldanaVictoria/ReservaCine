@@ -214,24 +214,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-        [HttpGet]
-        [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult MiPerfil()
-        {
-            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
-            var cliente = _context.Clientes.Find(id);
-
-               //.Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
-               //.FirstOrDefaultAsync(m => m.Id == id);
-
-
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-            return View(cliente);
-        }
-
+      
        
     }
 }
