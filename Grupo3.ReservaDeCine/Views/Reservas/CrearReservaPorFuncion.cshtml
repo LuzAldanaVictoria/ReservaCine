@@ -27,9 +27,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>
-                <input asp-for="CantButacas" type="number" class="form-control" id="but">
+                <input asp-for="CantButacas" type="number" class="form-control" id="butacas">
                 <span asp-validation-for="CantButacas" class="text-danger"></span>
             </div>
+
+         
 
             <div class="form-group">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Reservar</button>
@@ -45,8 +47,7 @@
                             <div class="modal-body">
                                 <span>Película: @Model.Funcion.Pelicula.Nombre</span><br>
                                 <span>Función: @Model.Funcion.FechaHora</span><br>
-                                <span>Precio de la sala:@ViewBag.CostoEntrada</span><br>
-                                
+                                <span> Costo total de la reserva: $ <script>calcularTotal().value</script></span>
                                 @*Falta calcular Entrada*Cant asientos*@
                                 @*<span>Precio de la reserva:@(ViewBag.CostoEntrada * "CantButacas")</span><br>*@
 
@@ -67,9 +68,23 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Volver al inicio</a>
-</div>
+
+
+<script>
+        function calcularTotal()
+        {
+            var butacas = parseInt(document.getElemntById('butacas').value);
+            var total = parseInt(@ViewBag.CostoEntrada) * butacas;
+
+            return total;
+        }
+             
+</script>
+    
+
+    <div>
+        <a asp-action="Index">Volver al inicio</a>
+    </div>
 
 
 

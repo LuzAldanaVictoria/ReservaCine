@@ -40,8 +40,7 @@
                                 <li class="nav-item">
                                     <a class="btn btn-primary" asp-area="" asp-controller="Cuentas" asp-action="Ingresar">Ingresar</a>
                                 </li>
-                                <li> </li>
-                                <li class="nav-item">
+                                <li class="nav-item ml-1">
                                     <a class="btn btn-success" asp-area="" asp-controller="Cuentas" asp-action="Registrar">Registrarse</a>
                                 </li>
                             </ul>
@@ -96,7 +95,7 @@
 
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link font-weight-bolder" asp-controller="Clientes" asp-action="Details">@User.Identity.Name</a>
+                                    <a class="nav-link font-weight-bolder" asp-controller="Clientes" asp-action="MiPerfil">@User.Identity.Name</a>
                                 </li>
                                 <li class="nav-item">
                                     <form asp-action="Salir" asp-controller="Cuentas" method="post">
@@ -145,6 +144,7 @@
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/notify/notify.js"></script>
+
 
 
     @RenderSection("Scripts", required: false)

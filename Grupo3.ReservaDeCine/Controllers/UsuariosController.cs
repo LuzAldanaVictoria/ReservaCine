@@ -10,6 +10,7 @@ using Grupo3.ReservaDeCine.Models;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
 using Grupo3.ReservaDeCine.Extensions;
+using System.Text.RegularExpressions;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -64,6 +65,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
 
             ValidarUserNameExistente(usuario.Username);
+            ValidarPassword(password);
 
             if (ModelState.IsValid)
             {
@@ -96,6 +98,28 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
 
+
+        private void ValidarPassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
+            }
+
+            if (password.Length < 8)
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres.");
+            }
+
+            bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
+            bool contieneUnaMinuscula = new Regex("[a-z]").Match(password).Success;
+            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;
+
+            if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula.");
+            }
+        }
     }
 
     
