@@ -320,7 +320,14 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
+                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, GeneroId = genero1.Id });
+                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, GeneroId = genero2.Id });
+                pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, GeneroId = genero3.Id });
+                pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, GeneroId = genero4.Id });
+
+
                 _context.AddRange(new[] { genero1, genero2, genero3, genero4 });
+                _context.AddRange(new[] { pelicula1, pelicula2, pelicula3 });
                 _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6 });
                 _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
                 _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });

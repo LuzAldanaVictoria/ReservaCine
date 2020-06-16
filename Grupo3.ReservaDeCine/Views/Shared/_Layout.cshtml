@@ -27,7 +27,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                    <div class="navbar-nav flex-grow-1">
 
                         @if (!User.Identity.IsAuthenticated)
                         {
@@ -47,7 +47,6 @@
                         }
                         else
                         {
-
                             @if (User.IsInRole(nameof(Role.Cliente)))
                             {
                                 <ul class="navbar-nav flex-grow-1">
@@ -61,7 +60,6 @@
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Reservas" asp-action="MisReservas">Mis Reservas</a>
                                     </li>
                                 </ul>
-
                             }
                             else
                             {
@@ -105,9 +103,8 @@
                             </ul>
                         }
 
-
-                    </ul>
-</div>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>

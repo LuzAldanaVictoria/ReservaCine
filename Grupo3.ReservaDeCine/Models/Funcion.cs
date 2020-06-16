@@ -20,7 +20,7 @@ namespace Grupo3.ReservaDeCine.Models
         public Sala Sala { get; set; }
 
 
-        [ForeignKey("Pelicula")]
+        [ForeignKey("Película")]
         [Required(ErrorMessage = "El campo Película es requerido")]
         [Display(Name = "Película")]
         public int PeliculaId { get; set; }

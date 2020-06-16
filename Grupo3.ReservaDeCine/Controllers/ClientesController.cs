@@ -39,14 +39,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         // GET: clientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-
-
             if (id == null)
             {
                 id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
        
             }
-
             // Esta es la consulta de la base de datos que hacemos a través de Entity Framework.
             // Toda la información que obtengamos de la base será la información que podamos acceder luego desde la variable cliente.
             // Las propiedades de navegación nos servirán para poder "Navegar" desde una propiedad a otra, en este caso desde cliente a sus "Reservas".

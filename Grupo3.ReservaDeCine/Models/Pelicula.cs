@@ -20,9 +20,7 @@ namespace Grupo3.ReservaDeCine.Models
         public string Nombre { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Géneros es requerido")]
-        [Display(Name = "Género")]
-        //public int GeneroId { get; set; }
+        [Display(Name = "Géneros")]
         public List<PeliculaGenero> Generos { get; set; }
 
 

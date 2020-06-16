@@ -18,33 +18,33 @@
                 @Html.DisplayNameFor(model => model.Funcion.Pelicula)
             </th>
             <th>
+                Función
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CantButacas)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CostoTotal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeAlta)
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Funcion.Pelicula.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CantButacas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CostoTotal)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaDeAlta)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funcion.Pelicula.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funcion.FechaHora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantButacas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostoTotal)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

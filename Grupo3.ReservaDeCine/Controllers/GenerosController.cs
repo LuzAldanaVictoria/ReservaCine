@@ -30,16 +30,19 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Generos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
+            var genero = _context
+                .Generos
                 .Include(x => x.Peliculas)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .ThenInclude(x => x.Pelicula)
+                .FirstOrDefault(m => m.Id == id);
+
 
             if (genero == null)
             {

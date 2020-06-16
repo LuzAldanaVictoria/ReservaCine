@@ -253,6 +253,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
+                .ThenInclude(x => x.Tipo)
                 .Where(x => x.Pelicula == pelicula && x.Fecha >= DateTime.Now)
                 .ToList();
 
@@ -268,6 +269,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
+                .ThenInclude(x => x.Tipo)
                 .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
                 .ToList();
 
