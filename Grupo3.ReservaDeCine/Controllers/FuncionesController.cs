@@ -285,6 +285,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
+                .ThenInclude(x => x.Tipo)
                 .Where(x => x.Fecha.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
                 .ToList();
 
