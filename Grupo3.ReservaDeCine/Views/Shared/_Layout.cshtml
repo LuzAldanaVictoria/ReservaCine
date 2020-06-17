@@ -91,16 +91,24 @@
                                 </ul>
                             }
 
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link font-weight-bolder" asp-controller="Clientes" asp-action="Details">@User.Identity.Name</a>
-                                </li>
-                                <li class="nav-item">
-                                    <form asp-action="Salir" asp-controller="Cuentas" method="post">
-                                        <button type="submit" class="btn btn-danger">Salir</button>
-                                    </form>
-                                </li>
-                            </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <li>
+                            <div class="dropdown">
+                            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @User.Identity.Name
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-controller="Clientes" asp-action="Details">Mis Datos</a>
+                                <a class="dropdown-item" asp-controller="Clientes" asp-action="EditMe">Editar Perfil</a>
+                            </div>
+                            </div>
+                        </li>
+                        <li class="nav-item ml-1">
+                            <form asp-action="Salir" asp-controller="Cuentas" method="post">
+                                <button type="submit" class="btn btn-danger">Salir</button>
+                            </form>
+                        </li>
+                    </ul>
                         }
 
                     </div>
