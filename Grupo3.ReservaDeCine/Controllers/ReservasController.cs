@@ -97,7 +97,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .FirstOrDefault(x => x.Id == id);
 
 
-
             ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
             ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
             ViewBag.CostoEntrada = funcion.Sala.Tipo.PrecioEntrada;  // Falta el calculo de las butacas
@@ -116,12 +115,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
         // Aca el server efectiviza la reserva
-        public IActionResult CrearReservaPorFuncion(Reserva reserva) 
+        public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva) 
         {
-            if (ValidarEdad(reserva))
+            if (!ValidarEdad(reserva))
             {
                 //preguntar como hacer para que aparezca en otro lado
-                ModelState.AddModelError(nameof(Reserva.CantButacas), "No cuenta con edad suficiente para ver esta Película.");
+               ModelState.AddModelError(nameof(Reserva.CantButacas), "No cuenta con edad suficiente para ver esta Película.");
             }
 
             var funcion = _context
