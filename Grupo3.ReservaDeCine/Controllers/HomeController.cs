@@ -168,6 +168,19 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
+                var Cliente4 = new Cliente()
+                {
+                    Role = Role.Cliente,
+                    Username = "cliente4",
+                    Password = "1234".Encriptar(),
+                    Nombre = "Laura",
+                    Apellido = "Gomez",
+                    Email = "laurita@gmail.com",
+                    FechaDeNacimiento = new DateTime(2005, 05, 09),
+                    Reservas = new List<Reserva>(),
+                    FechaDeAlta = DateTime.Now
+                };
+
                 var pelicula1 = new Pelicula()
                 {
                     Nombre = "La Bella y La Bestia",
@@ -330,7 +343,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.AddRange(new[] { pelicula1, pelicula2, pelicula3 });
                 _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6 });
                 _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
-                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3 });
+                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3, Cliente4});
                 _context.Add(administrador1);
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
                 _context.SaveChanges();

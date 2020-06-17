@@ -10,7 +10,7 @@ using Grupo3.ReservaDeCine.Models;
 using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Logging.Console.Internal;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -116,8 +116,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
         // Aca el server efectiviza la reserva
-        public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva) 
+        public IActionResult CrearReservaPorFuncion(Reserva reserva) 
         {
+            if (ValidarEdad(reserva))
+            {
+                //preguntar como hacer para que aparezca en otro lado
+                ModelState.AddModelError(nameof(Reserva.CantButacas), "No cuenta con edad suficiente para ver esta Película.");
+            }
+
             var funcion = _context
                 .Funciones
                 .Include(x => x.Sala).ThenInclude(x => x.Tipo)
@@ -154,8 +160,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, Cliente, ClienteId, FuncionId, Funcion", "CantButacas")] Reserva reserva)
+        public async Task<IActionResult> Create(Reserva reserva)
         {
+            if (ValidarEdad(reserva))
+            {
+                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
+            }
 
             var funcion = await _context.Funciones
             .Include(x => x.Sala).ThenInclude(x => x.Tipo)
@@ -166,6 +176,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
 
             ValidarCantButacas(reserva, funcion);
+
 
             if (ModelState.IsValid)
             {
@@ -307,8 +318,43 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
         }
 
+        private bool ValidarEdad(Reserva reserva)
+        {
+            bool puede;
 
-       
+            var funcion = _context.Funciones
+                           .Include(x => x.Pelicula).ThenInclude(x => x.Clasificacion)
+                           .Where(x => x.Id == reserva.FuncionId)
+                           .FirstOrDefault();
+
+
+
+            var cliente = _context.Clientes.Find(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+            var fechaNacimiento = cliente.FechaDeNacimiento;
+            var fechaActual = DateTime.Now;
+
+            int edad = fechaActual.Year - cliente.FechaDeNacimiento.Year;
+
+            if (fechaActual.Month < fechaNacimiento.Month || (fechaActual.Month == fechaNacimiento.Month && fechaActual.Day < fechaNacimiento.Day))
+            {
+                edad--;
+            }
+
+            if (edad < funcion.Pelicula.Clasificacion.EdadMinima)
+            {
+                puede = false;
+            }
+            else
+            {
+                puede = true;
+            }
+
+            return puede;
+
+        }
+
+
+
 
 
     }

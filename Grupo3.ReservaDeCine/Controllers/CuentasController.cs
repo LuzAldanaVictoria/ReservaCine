@@ -37,11 +37,10 @@ namespace ConSeguridad.Controllers
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
                 Usuario usuario = _context.Clientes.FirstOrDefault(x => x.Username == username);
-
-                if(usuario == null)
+              
+                if (usuario == null)
                 {
                     usuario = _context.Administradores.FirstOrDefault(x => x.Username == username);
-                    usuario.Role = Role.Administrador;
                 }
 
                 if (usuario != null)
@@ -62,7 +61,10 @@ namespace ConSeguridad.Controllers
                         _context.SaveChanges();
 
                         if (!string.IsNullOrWhiteSpace(returnUrl))
+                        {
                             return Redirect(returnUrl);
+
+                        }
 
                         TempData["primerLogin"] = true;
 
