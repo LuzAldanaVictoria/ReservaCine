@@ -16,7 +16,6 @@ namespace Grupo3.ReservaDeCine.Models
         [MaxLength(50, ErrorMessage = "La longitud máxima de 50 caracteres")]
         [MinLength(4, ErrorMessage = "La longitud mínima es de 4 caracteres")]
         [Display(Name = "Descripción")]
-
         public string Descripcion { get; set; }
 
 

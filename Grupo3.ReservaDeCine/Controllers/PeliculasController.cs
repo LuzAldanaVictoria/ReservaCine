@@ -126,10 +126,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         
 
 
-// POST: Peliculas/Edit/5
-// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-[HttpPost]
+        // POST: Peliculas/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Pelicula pelicula, List<int> generoIds)
         {
@@ -184,8 +184,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
            
-            ViewBag.SelectGeneros= new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion), generoIds);
-            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion", pelicula.ClasificacionId);
+            ViewBag.SelectGeneros= new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion));
+            ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
 
             return View(pelicula);
         }

@@ -1,7 +1,7 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Cliente
 
 @{
-    ViewData["Title"] = "Crear";
+    ViewData["Title"] = "Crear cliente";
 }
 
 <h1>Clientes</h1>
@@ -14,22 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" minlength=2 maxlength=100 class="form-control" required/>
+                <input asp-for="Nombre" minlength=2 maxlength=100 class="form-control" required autofocus/>
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido"  minlength=2 maxlength=100 class="form-control" required/>
+                <input asp-for="Apellido"  minlength=2 maxlength=100 class="form-control" required autofocus/>
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" type="email" class="form-control" required/>
+                <input asp-for="Email" type="email" class="form-control" required autofocus/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaDeNacimiento" class="control-label"></label>
-                <input asp-for="FechaDeNacimiento" type="date" class="form-control" required/>
+                <input asp-for="FechaDeNacimiento" type="date" class="form-control" required autofocus/>
                 <span asp-validation-for="FechaDeNacimiento" class="text-danger"></span>
             </div>
             <div class="form-group">

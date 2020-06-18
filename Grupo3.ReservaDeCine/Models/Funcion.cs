@@ -20,7 +20,7 @@ namespace Grupo3.ReservaDeCine.Models
         public Sala Sala { get; set; }
 
 
-        [ForeignKey("Película")]
+        [ForeignKey("Pelicula")]
         [Required(ErrorMessage = "El campo Película es requerido")]
         [Display(Name = "Película")]
         public int PeliculaId { get; set; }
@@ -44,6 +44,7 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Cantidad de butacas disponibles")]
         public int CantButacasDisponibles { get; set; }
 
+        [NotMapped]
         [Display(Name = "Fecha y Hora")]
         public String FechaHora
         {

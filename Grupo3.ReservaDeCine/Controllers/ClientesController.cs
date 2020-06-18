@@ -75,9 +75,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string password, Cliente cliente)
+        public async Task<IActionResult> Create([Bind("Nombre,Apellido,Email,FechaDeNacimiento,Username")] string password, Cliente cliente)
         {
+
             ComprobarFechaDeNacimiento(cliente);
+            ValidarEmailExistente(cliente);
             ValidarUserNameExistente(cliente.Username);
             ValidarPassword(password);
 
@@ -245,35 +247,24 @@ namespace Grupo3.ReservaDeCine.Controllers
       
         private void ComprobarFechaDeNacimiento(Cliente cliente)
         {
-            if (cliente.FechaDeNacimiento.Year < 1920 || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
+            if (cliente.FechaDeNacimiento.Year < (DateTime.Today.Year-100) || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year-14))
             {
                 ModelState.AddModelError(nameof(cliente.FechaDeNacimiento), "Año de nacimiento inválido");
             }
         }
 
+
         private void ValidarUserNameExistente(string username)
         {
             if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
             {
-                ModelState.AddModelError(nameof(username), "Nombre de usuario no disponible");
+                ModelState.AddModelError(nameof(Cliente.Username), "Nombre de usuario no disponible");
             }
-        }
-
-
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
-        private static bool Comparar(string s1, string s2)
-        {
-            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
-                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
 
 
         public void ValidarPassword(string password)
         {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
-            }
 
             if (password.Length < 8)
             {
@@ -293,11 +284,19 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         private void ValidarEmailExistente(Cliente cliente)
         {
-            if (_context.Clientes.Any(e => Comparar(e.Email, cliente.Email) && e.Id != cliente.Id))
+            if (_context.Clientes.Any(x => Comparar(x.Email, cliente.Email) && x.Id != cliente.Id))
             {
                 ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
             }
         }
+
+        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+        private static bool Comparar(string s1, string s2)
+        {
+            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
+                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
     }
 
 }

@@ -133,13 +133,14 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
 
             ValidarCantButacas(reserva, funcion);
+            //reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
 
             if (ModelState.IsValid)
             {
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                //ViewData["CostoTotal"] = reserva.CostoTotal;
+                ViewData["CostoTotal"] = reserva.CostoTotal;
                 reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 _context.Add(reserva);
                 _context.SaveChanges();

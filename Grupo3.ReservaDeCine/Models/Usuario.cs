@@ -40,13 +40,14 @@ namespace Grupo3.ReservaDeCine.Models
         public string Email { get; set; }
 
 
-        [Required]
-        [MaxLength(30, ErrorMessage = "La longitud máxima de Usuario es de 30 caracteres")]
+        [Required(ErrorMessage = "El campo Nombre dde Usuario es requerido")]
+        [MaxLength(20, ErrorMessage = "La longitud máxima de Usuario es de 20 caracteres")]
         [Display(Name = "Nombre de Usuario")]
         public string Username { get; set; }
 
 
         [ScaffoldColumn(false)]
+        [Required(ErrorMessage = "El campo Contraseña es requerido")]
         [Display (Name = "Contraseña")]
         public byte[] Password { get; set; }
 

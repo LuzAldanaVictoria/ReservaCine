@@ -2,7 +2,7 @@
 
 
 @{
-    ViewData["Title"] = "CrearReservaPorFuncion";
+    ViewData["Title"] = "Crear Reserva Por Función";
 }
 
 
@@ -75,12 +75,12 @@
 
 
 
-<script>
+<script type="text/javascript">
         function calcularTotal()
         {
             var butacas = document.getElemntById('butacas').value;
             var total = parseInt(@ViewBag.CostoEntrada) * butacas;
-            $("#resultado").innexText= total;
+            return $("#resultado").innexText= total;
         }
              
 </script>
