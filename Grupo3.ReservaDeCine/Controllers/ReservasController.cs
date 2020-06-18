@@ -213,58 +213,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
-        // POST: Reservas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Reserva reserva)
-        {
-
-            var funcion = await _context.Funciones
-            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
-            .Where(x => x.Id == reserva.FuncionId)
-            .FirstOrDefaultAsync();
-
-            if (funcion == null)
-                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
-
-
-            if (id != reserva.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                funcion.CantButacasDisponibles -= reserva.CantButacas;
-                reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                try
-                {
-                    var reservaDb = _context.Reservas.Find(id);
-                    reserva.FechaDeAlta = reservaDb.FechaDeAlta;
-                    _context.Update(reservaDb);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ReservaExists(reserva.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Nombre");
-            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-
-            return View(reserva);
-        }
+        
 
         // GET: Reservas/Delete/5
         public async Task<IActionResult> Delete(int? id)

@@ -75,13 +75,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nombre,Apellido,Email,FechaDeNacimiento,Username")] string password, Cliente cliente)
+        public async Task<IActionResult> Create(string password, Cliente cliente)
         {
 
             ComprobarFechaDeNacimiento(cliente);
             ValidarEmailExistente(cliente);
             ValidarUserNameExistente(cliente.Username);
-            ValidarPassword(password);
+            // ValidarPassword(password);
 
             if (ModelState.IsValid)
             {
@@ -247,7 +247,7 @@ namespace Grupo3.ReservaDeCine.Controllers
       
         private void ComprobarFechaDeNacimiento(Cliente cliente)
         {
-            if (cliente.FechaDeNacimiento.Year < (DateTime.Today.Year-100) || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year-14))
+            if (cliente.FechaDeNacimiento.Year < (DateTime.Today.Year-100) || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year-12))
             {
                 ModelState.AddModelError(nameof(cliente.FechaDeNacimiento), "Año de nacimiento inválido");
             }
@@ -265,6 +265,11 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         public void ValidarPassword(string password)
         {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
+            }
+
 
             if (password.Length < 8)
             {
