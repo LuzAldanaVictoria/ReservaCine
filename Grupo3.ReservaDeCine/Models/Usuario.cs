@@ -47,7 +47,6 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [ScaffoldColumn(false)]
-        [Required(ErrorMessage = "El campo Contraseña es requerido")]
         [Display (Name = "Contraseña")]
         public byte[] Password { get; set; }
 

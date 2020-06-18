@@ -65,10 +65,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Usuarios/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+
 
         // POST: Usuarios/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -78,10 +80,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Create(string password, Cliente cliente)
         {
 
-            ComprobarFechaDeNacimiento(cliente);
-            ValidarEmailExistente(cliente);
+            ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
+            ValidarEmailExistente(cliente.Email);
             ValidarUserNameExistente(cliente.Username);
-            // ValidarPassword(password);
+            ValidarPassword(password);
 
             if (ModelState.IsValid)
             {
@@ -155,8 +157,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            ComprobarFechaDeNacimiento(cliente);
-            ValidarEmailExistente(cliente);
+            ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
+            ValidarEmailExistente(cliente.Email);
+            ValidarUserNameExistente(cliente.Username);
 
             ModelState.Remove(nameof(Cliente.Username));
 
@@ -244,12 +247,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-      
-        private void ComprobarFechaDeNacimiento(Cliente cliente)
+      //minimo de edad para crear un usuario: 12 años, máximo: 100 años.
+        private void ComprobarFechaDeNacimiento(DateTime fechaNacimiento)
         {
-            if (cliente.FechaDeNacimiento.Year < (DateTime.Today.Year-100) || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year-12))
+            if (fechaNacimiento.Year < (DateTime.Today.Year-100) || fechaNacimiento.Year > (DateTime.Today.Year-12))
             {
-                ModelState.AddModelError(nameof(cliente.FechaDeNacimiento), "Año de nacimiento inválido");
+                ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "Año de nacimiento inválido");
             }
         }
 
@@ -269,8 +272,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
             }
-
-
+            
             if (password.Length < 8)
             {
                 ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres.");
@@ -287,15 +289,16 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        private void ValidarEmailExistente(Cliente cliente)
+        private void ValidarEmailExistente(string mail)
         {
-            if (_context.Clientes.Any(x => Comparar(x.Email, cliente.Email) && x.Id != cliente.Id))
+            if (_context.Clientes.Any(x => Comparar(x.Email, mail) && x.Id != x.Id))
             {
-                ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
+                ModelState.AddModelError(nameof(Cliente.Email), "Ya existe un cliente con este Email");
             }
         }
 
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+
+        //Función que compara que dos strings no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
