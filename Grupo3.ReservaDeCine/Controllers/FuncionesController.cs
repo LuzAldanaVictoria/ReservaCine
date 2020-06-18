@@ -83,7 +83,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             ValidarFecha(funcion);
             ValidarHorario(funcion);
-            
+            ValidarSalaLibre(funcion);
+
+
 
             if (ModelState.IsValid)
             {
@@ -313,8 +315,24 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         }
 
- 
+        // No se permite crear una funcion en la misma sala, en un rango horario de 3 horas aprox de lo que duraria la pelicula
+        //ToDo: Faltaria la comparacion con minutos
+        private void ValidarSalaLibre(Funcion f)
+        {
+            var funciones = _context.Funciones
+               .Where(x => x.Fecha == f.Fecha && 
+                            (x.Horario.Hour >= f.Horario.Hour -3  && x.Horario.Hour <= f.Horario.Hour +3 ) &&
+                            x.SalaId== f.SalaId)
+                .ToList();
+           
 
+             if (funciones.Count >0)
+            {
+                ModelState.AddModelError(nameof(f.Horario), "La sala está ocupada en ese horario");
+            }
+
+            
+        }
 
 
 
