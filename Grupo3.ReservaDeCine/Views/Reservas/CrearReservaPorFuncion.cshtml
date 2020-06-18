@@ -19,7 +19,6 @@
             <div class="form-group">
                 <label class="control-label">Película</label><br>
                 <select disabled asp-items="@ViewBag.Peliculas" readonly></select>
-
             </div>
             <div class="form-group">
                 <input type="hidden" asp-for="FuncionId" />
@@ -34,7 +33,7 @@
 
 
             <div class="form-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Reservar</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="calcularTotal()">Reservar</button>
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -48,9 +47,7 @@
                             <div class="modal-body">
                                 <span>Película: @Model.Funcion.Pelicula.Nombre</span><br>
                                 <span>Función: @Model.Funcion.FechaHora</span><br>
-                                <span id="resultado">Costo total de la reserva: $
-                                    <script>calcularTotal()</script>
-                                </span>
+                                <span id="resultado">Costo total de la reserva: $</span><span id="totalCostoReserva"></span>
 
                                 @*Falta calcular Entrada*Cant asientos*@
                                 @*@int.Parse(ViewBag.CostoEntrada)*int.Parse(iasp-for = "CantButacas")</span>*@
@@ -74,22 +71,20 @@
     </div>
 </div>
 
+<div>
+    <a asp-action="Index">Volver al inicio</a>
+</div>
 
 
-<script type="text/javascript">
+@section Scripts
+{
+    <script type="text/javascript">
         function calcularTotal()
         {
-            var butacas = document.getElemntById('butacas').value;
+            var butacas = document.getElementById('butacas').value;
             var total = parseInt(@ViewBag.CostoEntrada) * butacas;
-            return $("#resultado").innexText= total;
+            document.getElementById('totalCostoReserva').innerText = total;
         }
-             
-</script>
-    
 
-    <div>
-        <a asp-action="Index">Volver al inicio</a>
-    </div>
-
-
-
+    </script>
+}

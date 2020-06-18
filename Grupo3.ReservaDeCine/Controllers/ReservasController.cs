@@ -100,7 +100,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
             ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
             ViewBag.CostoEntrada = funcion.Sala.Tipo.PrecioEntrada;  // Falta el calculo de las butacas
-           
+
 
             Reserva reserva = new Reserva()
             {
@@ -115,12 +115,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
         // Aca el server efectiviza la reserva
-        public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva) 
+        public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva)
         {
             if (!ValidarEdad(reserva))
             {
                 //preguntar como hacer para que aparezca en otro lado
-               ModelState.AddModelError(nameof(Reserva.CantButacas), "No cuenta con edad suficiente para ver esta Película.");
+                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta Película.");
             }
 
             var funcion = _context
@@ -147,8 +147,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(MisReservas));
             }
 
-           ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
-           ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
+            ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
+            ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
 
             reserva.Funcion = funcion;
 
@@ -213,7 +213,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
-        
+
 
         // GET: Reservas/Delete/5
         public async Task<IActionResult> Delete(int? id)
