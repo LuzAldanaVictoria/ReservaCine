@@ -63,7 +63,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             ViewBag.SelectFechaHora = new SelectList(_context.Funciones, "Id", "FechaHora");
 
-
             return View();
         }
 
@@ -96,11 +95,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Include(x => x.Sala).ThenInclude(x => x.Tipo)
                 .FirstOrDefault(x => x.Id == id);
 
-
             ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
             ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
-            ViewBag.CostoEntrada = funcion.Sala.Tipo.PrecioEntrada;  // Falta el calculo de las butacas
-
+            ViewData["CostoEntrada"] = funcion.Sala.Tipo.PrecioEntrada;
 
             Reserva reserva = new Reserva()
             {
@@ -119,7 +116,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             if (!ValidarEdad(reserva))
             {
-                //preguntar como hacer para que aparezca en otro lado
                 ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta Película.");
             }
 
@@ -133,20 +129,19 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
 
             ValidarCantButacas(reserva, funcion);
-            //reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
 
             if (ModelState.IsValid)
             {
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                ViewData["CostoTotal"] = reserva.CostoTotal;
                 reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 _context.Add(reserva);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(MisReservas));
             }
 
+            ViewData["CostoEntrada"] = funcion.Sala.Tipo.PrecioEntrada;
             ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
             ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
 
@@ -162,9 +157,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Reserva reserva)
         {
-            if (ValidarEdad(reserva))
+            if (!ValidarEdad(reserva))
             {
-                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
+                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta Película.");
             }
 
             var funcion = await _context.Funciones

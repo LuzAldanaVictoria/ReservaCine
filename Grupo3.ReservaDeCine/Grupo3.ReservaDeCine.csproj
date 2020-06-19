@@ -23,7 +23,7 @@
 
 
   <ItemGroup>
-    <Content Update="Views\Cuentas\Registrar.cshtml">
+    <Content Update="Views\Clientes\Registrar.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

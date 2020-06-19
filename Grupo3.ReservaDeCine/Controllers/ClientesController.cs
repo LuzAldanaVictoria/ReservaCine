@@ -34,8 +34,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
        
-       
-        
+
         // GET: clientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -64,22 +63,18 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-        // GET: Usuarios/Create
+        // GET: Usuarios/Registrar
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Registrar()
         {
             return View();
         }
 
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string password, Cliente cliente)
+        public async Task<IActionResult> Registrar(string password, Cliente cliente)
         {
-
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ValidarEmailExistente(cliente.Email);
             ValidarUserNameExistente(cliente.Username);
@@ -87,13 +82,13 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
+                cliente.FechaDeAlta = DateTime.Now;
                 cliente.Password = password.Encriptar();
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Ingresar","Cuentas");
             }
-
             return View(cliente);
         }
 
@@ -158,8 +153,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
-            ValidarEmailExistente(cliente.Email);
-            ValidarUserNameExistente(cliente.Username);
 
             ModelState.Remove(nameof(Cliente.Username));
 
@@ -250,7 +243,14 @@ namespace Grupo3.ReservaDeCine.Controllers
       //minimo de edad para crear un usuario: 12 años, máximo: 100 años.
         private void ComprobarFechaDeNacimiento(DateTime fechaNacimiento)
         {
-            if (fechaNacimiento.Year < (DateTime.Today.Year-100) || fechaNacimiento.Year > (DateTime.Today.Year-12))
+
+            if (fechaNacimiento.Year > (DateTime.Today.Year - 12))
+            {
+                ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "El cliente debe ser mayor de 12 años");
+            }
+
+
+            if (fechaNacimiento.Year < (DateTime.Today.Year-100))
             {
                 ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "Año de nacimiento inválido");
             }

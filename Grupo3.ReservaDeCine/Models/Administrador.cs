@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grupo3.ReservaDeCine.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,5 +12,9 @@ namespace Grupo3.ReservaDeCine.Models
         [Required(ErrorMessage = "El campo Legajo es requerido")]
         [Display(Name = "Legajo")]
         public int Legajo { get; set; }
+
+
+        [ScaffoldColumn(false)]
+        public override Role Role => Role.Administrador;
     }
 }

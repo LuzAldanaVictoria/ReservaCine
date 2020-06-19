@@ -47,10 +47,12 @@
             @Html.DisplayNameFor(model => model.Reservas)
         </dt>
         <dd class="col-sm-10">
-            @foreach (Reserva reserva in Model.Reservas)
+            <ul>
+                @foreach (Reserva reserva in Model.Reservas)
             {
                 <li> Cliente: @reserva.Cliente.Email,  Cantidad de butacas: @reserva.CantButacas</li>
             }
+            </ul>
         </dd>
     </dl>
 </div>

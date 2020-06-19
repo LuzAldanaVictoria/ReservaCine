@@ -75,20 +75,17 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, SalaId, Sala, PeliculaId, Pelicula, Fecha, Horario, CantButacasDisponibles, CapacidadTotal")]Funcion funcion)
+        public async Task<IActionResult> Create(Funcion funcion)
         {
-           var sala = await _context.Salas
-           .Where(x => x.Id == funcion.SalaId)
-           .FirstOrDefaultAsync();
-
             ValidarFecha(funcion);
             ValidarHorario(funcion);
-            ValidarSalaLibre(funcion);
-
-
 
             if (ModelState.IsValid)
             {
+                var sala = await _context.Salas
+                             .Where(x => x.Id == funcion.SalaId)
+                             .FirstOrDefaultAsync();
+
                 funcion.CantButacasDisponibles = sala.CapacidadTotal;
                 _context.Add(funcion);
                 await _context.SaveChangesAsync();
@@ -118,12 +115,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            ValidarFecha(funcion);
-            ValidarHorario(funcion);
-
-
             ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
             return View(funcion);
         }
 
@@ -226,10 +220,85 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public IActionResult FiltrarPorPelicula(Pelicula pelicula)
+        {
+            var funciones = _context
+                 .Funciones
+                 .Include(x => x.Pelicula)
+                 .Include(x => x.Sala)
+                 .ThenInclude(x => x.Tipo)
+                 .Where(x => x.PeliculaId == pelicula.Id && x.Fecha >= DateTime.Now)
+                 .ToList();
+
+            return View(funciones);
+        }
+
+
+        public IActionResult SeleccionarFiltro()
+        {
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+            return View();
+        }
+
+        //el anterior metodo repetia las consultas a la BD tanto aca como en los FiltrarPor...
+        //public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
+        //{
+        //    ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
+        //    List<Funcion> funcionesPelicula = _context
+        //                                       .Funciones
+        //                                       .Include(x => x.Pelicula)
+        //                                       .Where(x => x.PeliculaId == PeliculaId)
+        //                                       .ToList();
+
+        //    List<Funcion> funcionesFecha = _context
+        //                                    .Funciones
+        //                                    .Where(x => x.Fecha == fecha)
+        //                                    .ToList();
+        //    List<Funcion> funcionesFecha = _context
+        //                                    .Funciones
+        //                                    .Where(x => x.Fecha == fecha)
+        //                                    .ToList();
+
+        //    return View();
+
+
+        public IActionResult FiltrarPorPeliculaId(int PeliculaId)
+        {
+            List<Funcion> funciones =
+                _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala)
+                .ThenInclude(x => x.Tipo)
+                .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
+                .ToList();
+
+            return View(funciones);
+        }
+
+
+        public IActionResult FiltrarPorFecha(DateTime Fecha)
+        {
+
+            List<Funcion> funciones =
+                _context
+                .Funciones
+                .Include(x => x.Pelicula)
+                .Include(x => x.Sala).ThenInclude(x => x.Tipo)
+                .Where(x => x.Fecha == Fecha)
+                .ToList();
+
+            return View(funciones);
+        }
+
+
         private bool FuncionExists(int id)
         {
             return _context.Funciones.Any(e => e.Id == id);
         }
+
 
         private void ValidarFecha(Funcion funcion)
         {
@@ -240,78 +309,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-
         private void ValidarHorario(Funcion funcion)
         {
             if (funcion.Horario.Hour > 1 && funcion.Horario.Hour < 9)
             {
                 ModelState.AddModelError(nameof(funcion.Horario), "El horario debe estar comprendido entre las 9:00 y la 01:59 (A.M.)");
             }
-        }
 
-        public IActionResult FiltrarPorPelicula(Pelicula pelicula)
-        {
-            var funciones = _context
-                .Funciones
-                .Include(x => x.Pelicula)
-                .Include(x => x.Sala)
-                .ThenInclude(x => x.Tipo)
-                .Where(x => x.Pelicula == pelicula && x.Fecha >= DateTime.Now)
-                .ToList();
-
-          
-
-            return View(funciones);
-        }
-
-
-        public IActionResult FiltrarPorPeliculaId(int? PeliculaId)
-        {
-            var funciones = _context
-                .Funciones
-                .Include(x => x.Pelicula)
-                .Include(x => x.Sala)
-                .ThenInclude(x => x.Tipo)
-                .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
-                .ToList();
-
-
-            return View(funciones);
-        }
-
-
-        public IActionResult FiltrarPorDia(DateTime dia)
-        {
-           
-            var funciones = _context
-                .Funciones
-                .Include(x => x.Pelicula)
-                .Include(x => x.Sala)
-                .ThenInclude(x => x.Tipo)
-                .Where(x => x.Fecha.ToString("dd/MM/yyyy") == dia.ToString("dd/MM/yyyy"))
-                .ToList();
-
-            return View(funciones);
-        }
-
-
-         public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
-        
-        {
-            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
-
-            List<Funcion> funcionesPelicula = _context
-                                               .Funciones
-                                               .Include(x => x.Pelicula)
-                                               .Where(x => x.PeliculaId == PeliculaId)
-                                               .ToList();
-
-            List<Funcion> funcionesFecha = _context
-                                            .Funciones
-                                            .Where(x => x.Fecha == fecha)
-                                            .ToList();
-
-            return View();
+            ValidarSalaLibre(funcion);
 
         }
 
@@ -320,20 +325,16 @@ namespace Grupo3.ReservaDeCine.Controllers
         private void ValidarSalaLibre(Funcion f)
         {
             var funciones = _context.Funciones
-               .Where(x => x.Fecha == f.Fecha && 
-                            (x.Horario.Hour >= f.Horario.Hour -3  && x.Horario.Hour <= f.Horario.Hour +3 ) &&
-                            x.SalaId== f.SalaId)
-                .ToList();
-           
+                            .Where(x => x.Fecha == f.Fecha &&
+                            (x.Horario.Hour >= f.Horario.Hour - 3 && x.Horario.Hour <= f.Horario.Hour + 3) &&
+                            x.SalaId == f.SalaId)
+                            .FirstOrDefault();
 
-             if (funciones.Count >0)
+            if (funciones != null)
             {
                 ModelState.AddModelError(nameof(f.Horario), "La sala está ocupada en ese horario");
             }
-
-            
         }
-
 
 
     }

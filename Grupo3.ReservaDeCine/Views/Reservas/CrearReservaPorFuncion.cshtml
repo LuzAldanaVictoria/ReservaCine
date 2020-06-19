@@ -1,11 +1,8 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Reserva
 
-
 @{
     ViewData["Title"] = "Crear Reserva Por Función";
 }
-
-
 
 <h1>Crear reserva por Función</h1>
 
@@ -13,7 +10,6 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-
         <form asp-action="CrearReservaPorFuncion" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -32,41 +28,30 @@
             </div>
 
 
+
             <div class="form-group">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="calcularTotal()">Reservar</button>
-                <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
-                        <!-- Modal content-->
                         <div class="modal-content align-content-center">
                             <div class="modal-header">
                                 <h4 class="modal-title">Confirmar Reserva</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-
                             <div class="modal-body">
                                 <span>Película: @Model.Funcion.Pelicula.Nombre</span><br>
                                 <span>Función: @Model.Funcion.FechaHora</span><br>
-                                <span id="resultado">Costo total de la reserva: $</span><span id="totalCostoReserva"></span>
-
-                                @*Falta calcular Entrada*Cant asientos*@
-                                @*@int.Parse(ViewBag.CostoEntrada)*int.Parse(iasp-for = "CantButacas")</span>*@
-                                @*<span>Precio de la reserva:@(ViewBag.CostoEntrada * "CantButacas")</span><br>*@
-                                @*@int.Parse(ViewBag.CostoEntrada)*int.Parse(iasp-for = "CantButacas")</span>*@
-
+                                <span>Costo total de la reserva: $</span><span id="totalCostoReserva"></span>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                 <button type="submit" class="btn btn-primary">Confirmar</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
-
-
             </div>
+
         </form>
     </div>
 </div>

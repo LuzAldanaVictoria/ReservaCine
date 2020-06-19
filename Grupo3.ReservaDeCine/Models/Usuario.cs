@@ -13,9 +13,9 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
-
+        [ScaffoldColumn(false)]
         [Display(Name = "Rol")]
-        public Role Role { get; set; }
+        public abstract Role Role { get; }
 
 
         [Required(ErrorMessage = "El campo Nombre es requerido")]
@@ -40,7 +40,7 @@ namespace Grupo3.ReservaDeCine.Models
         public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Nombre dde Usuario es requerido")]
+        [Required(ErrorMessage = "El campo Nombre de Usuario es requerido")]
         [MaxLength(20, ErrorMessage = "La longitud máxima de Usuario es de 20 caracteres")]
         [Display(Name = "Nombre de Usuario")]
         public string Username { get; set; }

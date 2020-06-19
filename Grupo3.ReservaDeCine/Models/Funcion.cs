@@ -50,7 +50,7 @@ namespace Grupo3.ReservaDeCine.Models
         {
             get
             {
-                return $"{Fecha.ToString("dd/MM/yyyy")} {Horario.ToString("HH:mm")}";
+                return $"{Fecha:dd/MM/yyyy} {Horario:HH:mm}";
             }
         }
 

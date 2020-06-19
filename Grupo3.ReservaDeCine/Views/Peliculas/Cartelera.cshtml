@@ -15,9 +15,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Generos)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Sinopsis)
             </th>
@@ -33,9 +30,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Generos)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Sinopsis)
             </td>
@@ -46,8 +40,6 @@
                 <a asp-controller="Funciones" asp-action="FiltrarPorPelicula" asp-route-id="@item.Id">Ver funciones</a>
             </td>
         </tr>
-
-
 }
     </tbody>
 </table>

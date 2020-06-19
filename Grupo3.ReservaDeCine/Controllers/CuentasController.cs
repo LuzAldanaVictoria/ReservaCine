@@ -80,44 +80,6 @@ namespace ConSeguridad.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Registrar()
-        {
-            return View();
-       
-        }
-
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar (string password, Cliente cliente)
-        {
-            ComprobarFechaDeNacimiento(cliente);
-            ValidarEmailExistente(cliente);
-            ValidarUserNameExistente(cliente.Username);
-
-            if (ModelState.IsValid)
-            {
-                cliente.Role = Role.Cliente;
-                cliente.FechaDeAlta = DateTime.Now;
-                cliente.Password = password.Encriptar();
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Ingresar");
-            }
-
-            return View(cliente);
-        }
-
-   
-        public IActionResult CreateExitoso(Cliente cliente)
-        {
-            return View();
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> Salir()
@@ -142,21 +104,7 @@ namespace ConSeguridad.Controllers
             }
         }
 
-        private void ComprobarFechaDeNacimiento(Cliente cliente)
-        {
-            if (cliente.FechaDeNacimiento.Year < 1920 || cliente.FechaDeNacimiento.Year > (DateTime.Today.Year - 12))
-            {
-                ModelState.AddModelError(nameof(cliente.FechaDeNacimiento), "Año de nacimiento inválido");
-            }
-        }
-
-        private void ValidarEmailExistente(Cliente cliente)
-        {
-            if (_context.Clientes.Any(e => Comparar(e.Email, cliente.Email) && e.Id != cliente.Id))
-            {
-                ModelState.AddModelError(nameof(cliente.Email), "Ya existe un cliente con este Email");
-            }
-        }
+  
 
         //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)

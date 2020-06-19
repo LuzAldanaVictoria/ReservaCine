@@ -115,7 +115,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente1 = new Cliente()
                 {
-                    Role = Role.Cliente,
                     Username = "cliente1",
                     Password = "1234".Encriptar(),
                     Nombre = "Luciano",
@@ -131,7 +130,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente2 = new Cliente()
                 {
-                    Role = Role.Cliente,
                     Username = "cliente2",
                     Password = "1234".Encriptar(),
                     Nombre = "Carlos",
@@ -144,7 +142,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente3 = new Cliente()
                 {
-                    Role = Role.Cliente,
                     Username = "cliente3",
                     Password = "1234".Encriptar(),
                     Nombre = "Carla",
@@ -158,7 +155,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var administrador1 = new Administrador()
                 {
-                    Role = Role.Administrador,
                     Username = "administrador1",
                     Password = "1234".Encriptar(),
                     Nombre = "Juan Carlos",
@@ -170,7 +166,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 var Cliente4 = new Cliente()
                 {
-                    Role = Role.Cliente,
                     Username = "cliente4",
                     Password = "1234".Encriptar(),
                     Nombre = "Laura",
@@ -333,10 +328,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
-                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, GeneroId = genero1.Id });
-                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, GeneroId = genero2.Id });
-                pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, GeneroId = genero3.Id });
-                pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, GeneroId = genero4.Id });
+                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero1});
+                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero2});
+                pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = genero3});
+                pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, Genero = genero4});
 
 
                 _context.AddRange(new[] { genero1, genero2, genero3, genero4 });
