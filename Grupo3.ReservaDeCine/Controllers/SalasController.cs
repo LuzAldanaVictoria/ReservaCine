@@ -102,7 +102,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return NotFound();
             }
-       
+
             ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
@@ -120,9 +120,13 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             ValidarNombreExistente(sala);
+            ValidarCapacidadSegunReservas(id, sala.CapacidadTotal);
+           
 
             if (ModelState.IsValid)
             {
+                AjustarDisponibilidadDeButacasEnFunciones(id, sala.CapacidadTotal);
+
                 try
                 {
                     _context.Update(sala);
@@ -142,7 +146,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-         
+            
             ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
@@ -205,6 +209,59 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 ModelState.AddModelError(nameof(sala.Nombre), "Ya existe una sala con ese nombre");
             }
+        }
+        
+        //Se valida que al querer modificar la capacidad de una sala, no existan reservas con mayor cantidad de butacas
+        private void ValidarCapacidadSegunReservas(int salaId, int capacidadSalaModificada) 
+        {
+            var Funciones =
+                _context.Funciones
+                .Include (x => x.Reservas)
+                .Where(x => x.Fecha > DateTime.Today && x.SalaId == salaId)
+                .ToList();
+
+            foreach(Funcion funcion in Funciones)
+            {
+                int sumaButacasReservadas = 0;
+                
+                foreach(Reserva reserva in funcion.Reservas)
+                {
+                    sumaButacasReservadas += reserva.CantButacas;
+                }
+                    
+                if(sumaButacasReservadas > capacidadSalaModificada)
+                {
+                    ModelState.AddModelError(nameof(Sala.CapacidadTotal), "No se puede disminuir la cantidad de butacas por debajo de la cantidad ya reserva");
+                    return;
+                }
+                                            
+            }
+                       
+        }
+
+        // Se usa al cambiar la capacidad de la sala, ajustando la disponibilidad en las funciones
+       private void AjustarDisponibilidadDeButacasEnFunciones(int salaId, int capacidadTotal)
+
+        {
+            var Funciones =
+                _context.Funciones
+                .Include(x => x.Reservas)
+                .Where(x => x.Fecha > DateTime.Today && x.SalaId == salaId)
+                .ToList();
+
+            foreach (Funcion funcion in Funciones)
+            {
+                int sumaButacasReservadas = 0;
+
+                foreach (Reserva reserva in funcion.Reservas)
+                {
+                    sumaButacasReservadas += reserva.CantButacas;
+                }
+
+                funcion.CantButacasDisponibles = capacidadTotal - sumaButacasReservadas;
+              
+            }
+
         }
 
 
