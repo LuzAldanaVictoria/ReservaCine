@@ -44,10 +44,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var pelicula = _context.Peliculas
-                .Include(x => x.Generos)
+                .Include(x => x.Generos).ThenInclude (x => x.Genero)
                 .Include(x => x.Clasificacion)
-                .Include(x => x.Funciones)
-                .ThenInclude (x => x.Sala)
+                .Include(x => x.Funciones).ThenInclude (x => x.Sala)
                 .FirstOrDefault(m => m.Id == id);
 
             if (pelicula == null)

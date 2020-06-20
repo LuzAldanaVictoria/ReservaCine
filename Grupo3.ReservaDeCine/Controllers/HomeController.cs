@@ -219,6 +219,23 @@ namespace Grupo3.ReservaDeCine.Controllers
                     },
                 };
 
+                var pelicula4 = new Pelicula()
+                {
+                    Nombre = "Annabelle 3",
+                    Generos = new List<PeliculaGenero>(),
+                    Sinopsis = "En 1968, los demonólogos Ed y Lorraine Warren se llevan a su casa a la muñeca poseída Annabelle" +
+                    " después de que dos enfermeras (Debbie y Camilla) aseguraran que la muñeca a menudo realizaba actividades " +
+                    "violentas en su apartamento. Durante el trayecto, la muñeca convoca a los espíritus de un cementerio" +
+                    " situado junto a la carretera para que ataquen a Ed, pero consigue sobrevivir. Una vez en la casa, " +
+                    "Annabelle es colocada en vitrina en la sala de artefactos de la pareja y bendecida por el padre Gordon" +
+                    "para asegurarse de que su mal está contenido",
+
+                    Clasificacion = new Clasificacion
+                    {
+                        Descripcion = "+14",
+                        EdadMinima = 14
+                    },
+                };
 
                 var funcion1 = new Funcion()
                 {
@@ -332,10 +349,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero2});
                 pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = genero3});
                 pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, Genero = genero4});
-
+                pelicula4.Generos.Add(new PeliculaGenero { Pelicula = pelicula4, Genero = genero4});
 
                 _context.AddRange(new[] { genero1, genero2, genero3, genero4 });
-                _context.AddRange(new[] { pelicula1, pelicula2, pelicula3 });
+                _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4});
                 _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6 });
                 _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
                 _context.AddRange(new[] { Cliente1, Cliente2, Cliente3, Cliente4});

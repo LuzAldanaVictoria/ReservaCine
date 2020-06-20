@@ -39,8 +39,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var genero = _context
                 .Generos
-                .Include(x => x.Peliculas)
-                .ThenInclude(x => x.Pelicula)
+                .Include(x => x.Peliculas).ThenInclude(x => x.Pelicula)
                 .FirstOrDefault(m => m.Id == id);
 
 
