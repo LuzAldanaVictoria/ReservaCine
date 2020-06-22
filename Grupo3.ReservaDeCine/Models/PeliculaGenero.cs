@@ -13,10 +13,12 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
+
         [ForeignKey("Pelicula")]
         [Display(Name = "Película")]
         public int PeliculaId { get; set; }
         public Pelicula Pelicula { get; set; }
+
 
         [ForeignKey("Genero")]
         [Display(Name = "Género")]

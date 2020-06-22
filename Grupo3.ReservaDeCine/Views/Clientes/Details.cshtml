@@ -57,7 +57,6 @@
         </dd>
     </dl>
 
-        @* Accedo a las reservas que obtuve en la consulta del controller e itero por ellas para mostrar los datos "película, la fecha y el horario de cada función" *@
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Reservas)
@@ -66,7 +65,7 @@
             <ul>
             @foreach (Reserva reserva in Model.Reservas)
             {
-            <li>Película: @reserva.Funcion.Pelicula.Nombre,  Cantidad de butacas: @reserva.CantButacas</li>
+            <li>Película: @reserva.Funcion.Pelicula.Nombre, Fecha y hora: @reserva.Funcion.FechaHora, Cantidad de butacas: @reserva.CantButacas</li>
             }
             </ul>
         </dd>

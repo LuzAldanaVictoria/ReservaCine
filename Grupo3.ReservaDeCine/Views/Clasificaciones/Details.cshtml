@@ -35,10 +35,12 @@
                 @Html.DisplayNameFor(model => model.Peliculas)
             </dt>
             <dd class="col-sm-10">
+                <ul>
                 @foreach (Pelicula pelicula in Model.Peliculas)
                 {
                     <li>@pelicula.Nombre</li>
                 }
+                </ul>
             </dd>
          </dl>
     </div>

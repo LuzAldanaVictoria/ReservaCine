@@ -25,6 +25,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Reservas
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Index()
         {
             var reservas = await _context
@@ -36,6 +37,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reservas);
         }
 
+        [Authorize(Roles = nameof(Role.Administrador))]
         // GET: Reservas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -57,6 +59,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
+
         [Authorize(Roles = nameof(Role.Cliente))]
         // GET: Reservas/Create
         public IActionResult Create()
@@ -65,6 +68,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             return View();
         }
+
 
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
@@ -150,67 +154,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
-        //POST: Reservas/Create
-        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Reserva reserva)
-        {
-            if (!ValidarEdad(reserva))
-            {
-                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta Película.");
-            }
-
-            var funcion = await _context.Funciones
-            .Include(x => x.Sala).ThenInclude(x => x.Tipo)
-            .Where(x => x.Id == reserva.FuncionId)
-            .FirstOrDefaultAsync();
-
-            if (funcion == null)
-                ModelState.AddModelError(nameof(Reserva.Funcion), "La función no se encuentra disponible");
-
-            ValidarCantButacas(reserva, funcion);
-
-
-            if (ModelState.IsValid)
-            {
-                reserva.FechaDeAlta = DateTime.Now;
-                funcion.CantButacasDisponibles -= reserva.CantButacas;
-                reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "FechaHora");
-
-            return View(reserva);
-        }
-
-        // GET: Reservas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reserva = await _context.Reservas.FindAsync(id);
-            if (reserva == null)
-            {
-                return NotFound();
-            }
-            ViewBag.SelectClientes = new SelectList(_context.Clientes, "Id", "Nombre");
-            ViewBag.SelectFunciones = new SelectList(_context.Funciones, "Id", "Id");
-
-            return View(reserva);
-        }
-
 
 
         // GET: Reservas/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -232,7 +179,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
+
         // POST: Reservas/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -276,7 +225,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             var cliente = _context.Clientes.Find(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
             var fechaNacimiento = cliente.FechaDeNacimiento;
             var fechaActual = DateTime.Now;
-
             int edad = fechaActual.Year - cliente.FechaDeNacimiento.Year;
 
             if (fechaActual.Month < fechaNacimiento.Month || (fechaActual.Month == fechaNacimiento.Month && fechaActual.Day < fechaNacimiento.Day))

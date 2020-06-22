@@ -23,6 +23,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Funciones
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Index()
         {
             var funciones = await _context
@@ -34,7 +35,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funciones);
         }
 
+
         // GET: Funciones/Details/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Details(int? id)
         {
              
@@ -73,6 +76,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: Funciones/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Funcion funcion)
@@ -124,6 +128,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: Funciones/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Funcion funcion)
@@ -186,7 +191,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Funciones/Delete/5
-        //[Authorize(Roles = nameof(Role.Administrador))]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -210,6 +215,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // POST: Funciones/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -234,7 +240,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funciones);
         }
 
-
+        [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult SeleccionarFiltro()
         {
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
@@ -264,6 +270,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         //    return View();
 
 
+        [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult FiltrarPorPeliculaId(int PeliculaId)
         {
             List<Funcion> funciones =
@@ -279,6 +286,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
+        [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult FiltrarPorFecha(DateTime Fecha)
         {
 
@@ -302,9 +310,14 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         private void ValidarFecha(Funcion funcion)
         {
-            if (funcion.Fecha < DateTime.Now || funcion.Fecha.Year > DateTime.Now.Year + 1)
+            if (funcion.Fecha < DateTime.Now) 
             {
-                ModelState.AddModelError(nameof(funcion.Fecha), "Fecha inválida");
+                ModelState.AddModelError(nameof(funcion.Fecha), "La fecha no puede ser anterior a la fecha actual");
+            }
+
+            if(funcion.Fecha.Year > DateTime.Now.Year + 1)
+            {
+                ModelState.AddModelError(nameof(funcion.Fecha), "La fecha debe ser dentro del año actual");
             }
         }
 

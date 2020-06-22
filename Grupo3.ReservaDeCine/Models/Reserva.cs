@@ -12,6 +12,7 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
+
         [ForeignKey("Cliente")]
         [Display(Name = "Cliente")]
         public int ClienteId { get; set; }

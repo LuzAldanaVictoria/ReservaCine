@@ -23,7 +23,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Index()
         {
             var peliculas = _context
@@ -36,6 +36,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Peliculas/Details/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -70,6 +71,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: Peliculas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Pelicula pelicula, List<int> generoIds)
@@ -98,6 +100,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
+
         [Authorize(Roles = nameof(Role.Administrador))]
         // GET: Peliculas/Edit/5
         public IActionResult Edit(int? id)
@@ -122,12 +125,13 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
-        
+
 
 
         // POST: Peliculas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Pelicula pelicula, List<int> generoIds)
@@ -189,8 +193,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
-        //[Authorize(Roles = nameof(Role.Administrador))]
+
         // GET: Peliculas/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -214,6 +219,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // POST: Peliculas/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -232,7 +238,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                .Include(x => x.Generos)
                .Include(x => x.Clasificacion)
                .Include(x => x.Funciones)
-               //.Where(x => x.Funciones.IndexOf(x.Funciones.) > DateTime.Now)
                .ToListAsync();
 
             return View(cartelera);

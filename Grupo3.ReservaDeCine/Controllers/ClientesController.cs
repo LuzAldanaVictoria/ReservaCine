@@ -64,6 +64,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Usuarios/Registrar
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Registrar()
         {
@@ -71,6 +72,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registrar(string password, Cliente cliente)
@@ -112,9 +114,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             // POST: clientes/Edit/5
             // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
             // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+            
+            [Authorize(Roles = nameof(Role.Administrador))]
             [HttpPost]
             [ValidateAntiForgeryToken]
-            [Authorize(Roles = nameof(Role.Administrador))]
             public IActionResult Edit(int id, Cliente cliente, string password)
             {
                 return EditarCliente(id, cliente, password);
@@ -203,7 +206,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
    
-    [Authorize(Roles = nameof(Role.Administrador))]
+
+        [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -221,9 +225,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-  
+
 
         // POST: clientes/Delete/5
+        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -243,16 +248,24 @@ namespace Grupo3.ReservaDeCine.Controllers
       //minimo de edad para crear un usuario: 12 años, máximo: 100 años.
         private void ComprobarFechaDeNacimiento(DateTime fechaNacimiento)
         {
+            var fechaActual = DateTime.Now; 
+            int edad = fechaActual.Year - fechaNacimiento.Year;
 
-            if (fechaNacimiento.Year > (DateTime.Today.Year - 12))
+            if (fechaActual.Month < fechaNacimiento.Month || (fechaActual.Month == fechaNacimiento.Month && fechaActual.Day < fechaNacimiento.Day))
+            {
+                edad--;
+            }
+
+
+            if (edad < 12) 
             {
                 ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "El cliente debe ser mayor de 12 años");
             }
 
 
-            if (fechaNacimiento.Year < (DateTime.Today.Year-100))
+            if (fechaNacimiento.Year < (DateTime.Today.Year-100) || fechaNacimiento.Year > DateTime.Today.Year)
             {
-                ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "Año de nacimiento inválido");
+                ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "Fecha de nacimiento inválida");
             }
         }
 

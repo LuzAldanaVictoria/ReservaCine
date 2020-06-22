@@ -23,6 +23,7 @@ namespace ConSeguridad.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Ingresar(string returnUrl)
         {
@@ -31,6 +32,7 @@ namespace ConSeguridad.Controllers
         }
 
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Ingresar(string username, string password, string returnUrl)
         {
@@ -80,7 +82,7 @@ namespace ConSeguridad.Controllers
         }
 
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Salir()
         {
@@ -89,6 +91,7 @@ namespace ConSeguridad.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        
         [HttpGet]
         public IActionResult NoAutorizado()
         {

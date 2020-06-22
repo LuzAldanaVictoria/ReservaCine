@@ -11,6 +11,7 @@ using Grupo3.ReservaDeCine.Models.Enums;
 using Grupo3.ReservaDeCine.Extensions;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Grupo3.ReservaDeCine.Controllers
 {
     public class HomeController : Controller
@@ -56,7 +57,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                         Nombre = "Premium",
                         PrecioEntrada = 550
                     },
-                    CapacidadTotal = 10
+                    CapacidadTotal = 20
                 };
 
                 var sala2 = new Sala()
@@ -160,7 +161,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "Juan Carlos",
                     Apellido = "Gonzalez",
                     Email = "jcgonzalez@gmail.com",
-                    Legajo = 0001 
+                    Legajo = 0001
                 };
 
 
@@ -232,8 +233,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                     Clasificacion = new Clasificacion
                     {
-                        Descripcion = "+14",
-                        EdadMinima = 14
+                        Descripcion = "+13",
+                        EdadMinima = 13
                     },
                 };
 
@@ -243,7 +244,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Pelicula = pelicula1,
                     Fecha = new DateTime(2020, 08, 15),
                     Horario = new DateTime().AddHours(14).AddMinutes(00),
-                    CantButacasDisponibles = sala1.CapacidadTotal
+                    CantButacasDisponibles = sala1.CapacidadTotal - 4
                 };
 
                 var funcion2 = new Funcion()
@@ -252,7 +253,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Pelicula = pelicula2,
                     Fecha = new DateTime(2020, 04, 17),
                     Horario = new DateTime().AddHours(20).AddMinutes(20),
-                    CantButacasDisponibles = sala2.CapacidadTotal
+                    CantButacasDisponibles = sala2.CapacidadTotal - 4
                 };
 
 
@@ -262,7 +263,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Pelicula = pelicula3,
                     Fecha = new DateTime(2020, 08, 17),
                     Horario = new DateTime().AddHours(20).AddMinutes(20),
-                    CantButacasDisponibles = sala3.CapacidadTotal
+                    CantButacasDisponibles = sala3.CapacidadTotal -8
                 };
 
 
@@ -345,29 +346,30 @@ namespace Grupo3.ReservaDeCine.Controllers
                 };
 
 
-                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero1});
-                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero2});
-                pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = genero3});
-                pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, Genero = genero4});
-                pelicula4.Generos.Add(new PeliculaGenero { Pelicula = pelicula4, Genero = genero4});
+
+                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero1 });
+                pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero2 });
+                pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = genero3 });
+                pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, Genero = genero4 });
+                pelicula4.Generos.Add(new PeliculaGenero { Pelicula = pelicula4, Genero = genero4 });
+
 
                 _context.AddRange(new[] { genero1, genero2, genero3, genero4 });
-                _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4});
+                _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4 });
                 _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6 });
-                _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
-                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3, Cliente4});
+                _context.AddRange(new[] { Cliente1, Cliente2, Cliente3, Cliente4 });
                 _context.Add(administrador1);
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
+                _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
                 _context.SaveChanges();
-
-                }
             }
+
         }
 
 
-    
-
     }
+    
+ }
 
 
 

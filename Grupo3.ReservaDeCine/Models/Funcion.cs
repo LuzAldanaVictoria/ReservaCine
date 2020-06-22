@@ -32,7 +32,7 @@ namespace Grupo3.ReservaDeCine.Models
         public DateTime Fecha { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Fecha y Hora es requerido")]
+        [Required(ErrorMessage = "El campo Hora es requerido")]
         [Display(Name = "Horario")]
         public DateTime Horario { get; set; }
 
@@ -44,9 +44,10 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Cantidad de butacas disponibles")]
         public int CantButacasDisponibles { get; set; }
 
+
         [NotMapped]
         [Display(Name = "Fecha y Hora")]
-        public String FechaHora
+        public string FechaHora
         {
             get
             {
