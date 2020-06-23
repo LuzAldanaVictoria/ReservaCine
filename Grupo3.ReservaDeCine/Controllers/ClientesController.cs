@@ -82,6 +82,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             ValidarUserNameExistente(cliente.Username);
             ValidarPassword(password);
 
+
             if (ModelState.IsValid)
             {
                 cliente.FechaDeAlta = DateTime.Now;
@@ -104,6 +105,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
 
                 var cliente = await _context.Clientes.FindAsync(id);
+
                 if (cliente == null)
                 {
                     return NotFound();
@@ -130,10 +132,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
                 var cliente = _context.Clientes.Find(id);
+
                 if (cliente == null)
                 {
                     return NotFound();
                 }
+
                 return View(cliente);
             }
 
@@ -155,14 +159,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
+            ValidarPassword(password);
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
-
             ModelState.Remove(nameof(Cliente.Username));
-
-            if (!string.IsNullOrWhiteSpace(password))
-            {
-                ValidarPassword(password);
-            }
+            ValidarPassword(password);
 
             if (ModelState.IsValid)
             {
@@ -174,12 +174,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                     clienteDb.FechaDeNacimiento = cliente.FechaDeNacimiento;
                     clienteDb.Nombre = cliente.Nombre;
                     clienteDb.Apellido = cliente.Apellido;
+                    clienteDb.Password = password.Encriptar();
 
-                    if (!string.IsNullOrWhiteSpace(password))
-                    {
-                        clienteDb.Password = password.Encriptar();
-                    }
-             
                     _context.Update(clienteDb);
                     _context.SaveChanges();
                 }

@@ -4,9 +4,8 @@
     ViewData["Title"] = "Crear Reserva Por Función";
 }
 
-<h1>Crear reserva por Función</h1>
+<h3>Crear reserva</h3>
 
-<h4>Reserva</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>
-                <input asp-for="CantButacas" type="number" class="form-control" id="butacas">
+                <input asp-for="CantButacas" type="number" class="form-control small" id="butacas">
                 <span asp-validation-for="CantButacas" class="text-danger"></span>
             </div>
 

@@ -3,26 +3,29 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Bienvenidos a ....</h1>
+    <h2>Nombre?</h2>
+    <br/>
 </div>
 
-<div id="carouselInicio" class="carousel slide" data-ride="carousel">
+<div id="carouselInicio" class="carousel slide" data-ride="carousel" style="margin:0">
     <ol class="carousel-indicators">
         <li data-slide-to="0" class="active"></li>
         <li data-slide-to="1"></li>
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="~/lib/images/cine.jpg" width="640" height="500" class="d-block w-100">
+            <img src="~/lib/images/cine.jpg" width="1000" height="500" class="d-block w-100 flex">
             <div class="carousel-caption d-none d-md-block">
                 <h2>El mejor cine de Argentina</h2>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="~/lib/images/entradafutura.jpg" width="640" height="500" class="d-block w-100">
+            <a asp-controller="Funciones" asp-action="SeleccionarFiltro">
+            <img src="~/lib/images/entradafutura.jpg" width="1000" height="500" class="d-block w-100 flex">
+            </a>
             <div class="carousel-caption d-none d-md-block">
                 <h2>Quedate en casa</h2>
-                <h5>Comprá tu entrada futura</h5>
+                <h5>Reservá tu entrada futura</h5>
             </div>
         </div>
     </div>
