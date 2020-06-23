@@ -247,38 +247,15 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View();
         }
 
-        //el anterior metodo repetia las consultas a la BD tanto aca como en los FiltrarPor...
-        //public IActionResult SeleccionarFiltro(int PeliculaId, DateTime fecha)
-        //{
-        //    ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
-
-        //    List<Funcion> funcionesPelicula = _context
-        //                                       .Funciones
-        //                                       .Include(x => x.Pelicula)
-        //                                       .Where(x => x.PeliculaId == PeliculaId)
-        //                                       .ToList();
-
-        //    List<Funcion> funcionesFecha = _context
-        //                                    .Funciones
-        //                                    .Where(x => x.Fecha == fecha)
-        //                                    .ToList();
-        //    List<Funcion> funcionesFecha = _context
-        //                                    .Funciones
-        //                                    .Where(x => x.Fecha == fecha)
-        //                                    .ToList();
-
-        //    return View();
-
 
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult FiltrarPorPeliculaId(int PeliculaId)
         {
             List<Funcion> funciones =
-                _context
-                .Funciones
+                _context.Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .ThenInclude(x => x.Tipo)
+                    .ThenInclude(x => x.Tipo)
                 .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
                 .ToList();
 
@@ -294,7 +271,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context
                 .Funciones
                 .Include(x => x.Pelicula)
-                .Include(x => x.Sala).ThenInclude(x => x.Tipo)
+                .Include(x => x.Sala)
+                    .ThenInclude(x => x.Tipo)
                 .Where(x => x.Fecha == Fecha)
                 .ToList();
 
@@ -334,19 +312,22 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // No se permite crear una funcion en la misma sala, en un rango horario de 3 horas aprox de lo que duraria la pelicula
-        //ToDo: Faltaria la comparacion con minutos
+        
         private void ValidarSalaLibre(Funcion f)
         {
-            var funciones = _context.Funciones
-                            .Where(x => x.Fecha == f.Fecha &&
-                            (x.Horario.Hour >= f.Horario.Hour - 3 && x.Horario.Hour <= f.Horario.Hour + 3) &&
-                            x.SalaId == f.SalaId)
-                            .FirstOrDefault();
-
-            if (funciones != null)
+            
+            if (_context.Funciones.Any(
+                x => x.Fecha == f.Fecha &&
+               (x.Horario.Hour >= f.Horario.Hour - 3 && x.Horario.Hour <= f.Horario.Hour + 3) &&
+                x.SalaId == f.SalaId))
             {
                 ModelState.AddModelError(nameof(f.Horario), "La sala está ocupada en ese horario");
+
             }
+
+
+
+
         }
 
 
