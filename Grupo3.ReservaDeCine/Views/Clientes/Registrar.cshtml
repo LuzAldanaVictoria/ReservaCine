@@ -40,11 +40,10 @@
                 <label asp-for="Password" class="control-label"></label>
                 <input name="password" type="password" class="form-control" id="pass" />
                 <span class="small">
-                <input type="checkbox" onclick="verContrasenia" /> Ver contraseña<br />
+                    <input type="checkbox" onclick="verContrasenia()" /> Ver contraseña<br />
                 </span>
                 <span class="text-success small font-weight-bolder">
-                    La contraseña debe contener al menos 8 caracteres, <br />
-                    un número, una minúscula y una mayúscula.
+                    La contraseña debe contener al menos 8 caracteres, un número, una minúscula y una mayúscula.
                 </span><br />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>

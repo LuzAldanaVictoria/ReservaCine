@@ -162,7 +162,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             ValidarPassword(password);
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ModelState.Remove(nameof(Cliente.Username));
-            ValidarPassword(password);
+
+
+            if (!string.IsNullOrWhiteSpace(password))
+            {
+                ValidarPassword(password);
+            }
 
             if (ModelState.IsValid)
             {
@@ -174,7 +179,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                     clienteDb.FechaDeNacimiento = cliente.FechaDeNacimiento;
                     clienteDb.Nombre = cliente.Nombre;
                     clienteDb.Apellido = cliente.Apellido;
-                    clienteDb.Password = password.Encriptar();
+
+                    if (!string.IsNullOrWhiteSpace(password))
+                    {
+                        clienteDb.Password = password.Encriptar();
+                    }
 
                     _context.Update(clienteDb);
                     _context.SaveChanges();
