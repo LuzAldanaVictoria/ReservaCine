@@ -75,7 +75,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar(string password, Cliente cliente)
+        public async Task<IActionResult> Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username, Password")] Cliente cliente, string password)
         {
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ValidarEmailExistente(cliente.Email);
@@ -145,7 +145,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             [Authorize(Roles = nameof(Role.Cliente))]
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public IActionResult EditMe(Cliente cliente, string password)
+            public IActionResult EditMe([Bind("Id, Nombre, Apellido, FechaDeNacimiento, Email, Username, Password")] Cliente cliente, string password)
             {
                 int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
                 return EditarCliente(id, cliente, password);
@@ -159,7 +159,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            ValidarPassword(password);
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ModelState.Remove(nameof(Cliente.Username));
 
@@ -284,29 +283,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        public void ValidarPassword(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
-            }
-            
-            if (password.Length < 8)
-            {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres.");
-            }
-
-            bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
-            bool contieneUnaMinuscula = new Regex("[a-z]").Match(password).Success;
-            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;
-
-            if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
-            {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula.");
-            }
-        }
-
-
         private void ValidarEmailExistente(string mail)
         {
             if (_context.Clientes.Any(x => Comparar(x.Email, mail) && x.Id != x.Id))
@@ -321,6 +297,28 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
+        }
+
+        public void ValidarPassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
+            }
+
+            if (password.Length < 8)
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres.");
+            }
+
+            bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
+            bool contieneUnaMinuscula = new Regex("[a-z]").Match(password).Success;
+            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;
+
+            if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
+            {
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula.");
+            }
         }
 
     }
