@@ -311,7 +311,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         }
 
-        // No se permite crear una funcion en la misma sala, en un rango horario de 3 horas aprox de lo que duraria la pelicula
+      
         
         private void ValidarSalaLibre(Funcion f)
         {

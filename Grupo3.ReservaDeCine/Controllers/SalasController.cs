@@ -125,10 +125,13 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
-                AjustarDisponibilidadDeButacasEnFunciones(id, sala.CapacidadTotal);
+                
 
                 try
                 {
+                    AjustarDisponibilidadDeButacasEnFunciones(id, sala.CapacidadTotal);
+                    // para ajustar la cantidad de butacas disponibles en todas las funciones futuras de esa sala
+                    
                     _context.Update(sala);
                     await _context.SaveChangesAsync();
                 }
@@ -259,8 +262,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
 
                 funcion.CantButacasDisponibles = capacidadTotal - sumaButacasReservadas;
-              
+                
             }
+
 
         }
 

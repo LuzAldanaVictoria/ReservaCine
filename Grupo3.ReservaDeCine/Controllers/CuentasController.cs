@@ -107,7 +107,7 @@ namespace ConSeguridad.Controllers
             }
         }
 
-  
+ 
 
         //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
@@ -115,7 +115,6 @@ namespace ConSeguridad.Controllers
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
-
 
 
     }
