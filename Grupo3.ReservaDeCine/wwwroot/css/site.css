@@ -108,6 +108,10 @@ th, td{
     font-family: Helvetica;
 }
 
+main{
+    padding: 20px;
+
+}
 
 body{
     background-image: linear-gradient(to left, rgb(234, 231, 225), rgb(176, 171, 161));
