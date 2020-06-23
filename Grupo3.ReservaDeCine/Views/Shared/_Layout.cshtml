@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Grupo3.ReservaDeCine</title>
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" type="image" href="/lib/images/popcorn.png" />
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -13,7 +14,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -21,16 +22,19 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 nav-tabs" >
             <div class="container">
+                <figure class="navbar-brand" style="padding-bottom:0px">
+                    <img src="~/lib/images/popcorn.png" width="30" height="40">
+                </figure>
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <div class="navbar-nav flex-grow-1">
 
                         @if (!User.Identity.IsAuthenticated)
                         {
+
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Peliculas" asp-action="Cartelera">Cartelera</a>
@@ -91,25 +95,25 @@
                                 </ul>
                             }
 
-                    <ul class="navbar-nav mr-auto">
-                        <li>
-                            <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @User.Identity.Name
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" asp-controller="Clientes" asp-action="Details">Mis Datos</a>
-                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Clientes" asp-action="EditMe">Editar Perfil</a>
-                            </div>
-                            </div>
-                        </li>
-                        <li class="nav-item ml-1">
-                            <form asp-action="Salir" asp-controller="Cuentas" method="post">
-                                <button type="submit" class="btn btn-danger">Salir</button>
-                            </form>
-                        </li>
-                    </ul>
+                            <ul class="navbar-nav mr-auto">
+                                <li>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @User.Identity.Name
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" asp-controller="Clientes" asp-action="Details">Mis Datos</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-controller="Clientes" asp-action="EditMe">Editar Perfil</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item ml-1">
+                                    <form asp-action="Salir" asp-controller="Cuentas" method="post">
+                                        <button type="submit" class="btn btn-danger">Salir</button>
+                                    </form>
+                                </li>
+                            </ul>
                         }
 
                     </div>

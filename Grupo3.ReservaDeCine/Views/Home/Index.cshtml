@@ -2,12 +2,14 @@
     ViewData["Title"] = "Página principal";
 }
 
+
 <div class="text-center">
-    <h2>Nombre?</h2>
-    <br/>
+    <h1 style="font-size:50px">SuperSmart Cines</h1>
 </div>
 
-<div id="carouselInicio" class="carousel slide" data-ride="carousel" style="margin:0">
+
+
+<div id="carouselInicio" class="carousel slide flex" data-ride="carousel" style="padding:0px">
     <ol class="carousel-indicators">
         <li data-slide-to="0" class="active"></li>
         <li data-slide-to="1"></li>
@@ -21,7 +23,7 @@
         </div>
         <div class="carousel-item">
             <a asp-controller="Funciones" asp-action="SeleccionarFiltro">
-            <img src="~/lib/images/entradafutura.jpg" width="1000" height="500" class="d-block w-100 flex">
+                <img src="~/lib/images/entradafutura.jpg" width="1000" height="500" class="d-block w-100 flex">
             </a>
             <div class="carousel-caption d-none d-md-block">
                 <h2>Quedate en casa</h2>
@@ -55,4 +57,7 @@
             });
         </script>
     }
+
+
+
 }

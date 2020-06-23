@@ -51,7 +51,7 @@
                         @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
                     </td>
                     <td>
-                        <a class="btn btn-primary" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                        <a class="btn btn-outline-secondary custom-select-sm text-center" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
                     </td>
                 }
                 else
@@ -60,7 +60,7 @@
                         <p style="font-weight:bolder; color:red">Agotadas</p>
                     </td>
                     <td>
-                        <a class="btn btn-primary disabled" disabled asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                        <a class="btn btn-outline-secondary custom-select-sm text-center disabled" disabled asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
                     </td>
                 }
             </tr>
