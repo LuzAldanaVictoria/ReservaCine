@@ -81,6 +81,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             List<Reserva> reservas = _context
                 .Reservas
                 .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
+                .Include(x => x.Funcion).ThenInclude(x => x.Sala)
                 .Where(reserva => reserva.ClienteId == clienteId && reserva.Funcion.Fecha >= DateTime.Today)
                 .ToList();
 

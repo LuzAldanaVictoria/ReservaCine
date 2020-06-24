@@ -83,6 +83,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             ValidarFecha(funcion);
             ValidarHorario(funcion);
+            
 
             if (ModelState.IsValid)
             {
@@ -227,7 +228,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        public IActionResult FiltrarPorPelicula(Pelicula pelicula)
+        public IActionResult FiltrarPorPelicula(Pelicula pelicula) //cuando entra por cartelera
         {
             var funciones = _context
                  .Funciones
@@ -249,7 +250,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltrarPorPeliculaId(int PeliculaId)
+        public IActionResult FiltrarPorPeliculaId(int PeliculaId) // Cuando entra por el filtro día/pelicula
         {
             List<Funcion> funciones =
                 _context.Funciones
@@ -264,7 +265,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltrarPorFecha(DateTime Fecha)
+        public IActionResult FiltrarPorFecha(DateTime Fecha) // Cuando entra por el filtro día/pelicula
         {
 
             List<Funcion> funciones =
@@ -307,19 +308,20 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(funcion.Horario), "El horario debe estar comprendido entre las 9:00 y la 01:59 (A.M.)");
             }
 
-            ValidarSalaLibre(funcion);
+            ValidarSalaLibre(funcion);  // Si validar horario esta OK, llama a Validar sala libre
 
         }
 
       
-        
-        private void ValidarSalaLibre(Funcion f)
+        // Valida que la sala se encuentre libre cuando quiero crear o editar una funcion
+        private void ValidarSalaLibre(Funcion f)  
         {
             
             if (_context.Funciones.Any(
                 x => x.Fecha == f.Fecha &&
+                x.SalaId == f.SalaId &&
                (x.Horario.Hour >= f.Horario.Hour - 3 && x.Horario.Hour <= f.Horario.Hour + 3) &&
-                x.SalaId == f.SalaId))
+                x.Id != f.Id))// verifico que el Id para que la funcion no se encuentre a si misma en caso de edicion
             {
                 ModelState.AddModelError(nameof(f.Horario), "La sala está ocupada en ese horario");
 

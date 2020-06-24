@@ -54,14 +54,13 @@ namespace ConSeguridad.Controllers
                         //aca se crea la identidad del usuario que esta ingresando:
                         // esto es para tener informacion relativa a la identidad del usuario, en el contexto actual(!)
 
-
                         ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                         identity.AddClaim(new Claim(ClaimTypes.Name, username));
                         identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role.ToString()));//De aca viene el [Authorize..role]
                         identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
                         ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
-                        // en este paso se hace el login del usuario al sistema
+                        // en este paso se hace el login del usuario al sistema:
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
                         usuario.FechaUltimoAcceso = DateTime.Now;

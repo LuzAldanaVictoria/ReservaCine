@@ -21,6 +21,9 @@
                 Función
             </th>
             <th>
+                Sala
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.CantButacas)
             </th>
             <th>
@@ -37,6 +40,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Funcion.FechaHora)
+            </td>
+            <td>
+                 @Html.DisplayFor(modelItem => item.Funcion.Sala.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CantButacas)
