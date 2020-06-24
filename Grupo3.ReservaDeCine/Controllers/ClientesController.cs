@@ -15,8 +15,8 @@ using System.Text.RegularExpressions;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
-   
-    public class ClientesController : Controller 
+
+    public class ClientesController : Controller
     {
         private readonly CineDbContext _context;
 
@@ -33,7 +33,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(await _context.Clientes.ToListAsync());
         }
 
-       
+
 
         // GET: clientes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -41,7 +41,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (id == null)
             {
                 id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-       
+
             }
             // Esta es la consulta de la base de datos que hacemos a través de Entity Framework.
             // Toda la información que obtengamos de la base será la información que podamos acceder luego desde la variable cliente.
@@ -75,10 +75,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username, Password")] Cliente cliente, string password)
+        public async Task<IActionResult> Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
         {
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
-            ValidarEmailExistente(cliente.Email);
+            ValidarEmailExistente(cliente.Email, cliente.Id);
             ValidarUserNameExistente(cliente.Username);
             ValidarPassword(password);
 
@@ -90,66 +90,66 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Ingresar","Cuentas");
+                return RedirectToAction("Ingresar", "Cuentas");
             }
             return View(cliente);
         }
 
-            // GET: clientes/Edit/5
-            [Authorize(Roles = nameof(Role.Administrador))]
-            public async Task<IActionResult> Edit(int? id)
+        // GET: clientes/Edit/5
+        [Authorize(Roles = nameof(Role.Administrador))]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-
-                var cliente = await _context.Clientes.FindAsync(id);
-
-                if (cliente == null)
-                {
-                    return NotFound();
-                }
-                return View(cliente);
+                return NotFound();
             }
 
-            // POST: clientes/Edit/5
-            // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-            // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-            
-            [Authorize(Roles = nameof(Role.Administrador))]
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public IActionResult Edit(int id, Cliente cliente, string password)
+            var cliente = await _context.Clientes.FindAsync(id);
+
+            if (cliente == null)
             {
-                return EditarCliente(id, cliente, password);
+                return NotFound();
+            }
+            return View(cliente);
+        }
+
+        // POST: clientes/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize(Roles = nameof(Role.Administrador))]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Cliente cliente, string password)
+        {
+            return EditarCliente(id, cliente, password);
+        }
+
+
+        [Authorize(Roles = nameof(Role.Cliente))]
+        [HttpGet]
+        public IActionResult EditMe()
+        {
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+            var cliente = _context.Clientes.Find(id);
+
+            if (cliente == null)
+            {
+                return NotFound();
             }
 
-
-            [Authorize(Roles = nameof(Role.Cliente))]
-            [HttpGet]
-            public IActionResult EditMe()
-            {
-                int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
-                var cliente = _context.Clientes.Find(id);
-
-                if (cliente == null)
-                {
-                    return NotFound();
-                }
-
-                return View(cliente);
-            }
+            return View(cliente);
+        }
 
 
-            [Authorize(Roles = nameof(Role.Cliente))]
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public IActionResult EditMe([Bind("Id, Nombre, Apellido, FechaDeNacimiento, Email, Username, Password")] Cliente cliente, string password)
-            {
-                int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
-                return EditarCliente(id, cliente, password);
-            }
+        [Authorize(Roles = nameof(Role.Cliente))]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditMe([Bind("Id, Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
+        {
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+            return EditarCliente(id, cliente, password);
+        }
 
 
         private IActionResult EditarCliente(int id, Cliente cliente, string password)
@@ -209,7 +209,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             return View(cliente);
         }
-   
+
 
         [Authorize(Roles = nameof(Role.Administrador))]
         public async Task<IActionResult> Delete(int? id)
@@ -249,10 +249,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-      //minimo de edad para crear un usuario: 12 años, máximo: 100 años.
+        //minimo de edad para crear un usuario: 12 años, máximo: 100 años.
         private void ComprobarFechaDeNacimiento(DateTime fechaNacimiento)
         {
-            var fechaActual = DateTime.Now; 
+            var fechaActual = DateTime.Now;
             int edad = fechaActual.Year - fechaNacimiento.Year;
 
             if (fechaActual.Month < fechaNacimiento.Month || (fechaActual.Month == fechaNacimiento.Month && fechaActual.Day < fechaNacimiento.Day))
@@ -261,13 +261,13 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
 
-            if (edad < 12) 
+            if (edad < 12)
             {
                 ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "El cliente debe ser mayor de 12 años");
             }
 
 
-            if (fechaNacimiento.Year < (DateTime.Today.Year-100) || fechaNacimiento.Year > DateTime.Today.Year)
+            if (fechaNacimiento.Year < (DateTime.Today.Year - 100) || fechaNacimiento.Year > DateTime.Today.Year)
             {
                 ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "Fecha de nacimiento inválida");
             }
@@ -283,9 +283,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        private void ValidarEmailExistente(string mail)
+        private void ValidarEmailExistente(string mail, int id)
         {
-            if (_context.Clientes.Any(x => Comparar(x.Email, mail) && x.Id != x.Id))
+            if (_context.Clientes.Any(x => Comparar(x.Email, mail) && x.Id != id))
             {
                 ModelState.AddModelError(nameof(Cliente.Email), "Ya existe un cliente con este Email");
             }

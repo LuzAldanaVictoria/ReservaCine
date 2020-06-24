@@ -45,7 +45,6 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Nombre de Usuario")]
         public string Username { get; set; }
 
-        [Required(ErrorMessage = "El campo Contraseña es requerido")]
         [ScaffoldColumn(false)]
         [Display (Name = "Contraseña")]
         public byte[] Password { get; set; }
@@ -53,10 +52,5 @@ namespace Grupo3.ReservaDeCine.Models
 
         [Display(Name = "Fecha de último acceso")]
         public DateTime? FechaUltimoAcceso { get; set; }
-
-
-
-
-
     }
 }
