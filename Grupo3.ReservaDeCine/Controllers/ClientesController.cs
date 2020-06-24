@@ -12,6 +12,7 @@ using Grupo3.ReservaDeCine.Models.Enums;
 using System.Security.Claims;
 using Grupo3.ReservaDeCine.Extensions;
 using System.Text.RegularExpressions;
+using ConSeguridad.Controllers;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -26,7 +27,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        // GET: clientes
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Index()
         {
@@ -34,14 +35,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-
-        // GET: clientes/Details/5
+        [HttpGet]
+        [Authorize]
         public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
             }
             // Esta es la consulta de la base de datos que hacemos a través de Entity Framework.
             // Toda la información que obtengamos de la base será la información que podamos acceder luego desde la variable cliente.
@@ -50,7 +50,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             // Luego, si deseamos obtener información específica de algo asociado a la reserva (en nuestro caso la función y dentro de la función la película) debemos hacer include también de eso.
             var cliente =  _context.Clientes
                 .Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(x => x.Id == id);
             // Es importante remarcar que la semántica es => Traeme los clientes => con sus reservas => de sus reservas incluíme las funciones => de esas funciones incluíme la película.
 
             // Luego utilizaremos esta información en la vista.
@@ -63,25 +63,23 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-        // GET: Usuarios/Registrar
-        [AllowAnonymous]
+
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Registrar()
         {
             return View();
         }
 
-
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public IActionResult Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
         {
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ValidarEmailExistente(cliente.Email, cliente.Id);
             ValidarUserNameExistente(cliente.Username);
             ValidarPassword(password);
-
 
             if (ModelState.IsValid)
             {
@@ -90,12 +88,14 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.Add(cliente);
                 _context.SaveChanges();
 
-                return RedirectToAction("Ingresar", "Cuentas");
+                return RedirectToAction(nameof(CuentasController.Ingresar), nameof(CuentasController));
             }
+
             return View(cliente);
         }
 
-        // GET: clientes/Edit/5
+
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int? id)
         {
@@ -113,21 +113,16 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-        // POST: clientes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int id, Cliente cliente, string password)
         {
             return EditarCliente(id, cliente, password);
         }
 
-
-        [Authorize(Roles = nameof(Role.Cliente))]
         [HttpGet]
+        [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult EditMe()
         {
             int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
@@ -141,17 +136,19 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-
-        [Authorize(Roles = nameof(Role.Cliente))]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult EditMe([Bind("Id, Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
         {
             int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
+            
             return EditarCliente(id, cliente, password);
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         private IActionResult EditarCliente(int id, Cliente cliente, string password)
         {
             if (cliente.Id != id)
@@ -161,7 +158,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ModelState.Remove(nameof(Cliente.Username));
-
 
             if (!string.IsNullOrWhiteSpace(password))
             {
@@ -204,13 +200,14 @@ namespace Grupo3.ReservaDeCine.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
             }
 
             return View(cliente);
         }
 
 
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Delete(int? id)
         {
@@ -220,7 +217,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var cliente = _context.Clientes
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(x => x.Id == id);
+
             if (cliente == null)
             {
                 return NotFound();
@@ -229,27 +227,30 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cliente);
         }
 
-
-
-        // POST: clientes/Delete/5
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult DeleteConfirmed(int id)
         {
             var cliente =  _context.Clientes.Find(id);
+           
             _context.Clientes.Remove(cliente);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        ////---- Métodos privados para validaciones ----////
+
         private bool ClienteExists(int id)
         {
-            return _context.Clientes.Any(e => e.Id == id);
+            return _context.Clientes.Any(x => x.Id == id);
         }
 
 
-        //minimo de edad para crear un usuario: 12 años, máximo: 100 años.
+        //Edad mínima para crear un usuario: 12 años, Máxima: 100 años.
         private void ComprobarFechaDeNacimiento(DateTime fechaNacimiento)
         {
             var fechaActual = DateTime.Now;
@@ -260,12 +261,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 edad--;
             }
 
-
             if (edad < 12)
             {
                 ModelState.AddModelError(nameof(Cliente.FechaDeNacimiento), "El cliente debe ser mayor de 12 años");
             }
-
 
             if (fechaNacimiento.Year < (DateTime.Today.Year - 100) || fechaNacimiento.Year > DateTime.Today.Year)
             {
@@ -292,23 +291,23 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        //Función que compara que dos strings no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
 
+
         public void ValidarPassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida.");
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña es requerida");
             }
 
             if (password.Length < 8)
             {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres.");
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe tener al menos 8 caracteres");
             }
 
             bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
@@ -317,7 +316,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
             {
-                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula.");
+                ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula");
             }
         }
 

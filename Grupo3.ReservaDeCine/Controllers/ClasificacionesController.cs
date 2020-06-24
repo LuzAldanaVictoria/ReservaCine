@@ -21,14 +21,15 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: Clasificaciones
+
+        [HttpGet]
         public  IActionResult Index()
         {
-
             return View(_context.Clasificaciones.ToList());
         }
 
-        // GET: Clasificaciones/Details/5
+
+        [HttpGet]
         public  IActionResult Details(int? id)
         {
             
@@ -39,7 +40,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var clasificacion = _context.Clasificaciones
                 .Include(x => x.Peliculas)
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(x => x.Id == id);
 
             if (clasificacion == null)
             {
@@ -49,20 +50,18 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(clasificacion);
         }
 
-        // GET: Clasificaciones/Create
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Clasificaciones/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public  IActionResult Create([Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
         {
-            //validacion
+          
             ValidarDescripcionExistente(clasificacion); 
             
             if (ModelState.IsValid)
@@ -74,7 +73,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(clasificacion);
         }
 
-        // GET: Clasificaciones/Edit/5
+
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -91,9 +91,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(clasificacion);
         }
 
-        // POST: Clasificaciones/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public  IActionResult Edit(int id, [Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
@@ -128,7 +125,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(clasificacion);
         }
 
-        // GET: Clasificaciones/Delete/5
+
+        [HttpGet]
         public  IActionResult Delete(int? id)
         {
             if (id == null)
@@ -137,7 +135,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var clasificacion =  _context.Clasificaciones
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(x => x.Id == id);
+
             if (clasificacion == null)
             {
                 return NotFound();
@@ -146,7 +145,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(clasificacion);
         }
 
-        // POST: Clasificaciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public  IActionResult DeleteConfirmed(int id)
@@ -157,21 +155,25 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        ////---- Métodos privados para validaciones ----////
+
         private bool ClasificacionExists(int id)
         {
-            return _context.Clasificaciones.Any(e => e.Id == id);
+            return _context.Clasificaciones.Any(x => x.Id == id);
         }
+
 
         private void ValidarDescripcionExistente(Clasificacion clasificacion)
         {
-            if (_context.Clasificaciones.Any(e => Comparar(e.Descripcion, clasificacion.Descripcion) && e.Id != clasificacion.Id))
+            if (_context.Clasificaciones.Any(x => Comparar(x.Descripcion, clasificacion.Descripcion) && x.Id != clasificacion.Id))
             {
-                ModelState.AddModelError(nameof(clasificacion.Descripcion), "Ya existe esta clasificación");
+                ModelState.AddModelError(nameof(clasificacion.Descripcion), "Ya existe una clasificación con este nombre");
             }
         }
 
 
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)

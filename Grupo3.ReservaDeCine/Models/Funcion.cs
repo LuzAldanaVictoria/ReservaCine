@@ -41,7 +41,7 @@ namespace Grupo3.ReservaDeCine.Models
         public List<Reserva> Reservas { get; set; }
 
 
-        [Display(Name = "Cantidad de butacas disponibles")]
+        [Display(Name = "Butacas disponibles")]
         public int CantButacasDisponibles { get; set; }
 
 

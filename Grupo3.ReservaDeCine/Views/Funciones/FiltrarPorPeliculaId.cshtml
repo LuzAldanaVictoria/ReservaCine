@@ -10,19 +10,16 @@
     <thead>
         <tr>
             <th>
-                Tipo de Sala
+                Tipo de sala
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Pelicula)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fecha)
+                @Html.DisplayNameFor(model => model.FechaHora)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Horario)
-            </th>
-            <th>
-                Butacas Disponibles
+                @Html.DisplayNameFor(model => model.CantButacasDisponibles)
             </th>
             <th>
                 Precio
@@ -37,15 +34,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Sala.Tipo.Nombre)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
             </td>
             <td>
-                @item.Fecha.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @item.Horario.ToString("HH:mm")
+                @Html.DisplayFor(modelItem => item.FechaHora)
             </td>
 
             @if (item.CantButacasDisponibles != 0)
@@ -56,9 +49,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Sala.Tipo.PrecioEntrada)
                 </td>
-
                 <td>
-                    <a class="btn btn-outline-secondary custom-select-sm text-center" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                    <a class="btn btn-outline-secondary custom-select-sm" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
                 </td>
             }
             else
@@ -67,12 +59,12 @@
                     <p style="font-weight:bolder; color:red">Agotadas</p>
                 </td>
                 <td>
-                    <a class="btn btn-outline-secondary custom-select-sm text-center disabled" disabled asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                    @Html.DisplayFor(modelItem => item.Sala.Tipo.PrecioEntrada)
+                </td>
+                <td>
+                    <a class="btn btn-outline-secondary custom-select-sm disabled" disabled asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
                 </td>
             }
-
-
-
         </tr>
         }
     </tbody>

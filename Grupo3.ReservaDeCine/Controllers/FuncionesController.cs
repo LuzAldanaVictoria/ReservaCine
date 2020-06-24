@@ -22,11 +22,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: Funciones
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Index()
         {
-            var funciones =  _context
+            var funciones = _context
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
@@ -36,16 +36,15 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        // GET: Funciones/Details/5
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Details(int? id)
         {
              
-                if (id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
 
             var funcion = _context.Funciones
                 .Include(x => x.Reservas).ThenInclude(x => x.Cliente)
@@ -58,12 +57,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-
             return View(funcion);
         }
 
-       
-        // GET: Funciones/Create
+
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
         {
@@ -73,9 +71,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View();
         }
 
-        // POST: Funciones/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,7 +79,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             ValidarFecha(funcion);
             ValidarHorario(funcion);
             
-
             if (ModelState.IsValid)
             {
                 var sala = _context.Salas
@@ -92,20 +86,21 @@ namespace Grupo3.ReservaDeCine.Controllers
                              .FirstOrDefault();
 
                 funcion.CantButacasDisponibles = sala.CapacidadTotal;
+
                 _context.Add(funcion);
                 _context.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
 
             ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 
-
             return View(funcion);
         }
 
 
-        // GET: Funciones/Edit/5
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int? id)
         {
@@ -115,6 +110,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var funcion = _context.Funciones.Find(id);
+
             if (funcion == null)
             {
                 return NotFound();
@@ -126,14 +122,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funcion);
         }
 
-        // POST: Funciones/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int id, Funcion funcion)
-      
         {
 
             if (id != funcion.Id)
@@ -143,7 +135,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             
             ValidarFecha(funcion);
             ValidarHorario(funcion);
-
+            ValidarCapacidadNuevaSalaSegunReservas(id, funcion);
 
             if (ModelState.IsValid)
             {
@@ -151,17 +143,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     // Obtengo la función de la base de datos
                     var funcionDb = _context.Funciones.Find(id);
-
-                    // Si la sala fue modificada, debemos alterar la cantidad de butacas disponibles de la función en base a la disponibilidad 
-                    // de la nueva sala, pero teniendo en cuenta las butacas que ya habían sido reservadas.
-                    if (funcionDb.SalaId != funcion.SalaId)
-                    {
-                        var salaAnterior = _context.Salas.Find(funcionDb.SalaId);
-                        var salaNueva = _context.Salas.Find(funcion.SalaId);
-
-                        var cantidadButacasReservadas = salaAnterior.CapacidadTotal - funcionDb.CantButacasDisponibles;
-                        funcionDb.CantButacasDisponibles = salaNueva.CapacidadTotal - cantidadButacasReservadas;
-                    }
 
                     // Mapeo los campos que se pueden editar SalaId, PeliculaId, Fecha, Horario
                     funcionDb.SalaId = funcion.SalaId;
@@ -188,6 +169,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             ViewBag.SelectSalas = new SelectList(_context.Salas, "Id", "Nombre");
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
             return View(funcion);
         }
 
@@ -313,7 +295,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
       
-        // Valida que la sala se encuentre libre cuando quiero crear o editar una funcion
+        // Valida que la sala se encuentre libre cuando quiero crear o editar una funcion.
         private void ValidarSalaLibre(Funcion f)  
         {
             
@@ -324,12 +306,24 @@ namespace Grupo3.ReservaDeCine.Controllers
                 x.Id != f.Id))// verifico que el Id para que la funcion no se encuentre a si misma en caso de edicion
             {
                 ModelState.AddModelError(nameof(f.Horario), "La sala está ocupada en ese horario");
-
             }
+        }
 
+        // Valida que la cantidad de butacas total de la sala nueva no sea menor a la cantidad ya reservada para la función.
+        private void ValidarCapacidadNuevaSalaSegunReservas(int funcionId, Funcion funcion)
+        {
+            var funcionDb = _context.Funciones.Find(funcionId);
+            var salaAnterior = _context.Salas.Find(funcionDb.SalaId);
+            var salaNueva = _context.Salas.Find(funcion.SalaId);
 
+            var cantidadButacasReservadas = salaAnterior.CapacidadTotal - funcionDb.CantButacasDisponibles;
+            funcionDb.CantButacasDisponibles = salaNueva.CapacidadTotal - cantidadButacasReservadas;
 
-
+            if (funcionDb.CantButacasDisponibles < 0)
+            {
+                ModelState.AddModelError(nameof(funcion.SalaId), "No se puede cambiar la sala, dado que no es posible disminuir la cantidad de butacas por debajo de la cantidad ya reservada");
+            }
+        
         }
 
 

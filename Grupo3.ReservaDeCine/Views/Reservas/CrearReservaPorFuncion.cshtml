@@ -20,9 +20,10 @@
                 <label class="control-label">Función</label><br>
                 <select disabled asp-items="@ViewBag.FechaHora"></select>
             </div>
+            <input type="hidden" name="validarCantButacas"/>
             <div class="form-group">
                 <label asp-for="CantButacas" class="control-label"></label>
-                <input asp-for="CantButacas" type="number" class="form-control small" id="butacas">
+                <input asp-for="CantButacas" type="number" class="form-control small" id="butacas" />
                 <span asp-validation-for="CantButacas" class="text-danger"></span>
             </div>
 
@@ -55,7 +56,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Volver al inicio</a>
+   <a asp-controller="Home" asp-action="Index">Volver al inicio</a>
 </div>
 
 
@@ -65,7 +66,9 @@
   @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 
+yourBindingName:
     <script type="text/javascript">
+
         function calcularTotal() {
             var butacas = document.getElementById('butacas').value;
 

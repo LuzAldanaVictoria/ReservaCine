@@ -18,22 +18,22 @@ namespace ConSeguridad.Controllers
     public class CuentasController : Controller
     {
         private readonly CineDbContext _context;
+
         public CuentasController(CineDbContext context)
         {
             _context = context;
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Ingresar(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
-
-        [AllowAnonymous]
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Ingresar(string username, string password, string returnUrl)
         {
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))  // Se valida que se envie usuario y contraseña y que no lleguen vacios
@@ -86,8 +86,8 @@ namespace ConSeguridad.Controllers
         }
 
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Salir()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -101,25 +101,6 @@ namespace ConSeguridad.Controllers
         {
             return View();
         }
-
-
-        private void ValidarUserNameExistente(string username)
-        {
-            if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
-            {
-                ModelState.AddModelError(nameof(username), "Nombre de usuario no disponible");
-            }
-        }
-
- 
-
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
-        private static bool Comparar(string s1, string s2)
-        {
-            return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
-                .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
-        }
-
 
     }
 }
