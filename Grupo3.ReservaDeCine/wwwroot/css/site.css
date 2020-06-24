@@ -8,7 +8,6 @@ a.navbar-brand {
 }
 
 
-
 .nav-item {
     color: dimgray;
 }
@@ -91,16 +90,6 @@ th, td{
     text-align: center;
 }
 
-.foto-texto-foto {
-    display: inline-flex;
-    justify-content: center;
-    align-content: center;
-
-}
-
-h1 {
-    display: inline-flex;
-}
 
 figure{
     display: inline-flex;
