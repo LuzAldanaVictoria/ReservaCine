@@ -78,7 +78,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         public async Task<IActionResult> Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
         {
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
-            ValidarEmailExistente(cliente.Email);
+            ValidarEmailExistente(cliente.Email, cliente.Id);
             ValidarUserNameExistente(cliente.Username);
             ValidarPassword(password);
 
@@ -283,9 +283,9 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        private void ValidarEmailExistente(string mail)
+        private void ValidarEmailExistente(string mail, int id)
         {
-            if (_context.Clientes.Any(x => Comparar(x.Email, mail) && x.Id != x.Id))
+            if (_context.Clientes.Any(x => Comparar(x.Email, mail) && x.Id != id))
             {
                 ModelState.AddModelError(nameof(Cliente.Email), "Ya existe un cliente con este Email");
             }

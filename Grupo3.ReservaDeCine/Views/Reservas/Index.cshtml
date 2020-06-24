@@ -18,9 +18,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cliente)
             </th>
+
             <th>
                 Película
             </th>
+
+            <th>
+                Sala
+            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.CantButacas)
             </th>
@@ -28,7 +34,7 @@
                 @Html.DisplayNameFor(model => model.CostoTotal)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaDeAlta)
+                Fecha de función
             </th>
             <th></th>
         </tr>
@@ -45,6 +51,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Funcion.Pelicula.Nombre)
             </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Funcion.Sala.Nombre)
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.CantButacas)
             </td>
@@ -52,10 +63,10 @@
                 @Html.DisplayFor(modelItem => item.CostoTotal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaDeAlta)
+                @Html.DisplayFor(modelItem => item.Funcion.FechaHora)
             </td>
             <td>
-             
+
                 <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>

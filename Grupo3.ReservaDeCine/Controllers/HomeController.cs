@@ -345,6 +345,24 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
+                var reserva6 = new Reserva()
+                {
+                    Cliente = Cliente2,
+                    Funcion = funcion4,
+                    CantButacas = 10,
+                    CostoTotal = 4500,
+                    FechaDeAlta = DateTime.Now
+                };
+
+                var reserva7 = new Reserva()
+                {
+                    Cliente = Cliente3,
+                    Funcion = funcion4,
+                    CantButacas = 8,
+                    CostoTotal = 3600,
+                    FechaDeAlta = DateTime.Now
+                };
+
 
 
                 pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero1 });
@@ -360,7 +378,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.AddRange(new[] { Cliente1, Cliente2, Cliente3, Cliente4 });
                 _context.Add(administrador1);
                 _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
-                _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5 });
+                _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5, reserva6, reserva7 });
                 _context.SaveChanges();
             }
 

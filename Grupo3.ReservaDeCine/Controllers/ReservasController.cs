@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Grupo3.ReservaDeCine.Models.Enums;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging.Console.Internal;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Grupo3.ReservaDeCine.Controllers
 {
@@ -32,6 +33,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                  .Reservas
                  .Include(x => x.Cliente)
                  .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
+                 .Include(x => x.Funcion).ThenInclude(x => x.Sala)
                  .ToListAsync();
 
             return View(reservas);
@@ -74,7 +76,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult MisReservas()
         {
-            int clienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            int clienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
 
             List<Reserva> reservas = _context
                 .Reservas
@@ -113,6 +115,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
+
+        // CREATE POST
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
         // Aca el server efectiviza la reserva
@@ -139,7 +143,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);  // aca le asigna a la reserva el clienteId con el claims de Name Identifier
                 _context.Add(reserva);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(MisReservas));
