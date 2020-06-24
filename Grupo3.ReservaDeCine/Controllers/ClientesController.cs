@@ -28,15 +28,15 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: clientes
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Clientes.ToListAsync());
+            return View(_context.Clientes.ToList());
         }
 
 
 
         // GET: clientes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -48,9 +48,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             // Las propiedades de navegación nos servirán para poder "Navegar" desde una propiedad a otra, en este caso desde cliente a sus "Reservas".
             // Para que las propiedades de Navegación sean cargadas es necesario utilizar el Include indicando qué propiedad queremos que se cargue (en este caso Reservas).
             // Luego, si deseamos obtener información específica de algo asociado a la reserva (en nuestro caso la función y dentro de la función la película) debemos hacer include también de eso.
-            var cliente = await _context.Clientes
+            var cliente =  _context.Clientes
                 .Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
             // Es importante remarcar que la semántica es => Traeme los clientes => con sus reservas => de sus reservas incluíme las funciones => de esas funciones incluíme la película.
 
             // Luego utilizaremos esta información en la vista.
@@ -75,7 +75,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
+        public IActionResult Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
         {
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
             ValidarEmailExistente(cliente.Email, cliente.Id);
@@ -88,7 +88,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 cliente.FechaDeAlta = DateTime.Now;
                 cliente.Password = password.Encriptar();
                 _context.Add(cliente);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
                 return RedirectToAction("Ingresar", "Cuentas");
             }
@@ -97,14 +97,14 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: clientes/Edit/5
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente =  _context.Clientes.Find(id);
 
             if (cliente == null)
             {
@@ -212,15 +212,15 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cliente = _context.Clientes
+                .FirstOrDefault(m => m.Id == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -235,11 +235,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente =  _context.Clientes.Find(id);
             _context.Clientes.Remove(cliente);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

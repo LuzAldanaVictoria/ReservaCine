@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>
-                Tipo de Sala 
+                Tipo de Sala
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Pelicula)
@@ -22,7 +22,10 @@
                 @Html.DisplayNameFor(model => model.Horario)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CantButacasDisponibles)
+                Butacas Disponibles
+            </th>
+            <th>
+                Precio
             </th>
             <th></th>
         </tr>
@@ -30,40 +33,47 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sala.Tipo.Nombre)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
+            </td>
+            <td>
+                @item.Fecha.ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @item.Horario.ToString("HH:mm")
+            </td>
+
+            @if (item.CantButacasDisponibles != 0)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Sala.Tipo.Nombre)
+                    @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sala.Tipo.PrecioEntrada)
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.Pelicula.Nombre)
+                    <a class="btn btn-outline-secondary custom-select-sm text-center" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <p style="font-weight:bolder; color:red">Agotadas</p>
                 </td>
                 <td>
-                    @item.Fecha.ToString("dd/MM/yyyy")
+                    <a class="btn btn-outline-secondary custom-select-sm text-center disabled" disabled asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
                 </td>
-                <td>
-                    @item.Horario.ToString("HH:mm")
-                </td>
+            }
 
-                @if (item.CantButacasDisponibles != 0)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CantButacasDisponibles)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-secondary custom-select-sm text-center" asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <p style="font-weight:bolder; color:red">Agotadas</p>
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-secondary custom-select-sm text-center disabled" disabled asp-controller="Reservas" asp-action="CrearReservaPorFuncion" asp-route-id="@item.Id">Reservar</a>
-                    </td>
-                }
-            </tr>
+
+
+        </tr>
         }
     </tbody>
 </table>

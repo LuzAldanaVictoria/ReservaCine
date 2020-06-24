@@ -23,10 +23,10 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Generos
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
   
-            return View(await _context.Generos.ToListAsync());
+            return View(_context.Generos.ToList());
         }
 
         // GET: Generos/Details/5
@@ -64,7 +64,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion")] Genero genero)
+        public IActionResult Create([Bind("Id,Descripcion")] Genero genero)
         {
 
             //validacion
@@ -73,21 +73,21 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(genero);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(genero);
         }
 
         // GET: Generos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public  IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
+            var genero =  _context.Generos.Find(id);
 
             if (genero == null)
             {
@@ -102,7 +102,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion")] Genero genero)
+        public IActionResult Edit(int id, [Bind("Id,Descripcion")] Genero genero)
         {
             
             if (id != genero.Id)
@@ -119,7 +119,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 try
                 {
                     _context.Update(genero);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -139,15 +139,15 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Generos/Delete/5
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var genero = await _context.Generos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var genero = _context.Generos
+                .FirstOrDefault(m => m.Id == id);
             if (genero == null)
             {
                 return NotFound();
@@ -159,11 +159,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: Generos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var genero = await _context.Generos.FindAsync(id);
+            var genero = _context.Generos.Find(id);
             _context.Generos.Remove(genero);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

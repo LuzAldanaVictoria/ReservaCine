@@ -222,23 +222,23 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var pelicula = await _context.Peliculas.FindAsync(id);
+            var pelicula = _context.Peliculas.Find(id);
             _context.Peliculas.Remove(pelicula);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
 
-        public async Task<IActionResult> Cartelera()
+        public  IActionResult Cartelera()
         {
-            var cartelera = await _context
+            var cartelera =  _context
                .Peliculas
                .Include(x => x.Generos)
                .Include(x => x.Clasificacion)
                .Include(x => x.Funciones)
-               .ToListAsync();
+               .ToList();
 
             return View(cartelera);
         }

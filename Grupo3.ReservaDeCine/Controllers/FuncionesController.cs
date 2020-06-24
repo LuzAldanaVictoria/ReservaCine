@@ -24,13 +24,13 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Funciones
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var funciones = await _context
+            var funciones =  _context
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .ToListAsync();
+                .ToList();
 
             return View(funciones);
         }
@@ -38,7 +38,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Funciones/Details/5
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
              
                 if (id == null)
@@ -47,11 +47,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
 
-            var funcion = await _context.Funciones
+            var funcion = _context.Funciones
                 .Include(x => x.Reservas).ThenInclude(x => x.Cliente)
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
 
             if (funcion == null)
             {
@@ -79,7 +79,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Funcion funcion)
+        public  IActionResult Create(Funcion funcion)
         {
             ValidarFecha(funcion);
             ValidarHorario(funcion);
@@ -87,13 +87,13 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {
-                var sala = await _context.Salas
+                var sala = _context.Salas
                              .Where(x => x.Id == funcion.SalaId)
-                             .FirstOrDefaultAsync();
+                             .FirstOrDefault();
 
                 funcion.CantButacasDisponibles = sala.CapacidadTotal;
                 _context.Add(funcion);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -107,14 +107,14 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Funciones/Edit/5
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var funcion = await _context.Funciones.FindAsync(id);
+            var funcion = _context.Funciones.Find(id);
             if (funcion == null)
             {
                 return NotFound();
@@ -132,7 +132,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Funcion funcion)
+        public IActionResult Edit(int id, Funcion funcion)
       
         {
 
@@ -170,7 +170,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     funcionDb.Horario = funcion.Horario;
 
                     _context.Update(funcionDb);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -193,18 +193,18 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Funciones/Delete/5
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var funcion = await _context
+            var funcion = _context
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
            
             if (funcion == null)
             {
@@ -219,11 +219,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var funcion = await _context.Funciones.FindAsync(id);
+            var funcion = _context.Funciones.Find(id);
             _context.Funciones.Remove(funcion);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

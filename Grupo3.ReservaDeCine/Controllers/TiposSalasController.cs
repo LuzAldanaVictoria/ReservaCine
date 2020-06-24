@@ -23,21 +23,21 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: TiposSalas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.TiposSala.ToListAsync());
+            return View(_context.TiposSala.ToList());
         }
 
         // GET: TiposSalas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tipoSala = await _context.TiposSala
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var tipoSala = _context.TiposSala
+                .FirstOrDefault(m => m.Id == id);
             if (tipoSala == null)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
+        public  IActionResult Create([Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
         {
             //valida si ya existe el nombre
             ValidarNombreExistente(tipoSala); 
@@ -66,21 +66,21 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(tipoSala);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(tipoSala);
         }
 
         // GET: TiposSalas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tipoSala = await _context.TiposSala.FindAsync(id);
+            var tipoSala = _context.TiposSala.Find(id);
             if (tipoSala == null)
             {
                 return NotFound();
@@ -93,7 +93,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
+        public IActionResult Edit(int id, [Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
         {
             if (id != tipoSala.Id)
             {
@@ -107,7 +107,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 try
                 {
                     _context.Update(tipoSala);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,15 +126,15 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: TiposSalas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tipoSala = await _context.TiposSala
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var tipoSala = _context.TiposSala
+                .FirstOrDefault(m => m.Id == id);
             if (tipoSala == null)
             {
                 return NotFound();
@@ -146,11 +146,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: TiposSalas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var tipoSala = await _context.TiposSala.FindAsync(id);
+            var tipoSala = _context.TiposSala.Find(id);
             _context.TiposSala.Remove(tipoSala);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

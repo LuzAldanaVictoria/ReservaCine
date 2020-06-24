@@ -27,31 +27,31 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Reservas
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var reservas = await _context
+            var reservas = _context
                  .Reservas
                  .Include(x => x.Cliente)
                  .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
                  .Include(x => x.Funcion).ThenInclude(x => x.Sala)
-                 .ToListAsync();
+                 .ToList();
 
             return View(reservas);
         }
 
         [Authorize(Roles = nameof(Role.Administrador))]
         // GET: Reservas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var reserva = await _context.Reservas
+            var reserva = _context.Reservas
                  .Include(x => x.Cliente)
                  .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
-                 .FirstOrDefaultAsync(m => m.Id == id);
+                 .FirstOrDefault(m => m.Id == id);
 
             if (reserva == null)
             {
@@ -163,18 +163,18 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         // GET: Reservas/Delete/5
         [Authorize(Roles = nameof(Role.Administrador))]
-        public async Task<IActionResult> Delete(int? id)
+        public  IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var reserva = await _context
+            var reserva =  _context
                 .Reservas
                 .Include(x => x.Cliente)
                 .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
 
             if (reserva == null)
             {
@@ -189,11 +189,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public  IActionResult DeleteConfirmed(int id)
         {
-            var reserva = await _context.Reservas.FindAsync(id);
+            var reserva =  _context.Reservas.Find(id);
             _context.Reservas.Remove(reserva);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

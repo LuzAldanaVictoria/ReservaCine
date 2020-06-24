@@ -22,14 +22,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Clasificaciones
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
 
-            return View(await _context.Clasificaciones.ToListAsync());
+            return View(_context.Clasificaciones.ToList());
         }
 
         // GET: Clasificaciones/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public  IActionResult Details(int? id)
         {
             
             if (id == null)
@@ -37,9 +37,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            var clasificacion = await _context.Clasificaciones
+            var clasificacion = _context.Clasificaciones
                 .Include(x => x.Peliculas)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
 
             if (clasificacion == null)
             {
@@ -60,7 +60,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
+        public  IActionResult Create([Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
         {
             //validacion
             ValidarDescripcionExistente(clasificacion); 
@@ -68,21 +68,21 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(clasificacion);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(clasificacion);
         }
 
         // GET: Clasificaciones/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var clasificacion = await _context.Clasificaciones.FindAsync(id);
+            var clasificacion =  _context.Clasificaciones.Find(id);
 
             if (clasificacion == null)
             {
@@ -96,7 +96,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
+        public  IActionResult Edit(int id, [Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
         {
             if (id != clasificacion.Id)
             {
@@ -110,7 +110,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 try
                 {
                     _context.Update(clasificacion);
-                    await _context.SaveChangesAsync();
+                     _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -129,15 +129,15 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Clasificaciones/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public  IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var clasificacion = await _context.Clasificaciones
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var clasificacion =  _context.Clasificaciones
+                .FirstOrDefault(m => m.Id == id);
             if (clasificacion == null)
             {
                 return NotFound();
@@ -149,11 +149,11 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: Clasificaciones/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public  IActionResult DeleteConfirmed(int id)
         {
-            var clasificacion = await _context.Clasificaciones.FindAsync(id);
+            var clasificacion =  _context.Clasificaciones.Find(id);
             _context.Clasificaciones.Remove(clasificacion);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

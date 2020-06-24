@@ -23,29 +23,29 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Salas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
 
-            var salas = await _context.Salas
+            var salas =  _context.Salas
                 .Include(x => x.Tipo)
-                .ToListAsync();
+                .ToList();
 
             return View(salas);
 
         }
 
         // GET: Salas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-                var sala = await _context.Salas
+                var sala =  _context.Salas
                 .Include(x => x.Tipo)
                 .Include(x => x.Funciones).ThenInclude(x => x.Pelicula)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
          
 
             if (sala == null)
@@ -68,7 +68,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
+        public IActionResult Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
         {
 
             ValidarNombreExistente(sala);
@@ -76,7 +76,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {                
                     _context.Add(sala);
-                    await _context.SaveChangesAsync();
+                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));                            
             }
 
@@ -86,7 +86,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Salas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public  IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -94,9 +94,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
 
-            var sala = await _context
+            var sala =  _context
                 .Salas
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
 
             if (sala == null)
             {
@@ -112,7 +112,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Sala sala)
+        public IActionResult Edit(int id, Sala sala)
         {
             if (id != sala.Id)
             {
@@ -133,7 +133,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     // para ajustar la cantidad de butacas disponibles en todas las funciones futuras de esa sala
                     
                     _context.Update(sala);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -155,17 +155,17 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         // GET: Salas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var sala = await _context
+            var sala = _context
                 .Salas
                 .Include(x => x.Tipo)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == id);
             if (sala == null)
             {
                 return NotFound();
@@ -177,12 +177,12 @@ namespace Grupo3.ReservaDeCine.Controllers
         // POST: Salas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            await _context.TiposSala.ToListAsync();
-            var sala = await _context.Salas.FindAsync(id);
+            _context.TiposSala.ToList();
+            var sala =  _context.Salas.Find(id);
             _context.Salas.Remove(sala);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
