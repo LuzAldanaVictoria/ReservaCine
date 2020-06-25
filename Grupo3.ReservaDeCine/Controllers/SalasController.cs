@@ -180,18 +180,14 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
+
+
+
         ////---- Métodos privados para validaciones ----////
 
         private bool SalaExists(int id)  
         {
             return _context.Salas.Any(e => e.Id == id);
-        }
-
-
-        private bool SalaNombreExists(String nombreSala, int id)  
-        {
-            // se valida que no exista una sala con el mismo nombre, ignorando mayusculas y minisculas
-            return _context.Salas.Any(x => x.Nombre.Equals(nombreSala, StringComparison.CurrentCultureIgnoreCase) &&  x.Id != id);  // De esta forma estoy recorriendo como si fuera un for la lista de salas. x.Nombre me trae el nombre del elemento en una posicion
         }
 
 

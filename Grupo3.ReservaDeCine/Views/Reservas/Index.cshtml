@@ -19,13 +19,14 @@
                 Función
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CantButacas)
+                Butacas Reservadas
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CostoTotal)
             </th>
+            
             <th>
-                @Html.DisplayNameFor(model => model.FechaDeAlta)
+                Sala
             </th>
             <th></th>
         </tr>
@@ -49,8 +50,9 @@
                 @Html.DisplayFor(modelItem => item.CostoTotal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaDeAlta)
+                @Html.DisplayFor(modelItem => item.Funcion.Sala.Nombre)
             </td>
+
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
