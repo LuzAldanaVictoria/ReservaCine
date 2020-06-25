@@ -71,11 +71,13 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View();
         }
 
-        [Authorize(Roles = nameof(Role.Administrador))]
+
         [HttpPost]
+        [Authorize(Roles = nameof(Role.Administrador))]
         [ValidateAntiForgeryToken]
         public  IActionResult Create(Funcion funcion)
         {
+
             ValidarFecha(funcion);
             ValidarHorario(funcion);
             
@@ -155,6 +157,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+
                     if (!FuncionExists(funcion.Id))
                     {
                         return NotFound();
@@ -164,6 +167,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -173,7 +177,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funcion);
         }
 
-        // GET: Funciones/Delete/5
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Delete(int? id)
         {
@@ -186,7 +190,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala)
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(x => x.Id == id);
            
             if (funcion == null)
             {
@@ -197,50 +201,63 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funcion);
         }
 
-        // POST: Funciones/Delete/5
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult DeleteConfirmed(int id)
         {
             var funcion = _context.Funciones.Find(id);
+
             _context.Funciones.Remove(funcion);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
 
+        [HttpGet]
+        [Authorize(Roles = nameof(Role.Cliente))]
+        public IActionResult SeleccionarFiltro()
+        {
+            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
+
+            return View();
+        }
+
+
+        [AllowAnonymous]
         public IActionResult FiltrarPorPelicula(Pelicula pelicula) //cuando entra por cartelera
         {
             var funciones = _context
                  .Funciones
                  .Include(x => x.Pelicula)
-                 .Include(x => x.Sala)
-                 .ThenInclude(x => x.Tipo)
+                 .Include(x => x.Sala).ThenInclude(x => x.Tipo)
                  .Where(x => x.PeliculaId == pelicula.Id && x.Fecha >= DateTime.Now)
                  .ToList();
+
+            if (!funciones.Any())
+            {
+                return RedirectToAction(nameof(NoHayFunciones));
+            }
 
             return View(funciones);
         }
 
-        [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult SeleccionarFiltro()
-        {
-            ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
-            return View();
-        }
-
-
+     
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult FiltrarPorPeliculaId(int PeliculaId) // Cuando entra por el filtro día/pelicula
         {
-            List<Funcion> funciones =
-                _context.Funciones
+            var funciones =_context
+                .Funciones
                 .Include(x => x.Pelicula)
-                .Include(x => x.Sala)
-                    .ThenInclude(x => x.Tipo)
+                .Include(x => x.Sala).ThenInclude(x => x.Tipo)
                 .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
                 .ToList();
+
+            if (!funciones.Any())
+            {
+                return RedirectToAction(nameof(NoHayFunciones));
+            }
 
             return View(funciones);
         }
@@ -249,23 +266,36 @@ namespace Grupo3.ReservaDeCine.Controllers
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult FiltrarPorFecha(DateTime Fecha) // Cuando entra por el filtro día/pelicula
         {
-
-            List<Funcion> funciones =
+            var funciones =
                 _context
                 .Funciones
                 .Include(x => x.Pelicula)
-                .Include(x => x.Sala)
-                    .ThenInclude(x => x.Tipo)
+                .Include(x => x.Sala).ThenInclude(x => x.Tipo)
                 .Where(x => x.Fecha == Fecha)
                 .ToList();
+
+            if(!funciones.Any())
+            {
+                return RedirectToAction(nameof(NoHayFunciones));
+            }
 
             return View(funciones);
         }
 
 
+        [HttpGet]
+        public IActionResult NoHayFunciones()
+        {
+            return View();
+        }
+
+
+
+        ////---- Métodos privados para validaciones ----////
+
         private bool FuncionExists(int id)
         {
-            return _context.Funciones.Any(e => e.Id == id);
+            return _context.Funciones.Any(x => x.Id == id);
         }
 
 

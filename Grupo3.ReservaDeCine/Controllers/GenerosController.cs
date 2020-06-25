@@ -22,14 +22,14 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: Generos
+        [HttpGet]
         public IActionResult Index()
         {
-  
             return View(_context.Generos.ToList());
         }
 
-        // GET: Generos/Details/5
+
+        [HttpGet]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -51,25 +51,19 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(genero);
         }
 
-        // GET: Generos/Create
-        [Authorize(Roles = nameof(Role.Administrador))]
+
+        [HttpGet]
         public IActionResult Create()
         {
-
             return View();
         }
 
-        // POST: Generos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Descripcion")] Genero genero)
         {
+            ValidarDescripcionExistente(genero.Descripcion, genero.Id);
 
-            //validacion
-            ValidarNombreExistente(genero);
-       
             if (ModelState.IsValid)
             {
                 _context.Add(genero);
@@ -79,7 +73,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(genero);
         }
 
-        // GET: Generos/Edit/5
+
+        [HttpGet]
         public  IActionResult Edit(int? id)
         {
             if (id == null)
@@ -96,23 +91,18 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(genero);
         }
 
-        // POST: Generos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int id, [Bind("Id,Descripcion")] Genero genero)
         {
-            
+
             if (id != genero.Id)
             {
                 return NotFound();
             }
 
-
-            ValidarNombreExistente(genero);
-
+            ValidarDescripcionExistente(genero.Descripcion, genero.Id);
 
             if (ModelState.IsValid)
             {
@@ -132,13 +122,14 @@ namespace Grupo3.ReservaDeCine.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(genero);
         }
 
-        // GET: Generos/Delete/5
-        [Authorize(Roles = nameof(Role.Administrador))]
+
+        [HttpGet]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -147,7 +138,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var genero = _context.Generos
-                .FirstOrDefault(m => m.Id == id);
+                        .FirstOrDefault(x => x.Id == id);
+
             if (genero == null)
             {
                 return NotFound();
@@ -156,33 +148,36 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(genero);
         }
 
-        // POST: Generos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             var genero = _context.Generos.Find(id);
+
             _context.Generos.Remove(genero);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
+
+        ////---- Métodos privados para validaciones ----////
+       
         private bool GeneroExists(int id)
         {
             return _context.Generos.Any(e => e.Id == id);
         }
 
 
-        private void ValidarNombreExistente(Genero genero)
+        private void ValidarDescripcionExistente(string descripcion, int id)
         {
-            if (_context.Generos.Any(e => Comparar(e.Descripcion, genero.Descripcion) && e.Id != genero.Id))
+            if (_context.Generos.Any(e => Comparar(e.Descripcion, descripcion) && e.Id != id))
             {
-                ModelState.AddModelError(nameof(genero.Descripcion), "Ya existe ese género");
+                ModelState.AddModelError(nameof(Genero.Descripcion), "Ya existe ese género");
             }
         }
 
-     
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
+
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)

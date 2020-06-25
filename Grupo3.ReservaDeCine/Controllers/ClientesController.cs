@@ -88,14 +88,18 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.Add(cliente);
                 _context.SaveChanges();
 
-                return RedirectToAction(nameof(CuentasController.Ingresar), nameof(CuentasController));
+                return RedirectToAction(nameof(CreateExitoso));
             }
 
             return View(cliente);
         }
 
+        public IActionResult CreateExitoso()
+        {
+            return View();
+        }
 
-        [HttpGet]
+      [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int? id)
         {
