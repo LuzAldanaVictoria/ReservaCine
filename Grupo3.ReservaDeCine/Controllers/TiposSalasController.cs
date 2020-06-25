@@ -22,13 +22,14 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: TiposSalas
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_context.TiposSala.ToList());
         }
 
-        // GET: TiposSalas/Details/5
+
+        [HttpGet]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -38,6 +39,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var tipoSala = _context.TiposSala
                 .FirstOrDefault(m => m.Id == id);
+
             if (tipoSala == null)
             {
                 return NotFound();
@@ -46,33 +48,32 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(tipoSala);
         }
 
-        // GET: TiposSalas/Create
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: TiposSalas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public  IActionResult Create([Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
         {
-            //valida si ya existe el nombre
+
             ValidarNombreExistente(tipoSala); 
             
-
             if (ModelState.IsValid)
             {
                 _context.Add(tipoSala);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(tipoSala);
         }
 
-        // GET: TiposSalas/Edit/5
+
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -81,6 +82,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var tipoSala = _context.TiposSala.Find(id);
+
             if (tipoSala == null)
             {
                 return NotFound();
@@ -88,9 +90,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(tipoSala);
         }
 
-        // POST: TiposSalas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Nombre,PrecioEntrada")] TipoSala tipoSala)
@@ -125,7 +124,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(tipoSala);
         }
 
-        // GET: TiposSalas/Delete/5
+
+        [HttpGet]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -135,6 +135,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var tipoSala = _context.TiposSala
                 .FirstOrDefault(m => m.Id == id);
+
             if (tipoSala == null)
             {
                 return NotFound();
@@ -143,7 +144,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(tipoSala);
         }
 
-        // POST: TiposSalas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
@@ -154,21 +154,26 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        ////---- Métodos privados para validaciones ----////
+       
+
         private bool TipoSalaExists(int id)
         {
-            return _context.TiposSala.Any(e => e.Id == id);
+            return _context.TiposSala.Any(x => x.Id == id);
         }
+
 
         private void ValidarNombreExistente(TipoSala tipoSala)
         {
-            if (_context.TiposSala.Any(e => Comparar(e.Nombre, tipoSala.Nombre) && e.Id != tipoSala.Id))
+            if (_context.TiposSala.Any(x => Comparar(x.Nombre, tipoSala.Nombre) && x.Id != tipoSala.Id))
             {
                ModelState.AddModelError(nameof(tipoSala.Nombre), "Ya existe un tipo de sala con ese nombre");
             }
         }
 
 
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
         private bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)

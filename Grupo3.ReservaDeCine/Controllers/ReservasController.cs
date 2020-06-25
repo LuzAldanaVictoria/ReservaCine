@@ -25,7 +25,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: Reservas
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Index()
         {
@@ -39,8 +39,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reservas);
         }
 
+
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
-        // GET: Reservas/Details/5
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -51,7 +52,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var reserva = _context.Reservas
                  .Include(x => x.Cliente)
                  .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
-                 .FirstOrDefault(m => m.Id == id);
+                 .FirstOrDefault(x => x.Id == id);
 
             if (reserva == null)
             {
@@ -62,23 +63,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        [Authorize(Roles = nameof(Role.Cliente))]
-        // GET: Reservas/Create
-        public IActionResult Create()
-        {
-            ViewBag.SelectFechaHora = new SelectList(_context.Funciones, "Id", "FechaHora");
-
-            return View();
-        }
-
-
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult MisReservas()
         {
             int clienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); 
 
-            List<Reserva> reservas = _context
+            var reservas = _context
                 .Reservas
                 .Include(x => x.Funcion).ThenInclude(x => x.Pelicula)
                 .Include(x => x.Funcion).ThenInclude(x => x.Sala)
@@ -87,6 +78,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             return View(reservas);
         }
+
 
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
@@ -116,8 +108,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
-
-        // CREATE POST
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
         // Aca el server efectiviza la reserva
@@ -125,7 +115,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             if (!ValidarEdad(reserva))
             {
-                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta Película.");
+                ModelState.AddModelError(string.Empty, "No cuenta con edad suficiente para ver esta película");
             }
 
             var funcion = _context
@@ -160,8 +150,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-
-        // GET: Reservas/Delete/5
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public  IActionResult Delete(int? id)
         {
@@ -184,22 +173,26 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(reserva);
         }
 
-
-        // POST: Reservas/Delete/5
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public  IActionResult DeleteConfirmed(int id)
         {
             var reserva =  _context.Reservas.Find(id);
+           
             _context.Reservas.Remove(reserva);
             _context.SaveChanges();
+            
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        ////---- Métodos privados para validaciones ----////
+
         private bool ReservaExists(int id)
         {
-            return _context.Reservas.Any(e => e.Id == id);
+            return _context.Reservas.Any(x => x.Id == id);
 
         }
 
@@ -208,11 +201,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (funcion.CantButacasDisponibles < reserva.CantButacas)
             {
                 ModelState.AddModelError(nameof(reserva.CantButacas), "No hay suficiente cantidad de butacas disponibles para esta función");
-            }
-
-            if (reserva.CantButacas > 10)
-            {
-                ModelState.AddModelError(nameof(reserva.CantButacas), "No es posible reservar más de 10 butacas.");
             }
         }
 
@@ -224,8 +212,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                            .Include(x => x.Pelicula).ThenInclude(x => x.Clasificacion)
                            .Where(x => x.Id == reserva.FuncionId)
                            .FirstOrDefault();
-
-
 
             var cliente = _context.Clientes.Find(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
             var fechaNacimiento = cliente.FechaDeNacimiento;
@@ -249,10 +235,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return puede;
 
         }
-
-
-
-
 
     }
 }

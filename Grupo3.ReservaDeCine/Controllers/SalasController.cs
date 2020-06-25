@@ -15,6 +15,7 @@ namespace Grupo3.ReservaDeCine.Controllers
     [Authorize(Roles = nameof(Role.Administrador))]
     public class SalasController : Controller
     {
+
         private readonly CineDbContext _context;
 
         public SalasController(CineDbContext context)
@@ -22,19 +23,14 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
-        // GET: Salas
+        [HttpGet]
         public IActionResult Index()
         {
-
-            var salas =  _context.Salas
-                .Include(x => x.Tipo)
-                .ToList();
-
-            return View(salas);
-
+            return View(_context.Salas.Include(x => x.Tipo).ToList());
         }
+        
 
-        // GET: Salas/Details/5
+        [HttpGet]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -42,7 +38,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-                var sala =  _context.Salas
+            var sala =  _context.Salas
                 .Include(x => x.Tipo)
                 .Include(x => x.Funciones).ThenInclude(x => x.Pelicula)
                 .FirstOrDefault(m => m.Id == id);
@@ -56,16 +52,14 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(sala);
         }
 
-        // GET: Salas/Create
+
+        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View();
         }
 
-        // POST: Salas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Nombre,TipoId,CapacidadTotal")] Sala sala)
@@ -75,9 +69,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             if (ModelState.IsValid)
             {                
-                    _context.Add(sala);
-                     _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));                            
+                _context.Add(sala);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));                            
             }
 
             ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
@@ -85,7 +79,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(sala);
         }
 
-        // GET: Salas/Edit/5
+        [HttpGet]
         public  IActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,10 +87,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-
             var sala =  _context
                 .Salas
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(x => x.Id == id);
 
             if (sala == null)
             {
@@ -107,9 +100,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(sala);
         }
 
-        // POST: Salas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Sala sala)
@@ -121,12 +111,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             ValidarNombreExistente(sala);
             ValidarCapacidadSegunReservas(id, sala.CapacidadTotal);
-           
 
             if (ModelState.IsValid)
             {
-                
-
                 try
                 {
                     AjustarDisponibilidadDeButacasEnFunciones(id, sala.CapacidadTotal);
@@ -146,15 +133,15 @@ namespace Grupo3.ReservaDeCine.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
-            
             ViewBag.SelectTiposDeSala = new SelectList(_context.TiposSala, "Id", "Nombre");
             return View(sala);
         }
 
-        // GET: Salas/Delete/5
+        [HttpGet]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -166,6 +153,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Salas
                 .Include(x => x.Tipo)
                 .FirstOrDefault(m => m.Id == id);
+
+
             if (sala == null)
             {
                 return NotFound();
@@ -174,31 +163,38 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(sala);
         }
 
-        // POST: Salas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            _context.TiposSala.ToList();
-            var sala =  _context.Salas.Find(id);
+            var sala = _context.Salas
+                .Include(x => x.Tipo)
+                .Include(x => x.Funciones).ThenInclude(x => x.Pelicula)
+                .FirstOrDefault(x => x.Id == id);
+          
             _context.Salas.Remove(sala);
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
+
+
+
+        ////---- Métodos privados para validaciones ----////
 
         private bool SalaExists(int id)  
         {
             return _context.Salas.Any(e => e.Id == id);
         }
 
+
         private bool SalaNombreExists(String nombreSala, int id)  
         {
             // se valida que no exista una sala con el mismo nombre, ignorando mayusculas y minisculas
-            return _context.Salas.Any(e => e.Nombre.Equals(nombreSala, StringComparison.CurrentCultureIgnoreCase) &&  e.Id != id);  // De esta forma estoy recorriendo como si fuera un for la lista de salas. e.Nombre me trae el nombre del elemento en una posicion
+            return _context.Salas.Any(x => x.Nombre.Equals(nombreSala, StringComparison.CurrentCultureIgnoreCase) &&  x.Id != id);  // De esta forma estoy recorriendo como si fuera un for la lista de salas. x.Nombre me trae el nombre del elemento en una posicion
         }
 
 
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
@@ -236,16 +232,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     ModelState.AddModelError(nameof(Sala.CapacidadTotal), "No se puede disminuir la cantidad de butacas por debajo de la cantidad ya reserva");
                     return;
-                }
-                                            
-            }
-                       
+                }                            
+            }               
         }
 
         // Se usa al cambiar la capacidad de la sala, ajustando la disponibilidad en las funciones
        private void AjustarDisponibilidadDeButacasEnFunciones(int salaId, int capacidadTotal)
-
-        {
+       {
             var Funciones =
                 _context.Funciones
                 .Include(x => x.Reservas)
@@ -261,14 +254,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                     sumaButacasReservadas += reserva.CantButacas;
                 }
 
-                funcion.CantButacasDisponibles = capacidadTotal - sumaButacasReservadas;
-                
+                funcion.CantButacasDisponibles = capacidadTotal - sumaButacasReservadas;  
             }
-
-
         }
 
-
-
     }
+
 }

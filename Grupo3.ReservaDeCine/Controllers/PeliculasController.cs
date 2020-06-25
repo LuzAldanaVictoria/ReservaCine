@@ -23,6 +23,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             _context = context;
         }
 
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Index()
         {
@@ -35,7 +36,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(peliculas);
         }
 
-        // GET: Peliculas/Details/5
+
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Details(int? id)
         {
@@ -45,10 +47,10 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             var pelicula = _context.Peliculas
-                .Include(x => x.Generos).ThenInclude (x => x.Genero)
+                .Include(x => x.Generos).ThenInclude(x => x.Genero)
                 .Include(x => x.Clasificacion)
-                .Include(x => x.Funciones).ThenInclude (x => x.Sala)
-                .FirstOrDefault(m => m.Id == id);
+                .Include(x => x.Funciones).ThenInclude(x => x.Sala)
+                .FirstOrDefault(x => x.Id == id);
 
             if (pelicula == null)
             {
@@ -57,9 +59,10 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             return View(pelicula);
         }
+    
 
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
-        // GET: Peliculas/Create
         public IActionResult Create()
         {
             ViewBag.SelectGeneros = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion));
@@ -68,16 +71,12 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View();
         }
 
-        // POST: Peliculas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create(Pelicula pelicula, List<int> generoIds)
         {
 
-            //valida si ya existe el nombre
             ValidarNombreExistente(pelicula);
             ValidarGeneros(generoIds);
 
@@ -101,8 +100,8 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
-        // GET: Peliculas/Edit/5
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -125,15 +124,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
-
-
-
-        // POST: Peliculas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int id, Pelicula pelicula, List<int> generoIds)
         {
             if (id != pelicula.Id)
@@ -141,7 +134,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return NotFound();
             }
 
-            //valida si ya existe el nombre
             ValidarNombreExistente(pelicula);
             ValidarGeneros(generoIds);
 
@@ -194,7 +186,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        // GET: Peliculas/Delete/5
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Delete(int? id)
         {
@@ -205,10 +197,10 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             var pelicula = _context
                 .Peliculas
-                .Include(x => x.Generos)
+                .Include(x => x.Generos).ThenInclude(x => x.Genero)
                 .Include(x => x.Clasificacion)
-                .FirstOrDefault(m => m.Id == id);
-
+                .Include(x => x.Funciones).ThenInclude(x => x.Sala)
+                .FirstOrDefault(x => x.Id == id);
             
             if (pelicula == null)
             {
@@ -218,10 +210,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(pelicula);
         }
 
-        // POST: Peliculas/Delete/5
-        [Authorize(Roles = nameof(Role.Administrador))]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult DeleteConfirmed(int id)
         {
             var pelicula = _context.Peliculas.Find(id);
@@ -230,7 +221,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        [HttpGet]
+        [AllowAnonymous]
         public  IActionResult Cartelera()
         {
             var cartelera =  _context
@@ -243,27 +235,31 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(cartelera);
         }
 
+
+
+        ////---- Métodos privados para validaciones ----////
+
         private bool PeliculaExists(int id)
         {
-            return _context.Peliculas.Any(e => e.Id == id);
+            return _context.Peliculas.Any(x => x.Id == id);
         }
 
 
         private void ValidarNombreExistente(Pelicula pelicula)
         {
-            if (_context.Peliculas.Any(e => Comparar(e.Nombre, pelicula.Nombre) && e.Id != pelicula.Id))
+            if (_context.Peliculas.Any(x => Comparar(x.Nombre, pelicula.Nombre) && x.Id != pelicula.Id))
             {
                 ModelState.AddModelError(nameof(pelicula.Nombre), "Ya existe una película con ese nombre");
             }
         }
 
 
-        //Función que compara que los nombres no sean iguales, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
                 .SequenceEqual(s2.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant));
         }
+
 
         private void ValidarGeneros(List<int> generoIds)
         {

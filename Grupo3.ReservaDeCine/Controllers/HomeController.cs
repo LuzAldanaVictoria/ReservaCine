@@ -93,6 +93,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CapacidadTotal = 80
                 };
 
+
                 var genero1 = new Genero()
                 {
                     Descripcion = "Infantil"
@@ -126,9 +127,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-
-
-
                 var Cliente2 = new Cliente()
                 {
                     Username = "cliente2",
@@ -153,7 +151,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-
                 var administrador1 = new Administrador()
                 {
                     Username = "administrador1",
@@ -163,7 +160,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Email = "jcgonzalez@gmail.com",
                     Legajo = 0001
                 };
-
 
                 var Cliente4 = new Cliente()
                 {
@@ -256,7 +252,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CantButacasDisponibles = sala2.CapacidadTotal - 4
                 };
 
-
                 var funcion3 = new Funcion()
                 {
                     Sala = sala3,
@@ -265,7 +260,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Horario = new DateTime().AddHours(20).AddMinutes(20),
                     CantButacasDisponibles = sala3.CapacidadTotal -8
                 };
-
 
                 var funcion4 = new Funcion()
                 {
@@ -276,7 +270,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CantButacasDisponibles = sala4.CapacidadTotal -18
                 };
 
-
                 var funcion5 = new Funcion()
                 {
                     Sala = sala1,
@@ -285,7 +278,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Horario = new DateTime().AddHours(23).AddMinutes(30),
                     CantButacasDisponibles = sala1.CapacidadTotal
                 };
-
 
                 var funcion6 = new Funcion()
                 {
@@ -305,7 +297,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-
                 var reserva2 = new Reserva()
                 {
                     Cliente = Cliente1,
@@ -314,7 +305,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CostoTotal = 1800,
                     FechaDeAlta = DateTime.Now
                 };
-
 
                 var reserva3 = new Reserva()
                 {
@@ -325,7 +315,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-
                 var reserva4 = new Reserva()
                 {
                     Cliente = Cliente2,
@@ -334,7 +323,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     CostoTotal = 1800,
                     FechaDeAlta = DateTime.Now
                 };
-
 
                 var reserva5 = new Reserva()
                 {
@@ -363,8 +351,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                     FechaDeAlta = DateTime.Now
                 };
 
-
-
                 pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero1 });
                 pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = genero2 });
                 pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = genero3 });
@@ -383,7 +369,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
         }
-
 
     }
     

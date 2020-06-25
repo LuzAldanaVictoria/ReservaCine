@@ -8,19 +8,13 @@
 
 <h3>¿Está seguro que desea eliminar esta película?</h3>
 <div>
-    <hr/>
+    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Generos)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Generos)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Sinopsis)
@@ -35,7 +29,35 @@
             @Html.DisplayFor(model => model.Clasificacion.Descripcion)
         </dd>
     </dl>
-    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Generos)
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (PeliculaGenero peliculaGeneros in Model.Generos)
+                {
+                    <li> @peliculaGeneros.Genero.Descripcion</li>
+                }
+            </ul>
+
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Funciones)
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (Funcion funcion in Model.Funciones)
+                {
+                    <li> Sala: @funcion.Sala.Nombre,  Fecha de función: @funcion.Fecha.ToString("dd/MM/yyyy") a las @funcion.Fecha.ToString("hh:mm")</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
