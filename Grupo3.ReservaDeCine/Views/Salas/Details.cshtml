@@ -1,7 +1,7 @@
 ﻿@model Grupo3.ReservaDeCine.Models.Sala
 
 @{
-    ViewData["Title"] = "Detalles";
+    ViewData["Title"] = "Detalles de la sala";
 }
 
 <h1>Salas</h1>
@@ -47,6 +47,8 @@
             </dd>
         </dl>
 </div>
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
     <a asp-action="Index">Volver a la lista</a>

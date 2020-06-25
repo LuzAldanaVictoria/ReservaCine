@@ -5,8 +5,8 @@
 }
 
 <h1>Películas</h1>
-
 <h3>¿Está seguro que desea eliminar esta película?</h3>
+
 <div>
     <hr />
     <dl class="row">
@@ -40,7 +40,6 @@
                     <li> @peliculaGeneros.Genero.Descripcion</li>
                 }
             </ul>
-
         </dd>
     </dl>
     <dl class="row">
@@ -57,10 +56,10 @@
         </dd>
     </dl>
 
-
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         <a asp-action="Index">Volver a la lista</a>
     </form>
+
 </div>
