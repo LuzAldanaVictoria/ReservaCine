@@ -6,9 +6,7 @@
 
 <h1>Clientes</h1>
 <h4>Editar Cliente</h4>
-
 <hr />
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" method="post">
@@ -52,10 +50,24 @@
     </div>
 </div>
 
+
 <div>
     <a asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script type="text/javascript">
+
+    function verContrasenia() {
+        var contrasenia = document.getElementById('pass');
+
+        if (contrasenia.type === "password") {
+            contrasenia.type = "text";
+        } else {
+            contrasenia.type = "password";
+        }
+    }
+</script>
 }

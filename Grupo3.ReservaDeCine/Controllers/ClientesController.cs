@@ -99,7 +99,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View();
         }
 
-      [HttpGet]
+
+        [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Edit(int? id)
         {
@@ -143,16 +144,14 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult EditMe([Bind("Id, Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
+        public IActionResult EditMe([Bind("Id, Nombre, Apellido, FechaDeNacimiento, Email")] Cliente cliente, string password)
         {
             int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int id);
             
             return EditarCliente(id, cliente, password);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize]
+
         private IActionResult EditarCliente(int id, Cliente cliente, string password)
         {
             if (cliente.Id != id)
@@ -204,7 +203,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             return View(cliente);
