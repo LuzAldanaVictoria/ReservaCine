@@ -42,9 +42,9 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-controller="Clientes" asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
+        <a asp-controller="Clientes" asp-action="Index">Volver a la lista</a>
     </form>
 </div>

@@ -215,7 +215,6 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-        [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult SeleccionarFiltro()
         {
@@ -243,16 +242,21 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(funciones);
         }
 
-     
+
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltrarPorPeliculaId(int PeliculaId) // Cuando entra por el filtro día/pelicula
+        public IActionResult FiltroPelicula(int? PeliculaId) // Cuando entra por el filtro día/pelicula
         {
-            var funciones =_context
-                .Funciones
-                .Include(x => x.Pelicula)
-                .Include(x => x.Sala).ThenInclude(x => x.Tipo)
-                .Where(x => x.Pelicula.Id == PeliculaId && x.Fecha >= DateTime.Now)
-                .ToList();
+            if (PeliculaId == null)
+            {
+                return NotFound();
+            }
+
+            var funciones = _context
+               .Funciones
+               .Include(x => x.Pelicula)
+               .Include(x => x.Sala).ThenInclude(x => x.Tipo)
+               .Where(x => x.PeliculaId == PeliculaId && x.Fecha >= DateTime.Now)
+               .ToList();
 
             if (!funciones.Any())
             {
@@ -260,18 +264,19 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
 
             return View(funciones);
-        }
+        
+    }
 
 
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltrarPorFecha(DateTime Fecha) // Cuando entra por el filtro día/pelicula
+        public IActionResult FiltroFecha(DateTime fecha) // Cuando entra por el filtro día/pelicula
         {
             var funciones =
                 _context
                 .Funciones
                 .Include(x => x.Pelicula)
                 .Include(x => x.Sala).ThenInclude(x => x.Tipo)
-                .Where(x => x.Fecha == Fecha)
+                .Where(x => x.Fecha == fecha)
                 .ToList();
 
             if(!funciones.Any())

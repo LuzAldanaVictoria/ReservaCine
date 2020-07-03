@@ -15,17 +15,16 @@
                 <input asp-for="Fecha" type="text" class="form-control" value="@DateTime.Today.ToString("dd/MM/yyyy")" id="datepicker"  />
             </div>
             <div class="form-group">
-                <input type="submit" value="Buscar" class="btn btn-outline-secondary" asp-controller="Funciones" asp-action="FiltrarPorFecha" />
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" asp-controller="Funciones" asp-action="FiltroFecha"/>
             </div>
 
             <div class="form-group">
                 <label asp-for="PeliculaId" class="control-label"></label>
-                <select asp-for="PeliculaId" class="form-control" asp-items="ViewBag.SelectPeliculas" ></select>
+                <select asp-for="PeliculaId" class="form-control" asp-items="ViewBag.SelectPeliculas"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Buscar" class="btn btn-outline-secondary" asp-controller="Funciones" asp-action="FiltrarPorPeliculaId"/>
+                <input type="submit" value="Buscar" class="btn btn-outline-secondary" asp-controller="Funciones" asp-action="FiltroPelicula" >
             </div>
-
         </form>
     </div>
 </div>

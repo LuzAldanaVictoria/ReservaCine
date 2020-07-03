@@ -7,7 +7,7 @@
 <h1>Clasificaciones</h1>
 
 <p>
-    <a asp-action="Create">Crear nueva clasificación</a>
+    <a asp-controller="Clasificaciones" asp-action="Create">Crear nueva clasificación</a>
 </p>
 <table class="table">
     <thead>
@@ -37,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.EdadMinima)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a asp-controller="Clasificaciones" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-controller="Clasificaciones" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-controller="Clasificaciones" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 }

@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-controller="TiposSalas" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
@@ -31,7 +31,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Volver a la lista</a>
+    <a asp-controller="TiposSalas" asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {

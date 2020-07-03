@@ -7,7 +7,7 @@
 <h1>Tipos de Sala</h1>
 
 <p>
-    <a asp-action="Create">Crear nuevo tipo de sala</a>
+    <a asp-controller="TiposSalas" asp-action="Create">Crear nuevo tipo de sala</a>
 </p>
 
 <table class="table">
@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => item.PrecioEntrada)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a asp-controller="TiposSalas" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-controller="TiposSalas" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-controller="TiposSalas" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 }

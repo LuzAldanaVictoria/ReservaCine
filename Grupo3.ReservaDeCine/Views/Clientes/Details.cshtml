@@ -74,12 +74,12 @@
 <div>
     @if (User.IsInRole(nameof(Role.Administrador)))
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
-        <a asp-action="Index"> | Volver a la lista</a>
+        <a asp-controller="Clientes" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+        <a asp-controller="Clientes" asp-action="Index"> | Volver a la lista</a>
     }
     else
     {
-        <a asp-action="EditMe" asp-route-id="@Model.Id">Editar mi Perfil</a>
+        <a asp-controller="Clientes" asp-action="EditMe" asp-route-id="@Model.Id">Editar mi Perfil</a>
     }
 
 </div>

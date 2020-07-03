@@ -11,7 +11,7 @@
 
 <div class="login-container">
    <div class="col-md-4 justify-content-center">
-        <form method="post" asp-action="Ingresar">
+        <form asp-controller="Cuentas" asp-action="Ingresar" method="post" >
             <input type="hidden" value="@ViewBag.ReturnUrl" name="returnUrl" />
             <div class="container-content">
                 <div class="form-group">

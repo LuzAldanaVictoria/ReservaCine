@@ -56,10 +56,10 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
+    <form asp-controller="Peliculas" asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
+        <a asp-controller="Peliculas" asp-action="Index">Volver a la lista</a>
     </form>
 
 </div>
