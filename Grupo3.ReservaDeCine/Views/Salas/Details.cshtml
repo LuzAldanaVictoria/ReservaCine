@@ -42,7 +42,9 @@
             <dd class="col-sm-10">
                 @foreach (Funcion funcion in Model.Funciones)
                 {
-                    <li>Película: @funcion.Pelicula.Nombre,  Fecha de función: @funcion.Fecha.ToString("dd/MM/yyyy") a las @funcion.Fecha.ToString("hh:mm")</li>
+                    <ul>
+                        <li>Película: @funcion.Pelicula.Nombre,  Fecha de función: @funcion.Fecha.ToString("dd/MM/yyyy") a las @funcion.Fecha.ToString("hh:mm")</li>
+                    </ul>
                 }
             </dd>
         </dl>

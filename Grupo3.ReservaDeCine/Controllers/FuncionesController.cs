@@ -224,6 +224,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult FiltrarPorPelicula(Pelicula pelicula) //cuando entra por cartelera
         {
@@ -239,17 +240,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(NoHayFunciones));
             }
 
-            return View(funciones);
+            return View("FuncionesFiltradas", funciones);
         }
 
-
+       
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltroPelicula(int? PeliculaId) // Cuando entra por el filtro día/pelicula
+        public IActionResult FiltroPelicula(int PeliculaId) // Cuando entra por el filtro día/pelicula
         {
-            if (PeliculaId == null)
-            {
-                return NotFound();
-            }
 
             var funciones = _context
                .Funciones
@@ -263,11 +260,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(NoHayFunciones));
             }
 
-            return View(funciones);
+            return View("FuncionesFiltradas", funciones);
         
-    }
+        }
 
-
+       
         [Authorize(Roles = nameof(Role.Cliente))]
         public IActionResult FiltroFecha(DateTime fecha) // Cuando entra por el filtro día/pelicula
         {
@@ -284,7 +281,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 return RedirectToAction(nameof(NoHayFunciones));
             }
 
-            return View(funciones);
+            return View("FuncionesFiltradas", funciones);
         }
 
 
