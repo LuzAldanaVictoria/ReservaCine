@@ -29,7 +29,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var primerLogin = TempData["primerLogin"] as bool?;
             ViewBag.PrimerLogin = primerLogin ?? false;
 
-            Seed();
+            //Seed();
             return View();
         }
 
@@ -118,7 +118,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente1 = new Cliente()
                 {
                     Username = "cliente1",
-                    Password = "1234".Encriptar(),
+                    Password = "Cliente11234".Encriptar(),
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
@@ -130,7 +130,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente2 = new Cliente()
                 {
                     Username = "cliente2",
-                    Password = "1234".Encriptar(),
+                    Password = "Cliente21234".Encriptar(),
                     Nombre = "Carlos",
                     Apellido = "Pereyra",
                     Email = "cp2020@gmail.com",
@@ -142,7 +142,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente3 = new Cliente()
                 {
                     Username = "cliente3",
-                    Password = "1234".Encriptar(),
+                    Password = "Cliente31234".Encriptar(),
                     Nombre = "Carla",
                     Apellido = "Rodriguez",
                     Email = "carla@gmail.com",
@@ -154,8 +154,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var administrador1 = new Administrador()
                 {
                     Username = "administrador1",
-                    Password = "1234".Encriptar(),
-                    Nombre = "Juan Carlos",
+                    Password = "Administrador11234".Encriptar(),
+                    Nombre = "Pedro",
                     Apellido = "Gonzalez",
                     Email = "jcgonzalez@gmail.com",
                     Legajo = 0001
@@ -164,7 +164,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente4 = new Cliente()
                 {
                     Username = "cliente4",
-                    Password = "1234".Encriptar(),
+                    Password = "Cliente41234".Encriptar(),
                     Nombre = "Laura",
                     Apellido = "Gomez",
                     Email = "laurita@gmail.com",
@@ -256,7 +256,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala3,
                     Pelicula = pelicula3,
-                    Fecha = new DateTime(2020, 08, 17),
+                    Fecha = new DateTime(2020, 08, 15),
                     Horario = new DateTime().AddHours(20).AddMinutes(20),
                     CantButacasDisponibles = sala3.CapacidadTotal -8
                 };
@@ -265,7 +265,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala4,
                     Pelicula = pelicula1,
-                    Fecha = new DateTime(2020, 08, 17),
+                    Fecha = new DateTime(2020, 08, 15),
                     Horario = new DateTime().AddHours(21).AddMinutes(40),
                     CantButacasDisponibles = sala4.CapacidadTotal -18
                 };
@@ -284,7 +284,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Sala = sala2,
                     Pelicula = pelicula2,
                     Fecha = new DateTime(2020, 07, 15),
-                    Horario = new DateTime().AddHours(18).AddMinutes(30),
+                    Horario = new DateTime().AddHours(20).AddMinutes(30),
                     CantButacasDisponibles = sala2.CapacidadTotal
                 };
 

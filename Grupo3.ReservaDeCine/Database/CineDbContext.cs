@@ -10,6 +10,9 @@ namespace Grupo3.ReservaDeCine.Database
 {
     public class CineDbContext : DbContext
     {
+
+        public CineDbContext(DbContextOptions options) : base(options) { }
+
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<PeliculaGenero> PeliculaGeneros { get; set; }
@@ -23,7 +26,6 @@ namespace Grupo3.ReservaDeCine.Database
         public DbSet<Usuario> Usuarios { get; set; }
         public IEnumerable Roles { get; internal set; }
 
-        public CineDbContext(DbContextOptions options) : base(options) { }
 
         public static implicit operator CineDbContext(Reserva v)
         {

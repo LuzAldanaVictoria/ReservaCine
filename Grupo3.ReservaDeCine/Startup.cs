@@ -42,7 +42,9 @@ namespace Grupo3.ReservaDeCine
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<CineDbContext>(options => options.UseInMemoryDatabase("Cine"));
+            //services.AddDbContext<CineDbContext>(options => options.UseInMemoryDatabase("Cine"));
+            services.AddDbContext<CineDbContext>(options => options.UseSqlServer("Server=DESKTOP-LB0PNE8;Database=Cine.Grupo3;Integrated Security=SSPI;"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

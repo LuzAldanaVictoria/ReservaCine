@@ -21,4 +21,6 @@ namespace Grupo3.ReservaDeCine
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
     }
+
 }
+
