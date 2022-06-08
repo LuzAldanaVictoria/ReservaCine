@@ -2,7 +2,6 @@
 
 ### Integrantes
 > - Do Nascimento, María Florencia	<mflorenciadn@gmail.com>
-> - Propatto y Cafaro, Federico	<volumenxero@gmail.com>
 > - Victoria, Luz Aldana	<luzaldanavictoria@gmail.com>
 
 ### Idea
