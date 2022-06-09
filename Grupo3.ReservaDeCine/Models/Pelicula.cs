@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grupo3.ReservaDeCine.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +14,7 @@ namespace Grupo3.ReservaDeCine.Models
         public int Id { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Nombre es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
         [Display(Name = "Nombre")]
@@ -30,7 +31,7 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [ForeignKey("Clasificacion")]
-        [Required(ErrorMessage = "El campo Clasificación es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Clasificación")]
         public int ClasificacionId { get; set; }
         public Clasificacion Clasificacion { get; set; }

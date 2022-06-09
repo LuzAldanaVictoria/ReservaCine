@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grupo3.ReservaDeCine.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,13 +21,13 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [ForeignKey("Funcion")]
-        [Required(ErrorMessage = "El campo Función es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Función")]
         public int FuncionId { get; set; }
         public Funcion Funcion { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Cantidade de Butacas es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Range (1,10, ErrorMessage = "La cantidad de butacas debe ser entre 1 y 10")]
         [Display(Name = "Cantidad de butacas")]
         public int CantButacas { get; set; }

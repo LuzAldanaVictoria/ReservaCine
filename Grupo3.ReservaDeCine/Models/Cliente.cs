@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Grupo3.ReservaDeCine.Helpers;
 
 namespace Grupo3.ReservaDeCine.Models
 {
     public class Cliente : Usuario
     {
-      
-        [Required(ErrorMessage = "El campo Fecha de Nacimiento es requerido")]
+
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Fecha de nacimiento")]
         public DateTime FechaDeNacimiento { get; set; }
 

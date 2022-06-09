@@ -1,4 +1,5 @@
-﻿﻿using System;
+﻿using Grupo3.ReservaDeCine.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,25 +15,25 @@ namespace Grupo3.ReservaDeCine.Models
 
        
         [ForeignKey("Sala")]
-        [Required(ErrorMessage = "El campo Sala es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Sala")]
         public int SalaId { get; set; }
         public Sala Sala { get; set; }
 
 
         [ForeignKey("Pelicula")]
-        [Required(ErrorMessage = "El campo Película es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Película")]
         public int PeliculaId { get; set; }
         public Pelicula Pelicula { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Fecha es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Fecha")]
         public DateTime Fecha { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Hora es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Horario")]
         public DateTime Horario { get; set; }
 

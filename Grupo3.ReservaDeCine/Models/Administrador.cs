@@ -1,4 +1,5 @@
-﻿using Grupo3.ReservaDeCine.Models.Enums;
+﻿using Grupo3.ReservaDeCine.Helpers;
+using Grupo3.ReservaDeCine.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ namespace Grupo3.ReservaDeCine.Models
 {
     public class Administrador : Usuario
     {
-        [Required(ErrorMessage = "El campo Legajo es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Legajo")]
         public int Legajo { get; set; }
 

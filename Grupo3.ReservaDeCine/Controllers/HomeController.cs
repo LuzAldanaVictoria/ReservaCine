@@ -29,7 +29,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             var primerLogin = TempData["primerLogin"] as bool?;
             ViewBag.PrimerLogin = primerLogin ?? false;
 
-            //Seed();
+            //TODO: comentar esta linea cuando no se trabaje en memoria
+            Seed();
             return View();
         }
 

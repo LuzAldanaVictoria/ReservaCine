@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Grupo3.ReservaDeCine.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Grupo3.ReservaDeCine.Models
         public int Id { get; set; }
 
 
-        [Required(ErrorMessage = "El campo descripción es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [MaxLength(50, ErrorMessage = "La longitud máxima de 50 caracteres")]
         [MinLength(4, ErrorMessage = "La longitud mínima es de 4 caracteres")]
         [Display(Name = "Descripción")]

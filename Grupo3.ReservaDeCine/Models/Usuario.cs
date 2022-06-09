@@ -1,4 +1,5 @@
-﻿using Grupo3.ReservaDeCine.Models.Enums;
+﻿using Grupo3.ReservaDeCine.Helpers;
+using Grupo3.ReservaDeCine.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@ namespace Grupo3.ReservaDeCine.Models
         public abstract Role Role { get; }
 
 
-        [Required(ErrorMessage = "El campo Nombre es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
         [RegularExpression("[a-zA-ZZñÑáéíóúÁÉÍÓÚ]*", ErrorMessage = "Formato inválido. El Nombre sólo admite letras")]
@@ -26,7 +27,7 @@ namespace Grupo3.ReservaDeCine.Models
         public string Nombre { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Apellido es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [MaxLength(100, ErrorMessage = "La longitud máxima de un Apellido es de 100 caracteres")]
         [MinLength(2, ErrorMessage = "La longitud mínima de un Apellido es de 2 caracteres")]
         [RegularExpression("[a-zA-ZñÑáéíóúÁÉÍÓÚ]*", ErrorMessage = "Formato inválido. El Apellido sólo admite letras")]
@@ -34,7 +35,7 @@ namespace Grupo3.ReservaDeCine.Models
         public string Apellido { get; set; }
 
 
-        [Required(ErrorMessage = "El campo Email es requerido")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
         [EmailAddress(ErrorMessage = "Formato de Email inválido")]
         [Display(Name = "Email")]
         public string Email { get; set; }
