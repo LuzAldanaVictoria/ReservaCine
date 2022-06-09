@@ -118,7 +118,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente1 = new Cliente()
                 {
                     Username = "cliente1",
-                    Password = "Cliente11234".Encriptar(),
+                    Password = "Password1".Encriptar(),
                     Nombre = "Luciano",
                     Apellido = "García",
                     Email = "lucianogarcia@gmail.com",
@@ -130,7 +130,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente2 = new Cliente()
                 {
                     Username = "cliente2",
-                    Password = "Cliente21234".Encriptar(),
+                    Password = "Password1".Encriptar(),
                     Nombre = "Carlos",
                     Apellido = "Pereyra",
                     Email = "cp2020@gmail.com",
@@ -142,7 +142,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente3 = new Cliente()
                 {
                     Username = "cliente3",
-                    Password = "Cliente31234".Encriptar(),
+                    Password = "Password1".Encriptar(),
                     Nombre = "Carla",
                     Apellido = "Rodriguez",
                     Email = "carla@gmail.com",
@@ -154,7 +154,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var administrador1 = new Administrador()
                 {
                     Username = "administrador1",
-                    Password = "Administrador11234".Encriptar(),
+                    Password = "Password1".Encriptar(),
                     Nombre = "Pedro",
                     Apellido = "Gonzalez",
                     Email = "jcgonzalez@gmail.com",
@@ -164,7 +164,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 var Cliente4 = new Cliente()
                 {
                     Username = "cliente4",
-                    Password = "Cliente41234".Encriptar(),
+                    Password = "Password1".Encriptar(),
                     Nombre = "Laura",
                     Apellido = "Gomez",
                     Email = "laurita@gmail.com",
@@ -238,7 +238,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala1,
                     Pelicula = pelicula1,
-                    Fecha = new DateTime(2020, 08, 15),
+                    Fecha = new DateTime(2022, 08, 15),
                     Horario = new DateTime().AddHours(14).AddMinutes(00),
                     CantButacasDisponibles = sala1.CapacidadTotal - 4
                 };
@@ -247,7 +247,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala2,
                     Pelicula = pelicula2,
-                    Fecha = new DateTime(2020, 04, 17),
+                    Fecha = new DateTime(2022, 04, 17),
                     Horario = new DateTime().AddHours(20).AddMinutes(20),
                     CantButacasDisponibles = sala2.CapacidadTotal - 4
                 };
@@ -256,7 +256,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala3,
                     Pelicula = pelicula3,
-                    Fecha = new DateTime(2020, 08, 15),
+                    Fecha = new DateTime(2022, 07, 15),
                     Horario = new DateTime().AddHours(20).AddMinutes(20),
                     CantButacasDisponibles = sala3.CapacidadTotal -8
                 };
@@ -265,7 +265,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala4,
                     Pelicula = pelicula1,
-                    Fecha = new DateTime(2020, 08, 15),
+                    Fecha = new DateTime(2022, 06, 15),
                     Horario = new DateTime().AddHours(21).AddMinutes(40),
                     CantButacasDisponibles = sala4.CapacidadTotal -18
                 };
@@ -274,7 +274,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala1,
                     Pelicula = pelicula3,
-                    Fecha = new DateTime(2020, 07, 15),
+                    Fecha = new DateTime(2022, 06, 15),
                     Horario = new DateTime().AddHours(23).AddMinutes(30),
                     CantButacasDisponibles = sala1.CapacidadTotal
                 };
@@ -283,7 +283,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 {
                     Sala = sala2,
                     Pelicula = pelicula2,
-                    Fecha = new DateTime(2020, 07, 15),
+                    Fecha = new DateTime(2022, 07, 15),
                     Horario = new DateTime().AddHours(20).AddMinutes(30),
                     CantButacasDisponibles = sala2.CapacidadTotal
                 };
