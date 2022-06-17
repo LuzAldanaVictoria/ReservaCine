@@ -58,12 +58,13 @@ Se trata de un sistema que permita a usuarios ingresar y hacer una reserva de un
 	- Películas 
 	- Funciones 
 	- Géneros 
- - Los Usuarios pueden buscar Funciones disponibles. 
-	 - Pueden buscar las funciones disponibles filtrando por día o por película. 
-	 - Si filtran por película deben aparecer todas las funciones disponibles para dicha película. 
-	 - Si filtran por día deben aparecer todas las funciones del día para todas las películas del cine. 
-	 - Las funciones que se muestran deben estar deshabilitadas y mostrar un cartel de "agotadas" en caso que no haya más butacas disponibles para dicha función. 
-	 - Pueden seleccionar una función de la lista, indicar la cantidad de butacas a reservar y proceder a realizar la reserva (se validará si la cantidad de butacas a reservar está disponible en la función seleccionada). 
+ - [ ] Los Usuarios pueden buscar Funciones disponibles. 
+	 - [ ] Pueden buscar las funciones disponibles filtrando por día o por película. 
+	 - [ ] Si filtran por película deben aparecer todas las funciones disponibles para dicha película. 
+	 - [ ] Si filtran por día deben aparecer todas las funciones del día para todas las películas del cine. 
+	 - [ ] Las funciones que se muestran deben estar deshabilitadas y mostrar un cartel de "agotadas" en caso que no haya más butacas disponibles para dicha función. 
+	 - [ ] Pueden seleccionar una función de la lista, indicar la cantidad de butacas a reservar y proceder a realizar la reserva (se validará si la cantidad de butacas a reservar está disponible en la función seleccionada). 
+	 
  - Los Usuarios pueden hacer una Reserva. 
 	 - Se selecciona una función de la lista y se dice cuántas butacas se desea reservar para dicha función. 
 	 - La reserva a realizar debe indicar el costo total de la misma antes de confirmarse. 
