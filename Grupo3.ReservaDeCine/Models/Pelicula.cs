@@ -15,8 +15,8 @@ namespace Grupo3.ReservaDeCine.Models
 
 
         [Required(ErrorMessage = MensajesError.Requerido)]
-        [MaxLength(100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
-        [MinLength(2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
+        [MaxLength(Constantes.MAX_LENGTH_10, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
+        [MinLength(Constantes.MIN_LENGTH_2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
@@ -25,7 +25,7 @@ namespace Grupo3.ReservaDeCine.Models
         public List<PeliculaGenero> Generos { get; set; }
 
 
-        [MaxLength(250, ErrorMessage ="La longitud máxima de la sinopsis es de 250 caracteres")]
+        [MaxLength(Constantes.MAX_LENGTH_250, ErrorMessage ="La longitud máxima de la sinopsis es de 250 caracteres")]
         [Display(Name = "Sinopsis")]
         public string Sinopsis { get; set; }
 
