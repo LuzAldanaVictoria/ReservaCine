@@ -4,7 +4,7 @@
 
 
 <div class="text-center">
-    <h1 style="font-size:50px">SuperSmart Cines</h1>
+    <h1 style="font-size:50px">SuperSmart Cinema</h1>
 </div>
 
 
@@ -48,8 +48,7 @@
     @if (ViewBag.PrimerLogin)
     {
         <script>
-            // Este método de notify está definido en una librería que incorporamos al proyecto que se llama "notify.js"
-            // Para más detalles sobre dicha librería ver https://notifyjs.jpillora.com/
+         
             $.notify("¡Bienvenido @User.Identity.Name!", {
                 className: "success",
                 clickToHide: true,

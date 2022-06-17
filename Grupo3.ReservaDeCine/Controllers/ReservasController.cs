@@ -110,7 +110,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
-        // Aca el server efectiviza la reserva
+      
         public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva)
         {
             if (!ValidarEdad(reserva))
@@ -134,7 +134,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 reserva.FechaDeAlta = DateTime.Now;
                 funcion.CantButacasDisponibles -= reserva.CantButacas;
                 reserva.CostoTotal = reserva.CantButacas * funcion.Sala.Tipo.PrecioEntrada;
-                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);  // aca le asigna a la reserva el clienteId con el claims de Name Identifier
+                reserva.ClienteId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 _context.Add(reserva);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(MisReservas));
