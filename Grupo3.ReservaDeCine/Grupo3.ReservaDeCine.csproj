@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Documentacion\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

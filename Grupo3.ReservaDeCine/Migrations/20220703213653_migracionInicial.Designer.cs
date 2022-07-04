@@ -4,14 +4,16 @@ using Grupo3.ReservaDeCine.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Grupo3.ReservaDeCine.Migrations
 {
     [DbContext(typeof(CineDbContext))]
-    partial class CineDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220703213653_migracionInicial")]
+    partial class migracionInicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +88,7 @@ namespace Grupo3.ReservaDeCine.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Sinopsis")
                         .HasMaxLength(250);

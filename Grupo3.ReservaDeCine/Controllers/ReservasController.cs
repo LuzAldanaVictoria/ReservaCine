@@ -85,7 +85,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-
+        
         // Entrando por cartelera, seleccionando pelicula y luego reservar para una funcion determinada
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
