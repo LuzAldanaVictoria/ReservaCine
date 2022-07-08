@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Grupo3.ReservaDeCine.Migrations
 {
-    public partial class migracionInicial : Migration
+    public partial class primeraMigracionP : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

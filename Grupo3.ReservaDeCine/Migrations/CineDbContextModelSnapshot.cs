@@ -4,16 +4,14 @@ using Grupo3.ReservaDeCine.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Grupo3.ReservaDeCine.Migrations
 {
     [DbContext(typeof(CineDbContext))]
-    [Migration("20220703213653_migracionInicial")]
-    partial class migracionInicial
+    partial class CineDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
