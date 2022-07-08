@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Grupo3.ReservaDeCine.Migrations
 {
     [DbContext(typeof(CineDbContext))]
-    [Migration("20220707233936_primeraMigracionP")]
-    partial class primeraMigracionP
+    [Migration("20220708165611_migracionFinal")]
+    partial class migracionFinal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,10 +88,10 @@ namespace Grupo3.ReservaDeCine.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(10);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Sinopsis")
-                        .HasMaxLength(250);
+                        .HasMaxLength(2000);
 
                     b.HasKey("Id");
 

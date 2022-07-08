@@ -7,7 +7,7 @@ namespace Grupo3.ReservaDeCine.Helpers
 {
     public class Constantes
     {
-        public const int MAX_LENGTH_250 = 250;
+        public const int MAX_LENGTH_2000 = 2000;
         public const int MAX_LENGTH_100 = 100;
         public const int MAX_LENGTH_50 = 50;
         public const int MAX_LENGTH_20 = 20;

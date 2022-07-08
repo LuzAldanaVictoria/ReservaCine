@@ -86,10 +86,10 @@ namespace Grupo3.ReservaDeCine.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(10);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Sinopsis")
-                        .HasMaxLength(250);
+                        .HasMaxLength(2000);
 
                     b.HasKey("Id");
 

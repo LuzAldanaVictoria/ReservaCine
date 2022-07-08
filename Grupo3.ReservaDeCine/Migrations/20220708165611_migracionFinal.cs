@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Grupo3.ReservaDeCine.Migrations
 {
-    public partial class primeraMigracionP : Migration
+    public partial class migracionFinal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -77,8 +77,8 @@ namespace Grupo3.ReservaDeCine.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(maxLength: 10, nullable: false),
-                    Sinopsis = table.Column<string>(maxLength: 250, nullable: true),
+                    Nombre = table.Column<string>(maxLength: 50, nullable: false),
+                    Sinopsis = table.Column<string>(maxLength: 2000, nullable: true),
                     ClasificacionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
