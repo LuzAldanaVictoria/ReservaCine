@@ -14,18 +14,6 @@ namespace Grupo3.ReservaDeCine.Models
         public int Id { get; set; }
 
 
-        [ForeignKey("Cliente")]
-        [Display(Name = "Cliente")]
-        public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
-
-
-        [ForeignKey("Funcion")]
-        [Required(ErrorMessage = MensajesError.Requerido)]
-        [Display(Name = "Función")]
-        public int FuncionId { get; set; }
-        public Funcion Funcion { get; set; }
-
 
         [Required(ErrorMessage = MensajesError.Requerido)]
         [Range (1,10, ErrorMessage = "La cantidad de butacas debe ser entre 1 y 10")]
@@ -41,7 +29,20 @@ namespace Grupo3.ReservaDeCine.Models
         public DateTime FechaDeAlta { get; set; }
 
 
+        [ForeignKey("Cliente")]
+        [Display(Name = "Cliente")]
+        public int ClienteId { get; set; }
+        public Cliente Cliente { get; set; }
+
+
+        [ForeignKey("Funcion")]
+        [Required(ErrorMessage = MensajesError.Requerido)]
+        [Display(Name = "Función")]
+        public int FuncionId { get; set; }
+        public Funcion Funcion { get; set; }
+
+
 
     }
-    
+
 }

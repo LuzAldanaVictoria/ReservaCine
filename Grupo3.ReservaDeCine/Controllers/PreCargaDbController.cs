@@ -5,18 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Grupo3.ReservaDeCine.Models;
-using Grupo3.ReservaDeCine.Database;
-using Microsoft.AspNetCore.Authorization;
-using Grupo3.ReservaDeCine.Models.Enums;
 using Grupo3.ReservaDeCine.Extensions;
-using Microsoft.EntityFrameworkCore;
+
 
 
 
@@ -152,7 +144,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             Clasificacion mayores16 = new Clasificacion
             {
                 Descripcion = "+16",
-                EdadMinima = 0
+                EdadMinima = 16
             };
 
             Clasificacion mayores14 = new Clasificacion
@@ -300,7 +292,76 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Clasificacion = listClasificaciones[3]
             };
 
-            _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4 });
+            Pelicula pelicula5 = new Pelicula()
+            {
+                Nombre = "Lightyear",
+               
+                Sinopsis = "Buzz Lightyear se embarca en una aventura" +
+                " intergaláctica con un grupo de reclutas ambiciosos y su compañero robot.",
+
+                Clasificacion = listClasificaciones[0]
+            };
+
+            Pelicula pelicula6 = new Pelicula()
+            {
+                Nombre = "Volver al futuro",
+                
+                Sinopsis = "El adolescente Marty McFly es amigo de Doc, un científico que ha construido una máquina del tiempo. " +
+                "Cuando los dos prueban el artefacto, un error fortuito hace que Marty llegue a 1955, año en el que sus padres iban al instituto y todavía no se habían conocido. Después de impedir su primer encuentro," +
+                " Marty deberá conseguir que se conozcan y se enamoren, de lo contrario su existencia no sería posible.",
+
+                Clasificacion = listClasificaciones[2]
+            };
+
+            Pelicula pelicula7 = new Pelicula()
+            {
+                Nombre = "Granizo",
+                
+                Sinopsis = "Un famoso meteorólogo de la televisión se convierte en el enemigo público número " +
+                "uno cuando no logra evitar una terrible tormenta de granizo",
+
+                Clasificacion = listClasificaciones[0]
+            };
+
+            Pelicula pelicula8 = new Pelicula()
+            {
+                Nombre = "Harry Potter 1",
+               
+                Sinopsis = "El día de su cumpleaños, Harry Potter descubre que es hijo de dos conocidos hechiceros" +
+                ", de los que ha heredado poderes mágicos. Debe asistir a una famosa escuela de magia y hechicería, " +
+                "donde entabla una amistad con dos jóvenes que se convertirán en sus compañeros de aventura. " +
+                "Durante su primer año en Hogwarts, descubre que un malévolo y poderoso mago llamado Voldemort" +
+                " está en busca de una piedra filosofal que alarga la vida de quien la posee.",
+
+                Clasificacion = listClasificaciones[2]
+            };
+
+            Pelicula pelicula9 = new Pelicula()
+            {
+                Nombre = "Minions - Nace un villano",
+                Sinopsis = "En los años 70, Gru crece siendo un gran admirador de Los salvajes seis" +
+                ", un supergrupo de villanos. Para demostrarles que puede ser malvado, Gru idea un plan" +
+                " con la esperanza de formar parte de la banda. Por suerte, cuenta con la ayuda de sus fieles seguidores," +
+                " los Minions, siempre dispuestos a sembrar el caos.",
+
+                Clasificacion = listClasificaciones[0]
+            };
+
+            Pelicula pelicula10 = new Pelicula()
+            {
+                Nombre = "Top Gun",
+                Sinopsis = "Agosto de 1981. El septuagenario Forrest Tucker entra en un banco de Dallas y " +
+                "hace lo que mejor sabe hacer: atracarlo con toda educación e irse tranquilamente. " +
+                "El problema es que está vez quizá ha dejado un cabo suelto: dentro de la sucursal se encontraba " +
+                "el policía John Hunt.",
+
+                Clasificacion = listClasificaciones[2]
+            };
+
+         
+
+            _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4, pelicula5, pelicula6, 
+                pelicula7, pelicula8,pelicula9,pelicula10 });
              await _context.SaveChangesAsync();
         }
 
@@ -322,7 +383,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var funcion2 = new Funcion()
             {
                 Sala = listSalas[1],
-                Pelicula = listPeliculas[1],
+                Pelicula = listPeliculas[0],
                 Fecha = new DateTime(2022, 09, 17),
                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                 CantButacasDisponibles = listSalas[1].CapacidadTotal - 4
@@ -333,7 +394,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
                 Sala = listSalas[2],
-                Pelicula = listPeliculas[2],
+                Pelicula = listPeliculas[0],
                 Fecha = new DateTime(2022, 07, 18),
                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                 CantButacasDisponibles = listSalas[2].CapacidadTotal - 8
@@ -351,7 +412,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var funcion5 = new Funcion()
             {
                 Sala = listSalas[0],
-                Pelicula = listPeliculas[2],
+                Pelicula = listPeliculas[1],
                 Fecha = new DateTime(2022, 07, 22),
                 Horario = new DateTime().AddHours(23).AddMinutes(30),
                 CantButacasDisponibles = listSalas[0].CapacidadTotal
@@ -365,8 +426,146 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Horario = new DateTime().AddHours(20).AddMinutes(30),
                 CantButacasDisponibles = listSalas[1].CapacidadTotal
             };
-            _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6 });
-              await _context.SaveChangesAsync();
+           
+
+            var funcion7 = new Funcion()
+            {
+                Sala = listSalas[1],
+                Pelicula = listPeliculas[1],
+                Fecha = new DateTime(2022, 07, 18),
+                Horario = new DateTime().AddHours(21).AddMinutes(30),
+                CantButacasDisponibles = listSalas[1].CapacidadTotal
+            };
+
+            var funcion8 = new Funcion()
+            {
+                Sala = listSalas[0],
+                Pelicula = listPeliculas[1],
+                Fecha = new DateTime(2022, 10, 18),
+                Horario = new DateTime().AddHours(20).AddMinutes(30),
+                CantButacasDisponibles = listSalas[0].CapacidadTotal
+            };
+
+            var funcion9 = new Funcion()
+            {
+                Sala = listSalas[3],
+                Pelicula = listPeliculas[2],
+                Fecha = new DateTime(2022, 07, 18),
+                Horario = new DateTime().AddHours(21).AddMinutes(30),
+                CantButacasDisponibles = listSalas[3].CapacidadTotal
+            };
+
+            var funcion10 = new Funcion()
+            {
+                Sala = listSalas[2],
+                Pelicula = listPeliculas[2],
+                Fecha = new DateTime(2022, 07, 19),
+                Horario = new DateTime().AddHours(21).AddMinutes(30),
+                CantButacasDisponibles = listSalas[2].CapacidadTotal
+            };
+
+            var funcion11 = new Funcion()
+            {
+                Sala = listSalas[2],
+                Pelicula = listPeliculas[3],
+                Fecha = new DateTime(2022, 07, 18),
+                Horario = new DateTime().AddHours(21).AddMinutes(30),
+                CantButacasDisponibles = listSalas[2].CapacidadTotal
+            };
+
+            var funcion12 = new Funcion()
+            {
+                Sala = listSalas[1],
+                Pelicula = listPeliculas[3],
+                Fecha = new DateTime(2022, 07, 22),
+                Horario = new DateTime().AddHours(21).AddMinutes(30),
+                CantButacasDisponibles = listSalas[1].CapacidadTotal
+            };
+
+            var funcion13 = new Funcion()
+            {
+                Sala = listSalas[2],
+                Pelicula = listPeliculas[4],
+                Fecha = new DateTime(2022, 07, 05),
+                Horario = new DateTime().AddHours(18).AddMinutes(30),
+                CantButacasDisponibles = listSalas[2].CapacidadTotal
+            };
+
+            var funcion14 = new Funcion()
+            {
+                Sala = listSalas[2],
+                Pelicula = listPeliculas[4],
+                Fecha = new DateTime(2022, 07, 22),
+                Horario = new DateTime().AddHours(18).AddMinutes(30),
+                CantButacasDisponibles = listSalas[2].CapacidadTotal
+            };
+
+            var funcion15 = new Funcion()
+            {
+                Sala = listSalas[0],
+                Pelicula = listPeliculas[5],
+                Fecha = new DateTime(2022, 07, 25),
+                Horario = new DateTime().AddHours(18).AddMinutes(30),
+                CantButacasDisponibles = listSalas[0].CapacidadTotal
+            };
+
+            var funcion16 = new Funcion()
+            {
+                Sala = listSalas[1],
+                Pelicula = listPeliculas[5],
+                Fecha = new DateTime(2022, 07, 25),
+                Horario = new DateTime().AddHours(18).AddMinutes(30),
+                CantButacasDisponibles = listSalas[1].CapacidadTotal
+            };
+
+            var funcion17 = new Funcion()
+            {
+                Sala = listSalas[2],
+                Pelicula = listPeliculas[6],
+                Fecha = new DateTime(2022, 07, 25),
+                Horario = new DateTime().AddHours(19).AddMinutes(30),
+                CantButacasDisponibles = listSalas[2].CapacidadTotal
+            };
+
+            var funcion18 = new Funcion()
+            {
+                Sala = listSalas[0],
+                Pelicula = listPeliculas[7],
+                Fecha = new DateTime(2022, 07, 26),
+                Horario = new DateTime().AddHours(18).AddMinutes(50),
+                CantButacasDisponibles = listSalas[0].CapacidadTotal
+            };
+
+            var funcion19 = new Funcion()
+            {
+                Sala = listSalas[1],
+                Pelicula = listPeliculas[7],
+                Fecha = new DateTime(2022, 07, 26),
+                Horario = new DateTime().AddHours(23).AddMinutes(50),
+                CantButacasDisponibles = listSalas[1].CapacidadTotal
+            };
+
+            var funcion20 = new Funcion()
+            {
+                Sala = listSalas[1],
+                Pelicula = listPeliculas[8],
+                Fecha = new DateTime(2022, 07, 30),
+                Horario = new DateTime().AddHours(18).AddMinutes(50),
+                CantButacasDisponibles = listSalas[1].CapacidadTotal
+            };
+
+            var funcion21 = new Funcion()
+            {
+                Sala = listSalas[3],
+                Pelicula = listPeliculas[9],
+                Fecha = new DateTime(2022, 07, 30),
+                Horario = new DateTime().AddHours(18).AddMinutes(50),
+                CantButacasDisponibles = listSalas[3].CapacidadTotal
+            };
+
+            _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6,funcion7, funcion8, funcion9,
+                funcion10, funcion11,funcion12,funcion13,funcion14,funcion15,funcion16,funcion17,funcion18,funcion19,funcion20,funcion21});
+            await _context.SaveChangesAsync();
         }
 
 

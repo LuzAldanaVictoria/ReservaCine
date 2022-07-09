@@ -14,11 +14,6 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
-        [ScaffoldColumn(false)]
-        [Display(Name = "Rol")]
-        public abstract Role Role { get; }
-
-
         [Required(ErrorMessage = MensajesError.Requerido)]
         [MaxLength(Constantes.MAX_LENGTH_100, ErrorMessage = "La longitud máxima de un Nombre es de 100 caracteres")]
         [MinLength(Constantes.MIN_LENGTH_2, ErrorMessage = "La longitud mínima de un Nombre es de 2 caracteres")]
@@ -53,5 +48,10 @@ namespace Grupo3.ReservaDeCine.Models
 
         [Display(Name = "Fecha de último acceso")]
         public DateTime? FechaUltimoAcceso { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Rol")]
+        public abstract Role Role { get; }
+
     }
 }

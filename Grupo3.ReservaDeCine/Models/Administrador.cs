@@ -11,7 +11,7 @@ namespace Grupo3.ReservaDeCine.Models
     public class Administrador : Usuario
     {
         [Required(ErrorMessage = MensajesError.Requerido)]
-        [Display(Name = "Legajo")]
+        [Display(Name = "Legajo")]  
         public int Legajo { get; set; }
 
 

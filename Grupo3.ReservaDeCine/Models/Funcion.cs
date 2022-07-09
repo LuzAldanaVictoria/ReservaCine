@@ -13,7 +13,24 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "ID")]
         public int Id { get; set; }
 
-       
+
+        [Required(ErrorMessage = MensajesError.Requerido)]
+        [Display(Name = "Fecha")]
+        public DateTime Fecha { get; set; }
+
+
+        [Required(ErrorMessage = MensajesError.Requerido)]
+        [Display(Name = "Horario")]
+        public DateTime Horario { get; set; }
+
+
+        [Display(Name = "Butacas disponibles")]
+        public int CantButacasDisponibles { get; set; }
+
+
+        [Display(Name = "Reservas")]
+        public List<Reserva> Reservas { get; set; }
+
         [ForeignKey("Sala")]
         [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Sala")]
@@ -26,24 +43,6 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Película")]
         public int PeliculaId { get; set; }
         public Pelicula Pelicula { get; set; }
-
-
-        [Required(ErrorMessage = MensajesError.Requerido)]
-        [Display(Name = "Fecha")]
-        public DateTime Fecha { get; set; }
-
-
-        [Required(ErrorMessage = MensajesError.Requerido)]
-        [Display(Name = "Horario")]
-        public DateTime Horario { get; set; }
-
-
-        [Display(Name = "Reservas")]
-        public List<Reserva> Reservas { get; set; }
-
-
-        [Display(Name = "Butacas disponibles")]
-        public int CantButacasDisponibles { get; set; }
 
 
         [NotMapped]
