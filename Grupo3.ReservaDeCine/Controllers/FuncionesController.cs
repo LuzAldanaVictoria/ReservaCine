@@ -143,10 +143,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 try
                 {
-                    // Obtengo la función de la base de datos
+                   
                     var funcionDb = _context.Funciones.Find(id);
 
-                    // Mapeo los campos que se pueden editar SalaId, PeliculaId, Fecha, Horario
                     funcionDb.SalaId = funcion.SalaId;
                     funcionDb.PeliculaId = funcion.PeliculaId;
                     funcionDb.Fecha = funcion.Fecha;
@@ -226,7 +225,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult FiltrarPorPelicula(Pelicula pelicula) //cuando entra por cartelera
+        public IActionResult FiltrarPorPelicula(Pelicula pelicula) 
         {
             var funciones = _context
                  .Funciones
@@ -245,7 +244,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
        
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltroPelicula(int PeliculaId) // Cuando entra por el filtro día/pelicula
+        public IActionResult FiltroPelicula(int PeliculaId) 
         {
 
             var funciones = _context
@@ -266,7 +265,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
        
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult FiltroFecha(DateTime fecha) // Cuando entra por el filtro día/pelicula
+        public IActionResult FiltroFecha(DateTime fecha) 
         {
             var funciones =
                 _context
@@ -322,12 +321,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(funcion.Horario), "El horario debe estar comprendido entre las 9:00 y la 01:59 (A.M.)");
             }
 
-            ValidarSalaLibre(funcion);  // Si validar horario esta OK, llama a Validar sala libre
+            ValidarSalaLibre(funcion);  
 
         }
 
       
-        // Valida que la sala se encuentre libre cuando quiero crear o editar una funcion.
         private void ValidarSalaLibre(Funcion f)  
         {
             
@@ -335,13 +333,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 x => x.Fecha == f.Fecha &&
                 x.SalaId == f.SalaId &&
                (x.Horario.Hour >= f.Horario.Hour - 3 && x.Horario.Hour <= f.Horario.Hour + 3) &&
-                x.Id != f.Id))// verifico que el Id para que la funcion no se encuentre a si misma en caso de edicion
+                x.Id != f.Id))
             {
                 ModelState.AddModelError(nameof(f.Horario), "La sala está ocupada en ese horario");
             }
         }
 
-        // Valida que la cantidad de butacas total de la sala nueva no sea menor a la cantidad ya reservada para la función.
+      
         private void ValidarCapacidadNuevaSalaSegunReservas(int funcionId, Funcion funcion)
         {
             var funcionDb = _context.Funciones.Find(funcionId);

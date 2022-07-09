@@ -22,6 +22,7 @@ namespace Grupo3.ReservaDeCine
         }
 
         public IConfiguration Configuration { get; }
+        private bool _dbInMemory = false;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -42,14 +43,17 @@ namespace Grupo3.ReservaDeCine
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<CineDbContext>(options => options.UseInMemoryDatabase("Cine"));
-            //TODO: AGREGAR BD SQL SERVER
-           // services.AddDbContext<CineDbContext>(options => options.UseSqlServer("Server=DESKTOP-LB0PNE8;Database=Cine.Grupo3;Integrated Security=SSPI;"));
+            if (_dbInMemory){
+                services.AddDbContext<CineDbContext>(options => options.UseInMemoryDatabase("Cine"));
+            }
+            else{
+                services.AddDbContext<CineDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CineCS")));
+            }
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,CineDbContext cineDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -59,6 +63,13 @@ namespace Grupo3.ReservaDeCine
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            if (!_dbInMemory)
+            {
+                cineDbContext.Database.Migrate();
+            }
+
+
 
             app.UseStaticFiles();
             app.UseAuthentication();

@@ -30,7 +30,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             ViewBag.PrimerLogin = primerLogin ?? false;
 
             //TODO: comentar esta linea cuando no se trabaje en memoria
-            Seed();
+           // Seed();
             return View();
         }
 
@@ -185,7 +185,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     {
                         Descripcion = "ATP",
                         EdadMinima = 0
-                    },
+                    }
                 };
 
                 var pelicula2 = new Pelicula()

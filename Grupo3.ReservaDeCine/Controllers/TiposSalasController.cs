@@ -156,7 +156,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-        ////---- Métodos privados para validaciones ----////
+        
+        //---- Métodos privados para validaciones ----////
        
 
         private bool TipoSalaExists(int id)

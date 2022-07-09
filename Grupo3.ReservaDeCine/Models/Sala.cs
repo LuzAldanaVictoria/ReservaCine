@@ -21,12 +21,6 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
-        
-        [ForeignKey("Tipo")]
-        [Display(Name = "Tipo de Sala")]
-        public int TipoId { get; set; }
-        public TipoSala Tipo { get; set; }
-
 
         [Required(ErrorMessage = MensajesError.Requerido)]
         [Display(Name = "Capacidad Total")]
@@ -37,6 +31,13 @@ namespace Grupo3.ReservaDeCine.Models
         [Display(Name = "Funciones")] 
         public List<Funcion> Funciones { get; set; }
 
- 
+
+        [ForeignKey("Tipo")]
+        [Display(Name = "Tipo de Sala")]
+        public int TipoId { get; set; }
+        public TipoSala Tipo { get; set; }
+
+
+
     }
 }

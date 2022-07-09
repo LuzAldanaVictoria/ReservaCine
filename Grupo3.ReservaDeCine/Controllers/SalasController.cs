@@ -117,7 +117,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 try
                 {
                     AjustarDisponibilidadDeButacasEnFunciones(id, sala.CapacidadTotal);
-                    // para ajustar la cantidad de butacas disponibles en todas las funciones futuras de esa sala
                     
                     _context.Update(sala);
                     _context.SaveChanges();
@@ -232,7 +231,6 @@ namespace Grupo3.ReservaDeCine.Controllers
             }               
         }
 
-        // Se usa al cambiar la capacidad de la sala, ajustando la disponibilidad en las funciones
        private void AjustarDisponibilidadDeButacasEnFunciones(int salaId, int capacidadTotal)
        {
             var Funciones =

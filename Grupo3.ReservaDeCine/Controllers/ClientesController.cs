@@ -43,17 +43,11 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             }
-            // Esta es la consulta de la base de datos que hacemos a través de Entity Framework.
-            // Toda la información que obtengamos de la base será la información que podamos acceder luego desde la variable cliente.
-            // Las propiedades de navegación nos servirán para poder "Navegar" desde una propiedad a otra, en este caso desde cliente a sus "Reservas".
-            // Para que las propiedades de Navegación sean cargadas es necesario utilizar el Include indicando qué propiedad queremos que se cargue (en este caso Reservas).
-            // Luego, si deseamos obtener información específica de algo asociado a la reserva (en nuestro caso la función y dentro de la función la película) debemos hacer include también de eso.
+            
             var cliente =  _context.Clientes
                 .Include(x => x.Reservas).ThenInclude(x => x.Funcion).ThenInclude(x => x.Pelicula)
                 .FirstOrDefault(x => x.Id == id);
-            // Es importante remarcar que la semántica es => Traeme los clientes => con sus reservas => de sus reservas incluíme las funciones => de esas funciones incluíme la película.
-
-            // Luego utilizaremos esta información en la vista.
+            
 
             if (cliente == null)
             {
@@ -245,7 +239,9 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-        ////---- Métodos privados para validaciones ----////
+        
+        
+        //---- Métodos privados para validaciones ----////
 
         private bool ClienteExists(int id)
         {
