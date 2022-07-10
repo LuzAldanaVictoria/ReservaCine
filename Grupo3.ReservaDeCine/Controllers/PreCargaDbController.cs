@@ -46,6 +46,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 return Content(e.Message);
             }
+            TempData["datosPreCargados"] = true;
             return RedirectToAction("Index", "Home");
         }
 
