@@ -42,22 +42,6 @@
 </div>
 
 
-@section Scripts
-{
-
-    @if (ViewBag.PrimerLogin)
-    {
-        <script>
-            // Este método de notify está definido en una librería que incorporamos al proyecto que se llama "notify.js"
-            // Para más detalles sobre dicha librería ver https://notifyjs.jpillora.com/
-            $.notify("¡Bienvenido @User.Identity.Name!", {
-                className: "success",
-                clickToHide: true,
-                position: "rigth bottom ",
-                showDuration: 1500
-            });
-        </script>
-    }
 
 
 

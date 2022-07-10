@@ -26,9 +26,6 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         public IActionResult Index()
         {
-            var primerLogin = TempData["primerLogin"] as bool?;// le pongo ? porque es un tempData y puede no estar, ser null
-            ViewBag.PrimerLogin = primerLogin ?? false; //Eso es un if, else.  Si primerLogin es null, asignale false
-
             //TODO: comentar esta linea cuando no se trabaje en memoria
            // Seed();
             return View();

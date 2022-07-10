@@ -36,15 +36,15 @@
                         @if (!User.Identity.IsAuthenticated)
                         {
 
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="Peliculas" asp-action="Cartelera">Cartelera</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-controller="PreCargaDb" asp-action="Inicializar">PreCargar Datos</a>
-                            </li>
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="Peliculas" asp-action="Cartelera">Cartelera</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="PreCargaDb" asp-action="Inicializar">PreCargar Datos</a>
+                                </li>
 
-                        </ul>
+                            </ul>
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item">
                                     <a class="btn btn-primary" asp-controller="Cuentas" asp-action="Ingresar">Ingresar</a>
@@ -142,7 +142,7 @@
 
     <footer class="footer text-muted">
         <div class="container">
-            &copy; 2020 - Grupo3.ReservaDeCine - Do Nascimento, Florencia & Victoria, Luz 
+            &copy; 2020 - Grupo3.ReservaDeCine - Do Nascimento, Florencia & Victoria, Luz
         </div>
     </footer>
 
@@ -168,9 +168,39 @@
     <script src="~/lib/notify/notify.js"></script>
     <script src="~/lib/date-picker/js/bootstrap-datepicker.js"></script>
     <script src="~/lib/date-picker/locales/bootstrap-datepicker.es.min.js"></script>
+   
 
 
 
     @RenderSection("Scripts", required: false)
+
+    @if (TempData["primerLogin"] as bool? ?? false)// esto singnifica que evaluo si es null, si es null pongo lo que de la izquiera y sino lo de la derecha
+    {
+
+        <script>
+             $.notify("¡Bienvenido @User.Identity.Name!", {
+                className: "success",
+                clickToHide: true,
+                position: "rigth bottom ",
+                showDuration: 1500
+            });
+        </script>
+    }
+
+    @if (TempData["datosPreCargados"] as bool? ?? false)
+    {
+        <script>
+             $.notify("¡Datos cargados exitosamente!", {
+                className: "info",
+                clickToHide: true,
+                position: "top left ",
+                showDuration: 1500
+            });
+        </script>
+    }
+
+
+
+
 </body>
 </html>
