@@ -17,15 +17,16 @@ namespace Grupo3.ReservaDeCine.Controllers
 {
     [Authorize] // Solo pueden acceder personas autenticadas
 
-
-    //Esto es la inyeccionde de dependencia,   es automatico cuando hago el scafolding
     public class ReservasController : Controller
     {
         private readonly CineDbContext _context; // Es muy importante que sea solo “readonly”
 
-        public ReservasController(CineDbContext context) // cuando creo el constructor, recibe el contexto de la base de datos( DbContext) para despues usarlo
+
+        //esto es una inyeccion de dependencia, cuando se contruya la instancia de ReservasController,
+        //voy a inyectarle el contexto de BD
+        public ReservasController(CineDbContext context) 
         {
-            _context = context;// recibo el contexto y lo guardo en esta variable
+            _context = context;// recibo el contexto y lo guardo en esta variable, para poder interactual con la BD
         }
 
         [HttpGet]

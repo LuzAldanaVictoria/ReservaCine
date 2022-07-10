@@ -74,6 +74,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
+        //Tengo que recibir la contraseña como parametro, porque el usuario no ingresa un array de bytes sino que ingresa un string y yo tengo que transformarlo
         public IActionResult Registrar([Bind("Nombre, Apellido, FechaDeNacimiento, Email, Username")] Cliente cliente, string password)
         {
             ComprobarFechaDeNacimiento(cliente.FechaDeNacimiento);
@@ -315,7 +316,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
             bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
             bool contieneUnaMinuscula = new Regex("[a-z]").Match(password).Success;
-            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;
+            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;// el sucess me da un bool y dsp evaluo
 
             if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
             {

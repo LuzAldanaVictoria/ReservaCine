@@ -14,9 +14,14 @@
         <form asp-controller="Cuentas" asp-action="Ingresar" method="post" >
             <input type="hidden" value="@ViewBag.ReturnUrl" name="returnUrl" />
             <div class="container-content">
-                <div class="form-group">
+                <div class="form-group"> 
                     <label laber-for="username" class="control-label">Nombre de usuario:</label>
-                    <input name="username" class="form-control" type="text" value="@ViewBag.Username" required autofocus />
+                    <input name="username" class="form-control" type="text" value="@ViewBag.Username" required autofocus /> 
+                    @*Al controlador va por NAME, no importa el orden
+                        el viewBag viene del controller, con un username por si falla el login que el usuario no tenga que
+                        volver a completar los datos, la primera vez, como el controller no lo manda, directamente aparece vacio
+                        *@
+
                 </div>
                 <div class="form-group">
                     <label label-for="Password" class="control-label">Contraseña:</label>
@@ -26,7 +31,7 @@
                     <input type="submit" value="Ingresar" class="btn btn-primary btn-block" />
                 </div>
                 <div class="text-danger">
-                    @ViewBag.Error
+                    @ViewBag.Error @*aca tmb, si no hay error, no lo muestra*@
                 </div>
                 <br/>
                 <p class="text-center">¿No tenés cuenta? Registrate</p>

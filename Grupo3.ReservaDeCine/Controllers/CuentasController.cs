@@ -25,10 +25,10 @@ namespace ConSeguridad.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Ingresar(string returnUrl)
+        [AllowAnonymous] //puede acceder cualquiera, sin estar autenticado
+        public IActionResult Ingresar(string returnUrl)  //Recibo la URL para despues de que ingrese,poder redireccionarlo al mismo lugar en el que estaba
         {
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl; 
             return View();
         }
 
@@ -42,7 +42,7 @@ namespace ConSeguridad.Controllers
               
                 if (usuario == null)  // aca se confirma que el usuario exista, sino.. da error
                 {
-                    usuario = _context.Administradores.FirstOrDefault(x => x.Username == username);
+                    usuario = _context.Administradores.FirstOrDefault(x => x.Username == username);  // # DUDA
                 }
 
                 if (usuario != null)
@@ -50,10 +50,9 @@ namespace ConSeguridad.Controllers
                     var passwordEncriptada = password.Encriptar();  // encripto la password del formulario con el metodo de extension
 
                     if (usuario.Password.SequenceEqual(passwordEncriptada)) //comparo cada uno de los elementos del array de la pasword del formulario, con la password de la base de datos
-                    {
-                        //aca se crea la identidad del usuario que esta ingresando:
-                        // esto es para tener informacion relativa a la identidad del usuario, en el contexto actual(!)
-
+                    { 
+                        //aca se cream las credenciales del usuario que esta ingresando, con los datos que me interesan
+                        // esto es para tener informacion de la identidad del usuario, en el contexto(!)
                         ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                         identity.AddClaim(new Claim(ClaimTypes.Name, username));
                         identity.AddClaim(new Claim(ClaimTypes.Role, usuario.Role.ToString()));//De aca viene el [Authorize..role]
@@ -68,19 +67,20 @@ namespace ConSeguridad.Controllers
 
                         if (!string.IsNullOrWhiteSpace(returnUrl))
                         {
-                            return Redirect(returnUrl);
+                            return Redirect(returnUrl); //Si tengo la info del returnUrl porque el usuario venia de otra url y tuvo que iniciar sesion, lo redirijo
 
                         }
 
                         TempData["primerLogin"] = true;  // el tempData, vive dos request por lo que lo puedo usar entre metodos del controlador y levantarlo directamente
 
-                        return RedirectToAction(nameof(HomeController.Index), "Home");
+                        return RedirectToAction(nameof(HomeController.Index), "Home"); // sino tengo returnUrl, lo mando al index del home
                     }
                 }
             }
+            //me guardo en viewBag estos datos,por si falla pasarle a la vista los datos que ya se completaron y no volver a cargarlos
             ViewBag.Error = "Usuario y/o contraseña incorrectos";
-            ViewBag.UserName = username;
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.UserName = username; 
+            ViewBag.ReturnUrl = returnUrl; //como no vive tanto tiempo, para no perder la url de retorno, la vuelvo a guardar para que siga vivendo si falla el login
 
             return View();
         }
@@ -90,6 +90,7 @@ namespace ConSeguridad.Controllers
         [Authorize]
         public async Task<IActionResult> Salir()
         {
+            //borrado de la cookie
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");

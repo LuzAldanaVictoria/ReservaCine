@@ -34,9 +34,11 @@ namespace Grupo3.ReservaDeCine
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //IMPORTANTE ESTA LINEA: En esta linea, dentro de los servicios agrego un servicio de autenticacion por cookies
+            //al cual le tengo que pasar como parametro, las rutas para el login,logout y acceso denegado.
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
-                options.LoginPath = "/Cuentas/Ingresar";
+                options.LoginPath = "/Cuentas/Ingresar"; //controlador cuentas, metodo Ingresar
                 options.AccessDeniedPath = "/Cuentas/NoAutorizado";
                 options.LogoutPath = "/Cuentas/Salir";
             });
