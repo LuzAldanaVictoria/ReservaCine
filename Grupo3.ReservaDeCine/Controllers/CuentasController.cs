@@ -36,13 +36,13 @@ namespace ConSeguridad.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Ingresar(string username, string password, string returnUrl)
         {
-            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))  // Se valida que se envie usuario y contraseña y que no lleguen vacios
+            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))  // Se valida que se envie usuario y contraseña y que no lleguen nulos ni vacios ni espacios
             {
-                Usuario usuario = _context.Clientes.FirstOrDefault(x => x.Username == username); // se le pide a la base de datos que encuentre al usuario con ese UserName
+                Usuario usuario = _context.Clientes.FirstOrDefault(x => x.Username == username); // busco en la tabla de clientes
               
                 if (usuario == null)  // aca se confirma que el usuario exista, sino.. da error
                 {
-                    usuario = _context.Administradores.FirstOrDefault(x => x.Username == username);  // # DUDA
+                    usuario = _context.Administradores.FirstOrDefault(x => x.Username == username);  // si no esta en clientes, busco en admins
                 }
 
                 if (usuario != null)
@@ -71,7 +71,7 @@ namespace ConSeguridad.Controllers
 
                         }
 
-                        TempData["primerLogin"] = true;  // el tempData, vive dos request por lo que lo puedo usar entre metodos del controlador y levantarlo directamente
+                        TempData["loginOk"] = true;  // el tempData, vive dos request por lo que lo puedo usar entre metodos del controlador y levantarlo directamente
 
                         return RedirectToAction(nameof(HomeController.Index), "Home"); // sino tengo returnUrl, lo mando al index del home
                     }

@@ -37,7 +37,8 @@
                 @Html.DisplayFor(modelItem => item.EdadMinima)
             </td>
             <td>
-                <a asp-controller="Clasificaciones" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-controller="Clasificaciones" asp-action="Edit" 
+                   id="@item.Id">Editar</a> |
                 <a asp-controller="Clasificaciones" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a asp-controller="Clasificaciones" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>

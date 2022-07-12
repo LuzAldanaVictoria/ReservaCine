@@ -216,7 +216,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult SeleccionarFiltro()
+        public IActionResult SeleccionarFiltro() //Cuando hago click en reservar
         {
             ViewBag.SelectPeliculas = new SelectList(_context.Peliculas, "Id", "Nombre");
 
@@ -226,7 +226,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult FiltrarPorPelicula(Pelicula pelicula) //cuando entra por cartelera
+        public IActionResult FiltrarPorPelicula(Pelicula pelicula) //cuando entra por reservar
         {
             var funciones = _context
                  .Funciones

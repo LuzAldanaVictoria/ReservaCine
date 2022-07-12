@@ -90,7 +90,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         // Entrando por cartelera, seleccionando pelicula y luego reservar para una funcion determinada
         [HttpGet]
         [Authorize(Roles = nameof(Role.Cliente))]
-        public IActionResult CrearReservaPorFuncion(int? id)
+        public IActionResult CrearReservaPorFuncion(int? id) //id de la funcion
         {
             if (id == null)
             {
@@ -102,11 +102,11 @@ namespace Grupo3.ReservaDeCine.Controllers
                 .Include(x => x.Sala).ThenInclude(x => x.Tipo)
                 .FirstOrDefault(x => x.Id == id);
 
-            ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);
-            ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora);
+            ViewData["Peliculas"] = new SelectList(_context.Peliculas, "Id", "Nombre", funcion.PeliculaId);// ### DUDA
+            ViewData["FechaHora"] = new SelectList(_context.Funciones, "Id", "FechaHora", funcion.FechaHora); //fecha hora dela funcion
             ViewData["CostoEntrada"] = funcion.Sala.Tipo.PrecioEntrada;
 
-            Reserva reserva = new Reserva()
+            Reserva reserva = new Reserva() //### Es una "pre-reserva"? xqes un get
             {
                 FuncionId = funcion.Id,
                 Funcion = funcion
@@ -118,7 +118,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         [HttpPost]
         [Authorize(Roles = nameof(Role.Cliente))]
-        // Aca el server efectiviza la reserva
+        // Aca el server efectiviza la reserva, una vez que le di confirmar
         public IActionResult CrearReservaPorFuncion([Bind("FuncionId, CantButacas")] Reserva reserva)
         {
             if (!ValidarEdad(reserva))

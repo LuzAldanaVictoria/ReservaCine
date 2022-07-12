@@ -246,8 +246,8 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-        ////---- Métodos privados para validaciones ----////
-
+       
+        #region validaciones
         private bool ClienteExists(int id)
         {
             return _context.Clientes.Any(x => x.Id == id);
@@ -323,7 +323,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(Cliente.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula");
             }
         }
-
+        #endregion
     }
+
 
 }

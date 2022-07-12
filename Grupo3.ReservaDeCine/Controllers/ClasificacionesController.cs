@@ -59,7 +59,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Create([Bind("Id,Descripcion,EdadMinima")] Clasificacion clasificacion)
+        public  IActionResult Create(Clasificacion clasificacion)
         {
           
             ValidarDescripcionExistente(clasificacion); 
@@ -145,9 +145,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             return View(clasificacion);
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public  IActionResult DeleteConfirmed(int id)
+        [HttpPost, ActionName("Delete")] // Para que el sistema de rutas lo encuentre cuando hago /delete
+        [ValidateAntiForgeryToken] //Evitar falsificaciones en los post, usa una cookie especifica
+        public  IActionResult DeleteConfirmed(int id) //tiene un nombre distinto,porque delete se llama el get, no se puede usar otra veez
         {
             var clasificacion =  _context.Clasificaciones.Find(id);
             _context.Clasificaciones.Remove(clasificacion);

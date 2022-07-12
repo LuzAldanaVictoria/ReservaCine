@@ -24,7 +24,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Administrador))]
+        [Authorize(Roles = nameof(Role.Administrador))] // nameOf para no hardcodear y obtener en nombre del enum
         public IActionResult Index()
         {
             var peliculas = _context
@@ -64,7 +64,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         [HttpGet]
         [Authorize(Roles = nameof(Role.Administrador))]
         public IActionResult Create()
-        {
+        { // para mostrarme el formulario, necesita la info de generos y clasificaciones. 
             ViewBag.SelectGeneros = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion));
             ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
 
@@ -78,13 +78,13 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
 
             ValidarNombreExistente(pelicula);
-            ValidarGeneros(generoIds);
+            ValidarGeneros(generoIds); //valida que se seleccione al menos uno
 
             if (ModelState.IsValid)
             {
-                pelicula.Generos = new List<PeliculaGenero>();
+                pelicula.Generos = new List<PeliculaGenero>(); // creo lista de generos
 
-                foreach (var generoId in generoIds)
+                foreach (var generoId in generoIds)  //para c/u de los generos que vienen, lo agrego enla lista
                 {
                     pelicula.Generos.Add(new PeliculaGenero { Pelicula = pelicula, GeneroId = generoId });
                 }
@@ -93,7 +93,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-
+            //Si el modelo no es valido, se los guarda para volver a mostrarlos 
             ViewBag.SelectGeneros = new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion), generoIds);
             ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion", pelicula.ClasificacionId);
             return View(pelicula);
@@ -180,6 +180,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             }
            
             ViewBag.SelectGeneros= new MultiSelectList(_context.Generos, nameof(Genero.Id), nameof(Genero.Descripcion));
+            // genero un tipo de dato SelectList,le paso las clasificaciones, y como valor toma la prop ID y mostrale al usuario la descripcion
             ViewBag.SelectClasificaciones = new SelectList(_context.Clasificaciones, "Id", "Descripcion");
 
             return View(pelicula);
@@ -261,6 +262,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
+        //Validar que se seleccione al menos un genero
         private void ValidarGeneros(List<int> generoIds)
         {
             if (generoIds.Count == 0)

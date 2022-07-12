@@ -35,6 +35,9 @@
     <a asp-controller="Clasificaciones" asp-action="Index">Volver a la lista</a>
 </div>
 
+@*Referencia a la libreria jquery para que haga las validaciones
+    Si comento esta parte, el cliente ya no haria validaciones, se hace el llamado
+    y validaria el servidor*@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

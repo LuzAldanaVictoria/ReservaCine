@@ -28,7 +28,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             if (id == null)
             {
-                id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value); // levanta el id del usuario que esta autenticado.
             }
           
             var administrador = _context.Administradores.FirstOrDefault(x => x.Id == id);
@@ -42,7 +42,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
-
+        /*
         [HttpGet]
         public IActionResult Create()
         {
@@ -94,6 +94,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 ModelState.AddModelError(nameof(Administrador.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula");
             }
         }
-
+        */
     }
 }

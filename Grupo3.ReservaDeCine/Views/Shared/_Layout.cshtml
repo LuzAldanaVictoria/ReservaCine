@@ -174,7 +174,7 @@
 
     @RenderSection("Scripts", required: false)
 
-    @if (TempData["primerLogin"] as bool? ?? false)// esto singnifica que evaluo si es null, si es null pongo lo que de la izquiera y sino lo de la derecha
+    @if (TempData["loginOk"] as bool? ?? false)// esto singnifica que evaluo si es null, si es null pongo lo que de la izquiera y sino lo de la derecha
     {
 
         <script>

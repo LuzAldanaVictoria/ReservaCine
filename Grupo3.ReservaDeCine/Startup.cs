@@ -41,6 +41,7 @@ namespace Grupo3.ReservaDeCine
                 options.LoginPath = "/Cuentas/Ingresar"; //controlador cuentas, metodo Ingresar
                 options.AccessDeniedPath = "/Cuentas/NoAutorizado";
                 options.LogoutPath = "/Cuentas/Salir";
+                
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -74,6 +75,8 @@ namespace Grupo3.ReservaDeCine
 
 
             app.UseStaticFiles();
+
+            //Esto hace que cada vez que hay un request, habilita el tag [autohorize..]
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -82,7 +85,8 @@ namespace Grupo3.ReservaDeCine
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
+            
+            //Esto es opcional y es para usar el tempData
             app.UseCookiePolicy();
         }
     }
