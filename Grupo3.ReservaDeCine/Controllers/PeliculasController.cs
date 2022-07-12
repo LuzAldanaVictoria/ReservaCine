@@ -140,24 +140,25 @@ namespace Grupo3.ReservaDeCine.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                { //tengo que buscar la que esta en la base para modificarla
                     var peliculaDb = _context
                         .Peliculas
                         .Include(x => x.Generos)
                         .FirstOrDefault(x => x.Id == id);
 
+                    //cambio los valores viejos por los nuevos
                     peliculaDb.Nombre = pelicula.Nombre;
                     peliculaDb.ClasificacionId = pelicula.ClasificacionId;
                     peliculaDb.Sinopsis = pelicula.Sinopsis;
                    
                     
                     foreach (var peliculaGenero in peliculaDb.Generos)
-                    {
+                    {//saca par ala pelcula, las peliculas-genero que habia antes en la bd
                         _context.Remove(peliculaGenero);
                     }
 
                     foreach (var generoId in generoIds)
-                    {
+                    {//agrego los nuevos generos a pelicula-genero
                         peliculaDb.Generos.Add(new PeliculaGenero { PeliculaId = peliculaDb.Id, GeneroId = generoId });
                     }
 
