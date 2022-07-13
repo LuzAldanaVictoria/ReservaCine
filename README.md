@@ -2,6 +2,7 @@
 
 ### Integrantes
  🍿 Do Nascimento, María Florencia	<mflorenciadn@gmail.com>
+ 
  🍿 Victoria, Luz Aldana	<luzaldanavictoria@gmail.com>
 
 ### Idea
@@ -9,9 +10,11 @@ Se trata de un sistema que permita a usuarios ingresar y hacer una reserva de un
  
  
  ## Información de datos hardcodeados para pruebas
- 🙎‍♂️ usuario: cliente1 Password: Password1
- 🙎‍♂️ usuario: cliente2 Password: Password1
- 🙎‍♂️ usuario: administrador1 Password: Password1
+ 🙎‍♂️ usuario: cliente1 Password: Password1!
+ 
+ 🙎‍♂️ usuario: cliente2 Password: Password1!
+ 
+ 🙎‍♂️ usuario: administrador1 Password: Password1!
  
  
 ### Modelos 📋
