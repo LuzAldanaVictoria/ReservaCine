@@ -432,7 +432,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[0],
                 Pelicula = listPeliculas[1],
-                Fecha = new DateTime(2022, 07, 22),
+                Fecha = new DateTime(2022, 07, 10),
                 Horario = new DateTime().AddHours(23).AddMinutes(30),
                 CantButacasDisponibles = listSalas[0].CapacidadTotal
             };

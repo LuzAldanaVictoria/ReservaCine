@@ -42,6 +42,7 @@ namespace Grupo3.ReservaDeCine
                 options.AccessDeniedPath = "/Cuentas/NoAutorizado";
                 options.LogoutPath = "/Cuentas/Salir";
                 
+                //le tengo que indicar a donde mandar al que no este autorizado por ej.
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

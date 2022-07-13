@@ -91,7 +91,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 return RedirectToAction(nameof(CreateExitoso));
             }
-
+            // devuelvo el cliente a la vista para que no tenga que volver a completar datos
             return View(cliente);
         }
 
@@ -281,6 +281,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         {
             if (_context.Usuarios.Any(x => Comparar(x.Username, username)))
             {
+                //modelState indica cual es el estado del modelo, es un diccionario KEY, mensaje error
                 ModelState.AddModelError(nameof(Cliente.Username), "Nombre de usuario no disponible");
             }
         }
@@ -295,6 +296,7 @@ namespace Grupo3.ReservaDeCine.Controllers
         }
 
 
+        //Función que compara que los nombres no sean iguales caracter por caracter, ignorando espacios y case. 
         private static bool Comparar(string s1, string s2)
         {
             return s1.Where(c => !char.IsWhiteSpace(c)).Select(char.ToUpperInvariant)
