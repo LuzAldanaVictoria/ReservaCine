@@ -29,6 +29,7 @@
 
 
             <div class="form-group">
+                @*cuando apreto el boton, llama a la funcion de javaScript*@
                 <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal" id="botonModal" onclick="calcularTotal()">Reservar</button>
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -40,7 +41,7 @@
                             <div class="modal-body">
                                 <span>Película: @Model.Funcion.Pelicula.Nombre</span><br>
                                 <span>Función: @Model.Funcion.FechaHora</span><br>
-                                <span>Costo total de la reserva: $</span><span id="totalCostoReserva"></span>
+                                <span>Costo total de la reserva: $</span><span id="totalCostoReserva"></span> @*esto viene de la funcion de abajo*@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -68,6 +69,7 @@
     <script type="text/javascript">
 
         function calcularTotal() {
+            // en el html a butacas le puse el id=butacas, me traigo ese input y obtengo el value
             var butacas = document.getElementById('butacas').value;
 
             if (butacas > 0 && butacas < 11) {
