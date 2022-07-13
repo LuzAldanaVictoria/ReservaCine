@@ -40,7 +40,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 crearPeliculas().Wait();
                 crearFunciones().Wait();
                 crearReservas().Wait();
-                 _context.SaveChanges();
+                _context.SaveChanges();
             }
             catch (Exception e)
             {
@@ -50,7 +50,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-       
+
 
         private async Task crearSalas()
         {
@@ -65,8 +65,8 @@ namespace Grupo3.ReservaDeCine.Controllers
                 },
                 CapacidadTotal = 20
             };
-            
-        
+
+
             Sala sala2 = new Sala()
             {
                 Nombre = "Sala 2",
@@ -99,9 +99,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 },
                 CapacidadTotal = 20
             };
-            _context.AddRange(new[] { sala1, sala2, sala3, sala4});
+            _context.AddRange(new[] { sala1, sala2, sala3, sala4 });
 
-                 await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         private async Task crearGeneros()
@@ -128,7 +128,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             };
 
             _context.AddRange(new[] { genero1, genero2, genero3, genero4 });
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
         }
 
@@ -253,9 +253,9 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Sinopsis = "Bella es una brillante y guapa joven que utiliza la lectura como válvula de escape de su rutinaria vida. Cuando su padre es apresado en un misterioso castillo, " +
                                     "Bella acude en su búsqueda y se presta a ocupar su lugar. El castillo es propiedad de una atormentada Bestia que, como Bella comprobará con el tiempo, resulta ser un joven príncipe " +
                                     "bajo los efectos de un hechizo. Sólo cuando conozca el amor, el príncipe podrá volver a su verdadero cuerpo.",
-                Clasificacion  = listClasificaciones[0]
-               
-          
+                Clasificacion = listClasificaciones[0]
+
+
             };
 
 
@@ -387,9 +387,9 @@ namespace Grupo3.ReservaDeCine.Controllers
             pelicula4.Generos.Add(new PeliculaGenero { Pelicula = pelicula4, Genero = listGeneros[1] });
             pelicula5.Generos.Add(new PeliculaGenero { Pelicula = pelicula5, Genero = listGeneros[2] });
 
-            _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4, pelicula5, pelicula6, 
+            _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4, pelicula5, pelicula6,
                 pelicula7, pelicula8,pelicula9,pelicula10 });
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
 
@@ -424,7 +424,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Pelicula = listPeliculas[0],
                 Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(20).AddMinutes(20),
-                CantButacasDisponibles = listSalas[2].CapacidadTotal - 8
+                CantButacasDisponibles = listSalas[2].CapacidadTotal - 22
             };
 
             var funcion4 = new Funcion()
@@ -450,10 +450,10 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[1],
                 Fecha = new DateTime(2022, 07, 15),
-                Horario = new DateTime().AddHours(20).AddMinutes(30),
-                CantButacasDisponibles = listSalas[1].CapacidadTotal
+                Horario = new DateTime().AddHours(14).AddMinutes(30),
+                CantButacasDisponibles = listSalas[1].CapacidadTotal - 26
             };
-           
+
 
             var funcion7 = new Funcion()
             {
@@ -488,7 +488,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Pelicula = listPeliculas[2],
                 Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(10).AddMinutes(30),
-                CantButacasDisponibles = listSalas[2].CapacidadTotal
+                CantButacasDisponibles = listSalas[2].CapacidadTotal - 8
             };
 
             var funcion11 = new Funcion()
@@ -497,7 +497,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Pelicula = listPeliculas[3],
                 Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(21).AddMinutes(30),
-                CantButacasDisponibles = listSalas[2].CapacidadTotal
+                CantButacasDisponibles = listSalas[2].CapacidadTotal - 2
             };
 
             var funcion12 = new Funcion()
@@ -569,7 +569,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Pelicula = listPeliculas[8],
                 Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(18).AddMinutes(50),
-                CantButacasDisponibles = listSalas[1].CapacidadTotal
+                CantButacasDisponibles = listSalas[1].CapacidadTotal - 21
             };
 
             var funcion21 = new Funcion()
@@ -656,7 +656,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                 FechaDeAlta = DateTime.Now
             };
             _context.AddRange(new[] { reserva1, reserva2, reserva3, reserva4, reserva5, reserva6, reserva7 });
-             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
 

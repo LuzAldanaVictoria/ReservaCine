@@ -43,57 +43,5 @@ namespace Grupo3.ReservaDeCine.Controllers
 
 
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Legajo, Nombre, Apellido, Email, Username")] Administrador administrador, string password)
-        {
-            
-            ValidarPassword(password);
-         
-
-            if (ModelState.IsValid)
-            {
-                administrador.Password = password.Encriptar();
-                _context.Add(administrador);
-                _context.SaveChanges();
-               
-                return RedirectToAction("Ingresar", "Cuentas");
-            }
-
-            return View(administrador);
-        }
-
-
-
-        ////---- Métodos privados para validaciones ----////
-       
-        public void ValidarPassword(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                ModelState.AddModelError(nameof(Administrador.Password), "La contraseña es requerida");
-            }
-
-            if (password.Length < 8)
-            {
-                ModelState.AddModelError(nameof(Administrador.Password), "La contraseña debe tener al menos 8 caracteres");
-            }
-
-            bool contieneUnNumero = new Regex("[0-9]").Match(password).Success;
-            bool contieneUnaMinuscula = new Regex("[a-z]").Match(password).Success;
-            bool contieneUnaMayuscula = new Regex("[A-Z]").Match(password).Success;
-
-            if (!contieneUnNumero || !contieneUnaMinuscula || !contieneUnaMayuscula)
-            {
-                ModelState.AddModelError(nameof(Administrador.Password), "La contraseña debe contener al menos un número, una minúscula y una mayúscula");
-            }
-        }
-
     }
 }
