@@ -28,10 +28,12 @@ namespace Grupo3.ReservaDeCine.Controllers
 
         public IActionResult Inicializar()
         {
+          
             try
             {
-                _context.Database.EnsureDeleted();
-                _context.Database.Migrate();
+                
+                _context.Database.EnsureDeleted(); // borra la base de datos
+                _context.Database.Migrate(); // crea la database y aplica las migraciones que falten aplicar
                 crearSalas().Wait();
                 crearGeneros().Wait();
                 crearClasificacion().Wait();
@@ -41,15 +43,13 @@ namespace Grupo3.ReservaDeCine.Controllers
                 crearFunciones().Wait();
                 crearReservas().Wait();
 
-
-
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
                 return Content(e.Message);
             }
-            TempData["datosPreCargados"] = true;
+            TempData["datosPreCargados"] = true; // una vez que se cargaron, esto es para el cartel
             return RedirectToAction("Index", "Home");
         }
 
@@ -175,7 +175,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente1 = new Cliente()
             {
                 Username = "cliente1",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Luciano",
                 Apellido = "García",
                 Email = "lucianogarcia@gmail.com",
@@ -187,7 +187,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente2 = new Cliente()
             {
                 Username = "cliente2",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Carlos",
                 Apellido = "Pereyra",
                 Email = "cp2020@gmail.com",
@@ -199,7 +199,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente3 = new Cliente()
             {
                 Username = "cliente3",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Carla",
                 Apellido = "Rodriguez",
                 Email = "carla@gmail.com",
@@ -212,7 +212,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente4 = new Cliente()
             {
                 Username = "cliente4",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Laura",
                 Apellido = "Gomez",
                 Email = "laurita@gmail.com",
@@ -230,7 +230,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var administrador1 = new Administrador()
             {
                 Username = "administrador1",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Pedro",
                 Apellido = "Gonzalez",
                 Email = "jcgonzalez@gmail.com",

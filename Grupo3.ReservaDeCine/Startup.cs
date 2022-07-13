@@ -69,7 +69,8 @@ namespace Grupo3.ReservaDeCine
 
             if (!_dbInMemory)
             {
-                cineDbContext.Database.Migrate();
+                cineDbContext.Database.Migrate(); //cuando levanto el proyecto, hace una migracion
+                //para mantener la estructura de bd actualizada 
             }
 
 
