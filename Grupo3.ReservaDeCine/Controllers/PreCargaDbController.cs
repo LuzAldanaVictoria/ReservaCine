@@ -172,7 +172,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente1 = new Cliente()
             {
                 Username = "cliente1",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Luciano",
                 Apellido = "García",
                 Email = "lucianogarcia@gmail.com",
@@ -184,7 +184,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente2 = new Cliente()
             {
                 Username = "cliente2",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Carlos",
                 Apellido = "Pereyra",
                 Email = "cp2020@gmail.com",
@@ -196,7 +196,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente3 = new Cliente()
             {
                 Username = "cliente3",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Carla",
                 Apellido = "Rodriguez",
                 Email = "carla@gmail.com",
@@ -209,7 +209,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var Cliente4 = new Cliente()
             {
                 Username = "cliente4",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Laura",
                 Apellido = "Gomez",
                 Email = "laurita@gmail.com",
@@ -227,7 +227,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var administrador1 = new Administrador()
             {
                 Username = "administrador1",
-                Password = "Password1".Encriptar(),
+                Password = "Password1!".Encriptar(),
                 Nombre = "Pedro",
                 Apellido = "Gonzalez",
                 Email = "jcgonzalez@gmail.com",
@@ -248,7 +248,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
 
                 Nombre = "La Bella y la Bestia ",
-            
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "Bella es una brillante y guapa joven que utiliza la lectura como válvula de escape de su rutinaria vida. Cuando su padre es apresado en un misterioso castillo, " +
                                     "Bella acude en su búsqueda y se presta a ocupar su lugar. El castillo es propiedad de una atormentada Bestia que, como Bella comprobará con el tiempo, resulta ser un joven príncipe " +
                                     "bajo los efectos de un hechizo. Sólo cuando conozca el amor, el príncipe podrá volver a su verdadero cuerpo.",
@@ -261,7 +262,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula2 = new Pelicula()
             {
                 Nombre = "Matrix",
-             
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "Neo es un joven pirata informático que lleva una doble vida: durante el día ejerce en una empresa de servicios informáticos, mientras que por la noche se dedica a piratear " +
                                 "bases de datos y saltarse sistemas de alta seguridad. Su vida cambiará cuando una noche conozca a Trinity, una misteriosa joven que parece ser una leyenda en el mundo de los 'hackers' informáticos," +
                                 " que lo llevará a Neo ante su líder: Morfeo. Así descubrirá una terrible realidad y el joven deberá decidir si unirse a la resistencia o vivir su vida como hasta ahora.",
@@ -271,7 +273,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula3 = new Pelicula()
             {
                 Nombre = "It",
-                
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "En el pueblo de Derry, Maine, un joven de 14 años llamado Bill Denbrough (Jaeden Martell) ayuda a su hermano pequeño, George Denbrough (Jackson Robert Scott) a hacer un barco de papel." +
                                 " Bill le pide que baje al sótano por parafina para impermeabilizarlo, George baja y consigue la parafina para el barco aunque nota allí una presencia que lo asusta. Bill, con su hermano abrazándole," +
                                 " unta el barco con la parafina y se lo entrega a Georgie para que vaya a jugar en la lluvia excusándose de no poder acompañarlo ya que está muy enfermo.",
@@ -282,7 +285,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula4 = new Pelicula()
             {
                 Nombre = "Annabelle 3",
-               
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "En 1968, los demonólogos Ed y Lorraine Warren se llevan a su casa a la muñeca poseída Annabelle" +
                 " después de que dos enfermeras (Debbie y Camilla) aseguraran que la muñeca a menudo realizaba actividades " +
                 "violentas en su apartamento. Durante el trayecto, la muñeca convoca a los espíritus de un cementerio" +
@@ -296,7 +300,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula5 = new Pelicula()
             {
                 Nombre = "Lightyear",
-               
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "Buzz Lightyear se embarca en una aventura" +
                 " intergaláctica con un grupo de reclutas ambiciosos y su compañero robot.",
 
@@ -306,7 +311,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula6 = new Pelicula()
             {
                 Nombre = "Volver al futuro",
-                
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "El adolescente Marty McFly es amigo de Doc, un científico que ha construido una máquina del tiempo. " +
                 "Cuando los dos prueban el artefacto, un error fortuito hace que Marty llegue a 1955, año en el que sus padres iban al instituto y todavía no se habían conocido. Después de impedir su primer encuentro," +
                 " Marty deberá conseguir que se conozcan y se enamoren, de lo contrario su existencia no sería posible.",
@@ -317,7 +323,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula7 = new Pelicula()
             {
                 Nombre = "Granizo",
-                
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "Un famoso meteorólogo de la televisión se convierte en el enemigo público número " +
                 "uno cuando no logra evitar una terrible tormenta de granizo",
 
@@ -327,7 +334,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula8 = new Pelicula()
             {
                 Nombre = "Harry Potter 1",
-               
+                Generos = new List<PeliculaGenero>(),
+
                 Sinopsis = "El día de su cumpleaños, Harry Potter descubre que es hijo de dos conocidos hechiceros" +
                 ", de los que ha heredado poderes mágicos. Debe asistir a una famosa escuela de magia y hechicería, " +
                 "donde entabla una amistad con dos jóvenes que se convertirán en sus compañeros de aventura. " +
@@ -340,6 +348,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula9 = new Pelicula()
             {
                 Nombre = "Minions - Nace un villano",
+                Generos = new List<PeliculaGenero>(),
                 Sinopsis = "En los años 70, Gru crece siendo un gran admirador de Los salvajes seis" +
                 ", un supergrupo de villanos. Para demostrarles que puede ser malvado, Gru idea un plan" +
                 " con la esperanza de formar parte de la banda. Por suerte, cuenta con la ayuda de sus fieles seguidores," +
@@ -351,6 +360,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             Pelicula pelicula10 = new Pelicula()
             {
                 Nombre = "Top Gun",
+                Generos = new List<PeliculaGenero>(),
                 Sinopsis = "Agosto de 1981. El septuagenario Forrest Tucker entra en un banco de Dallas y " +
                 "hace lo que mejor sabe hacer: atracarlo con toda educación e irse tranquilamente. " +
                 "El problema es que está vez quizá ha dejado un cabo suelto: dentro de la sucursal se encontraba " +
@@ -359,7 +369,23 @@ namespace Grupo3.ReservaDeCine.Controllers
                 Clasificacion = listClasificaciones[2]
             };
 
-         
+            var listGeneros = _context.Generos.ToList();
+
+            pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = listGeneros[0] });
+            pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = listGeneros[2] });
+            pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, Genero = listGeneros[3] });
+            pelicula4.Generos.Add(new PeliculaGenero { Pelicula = pelicula4, Genero = listGeneros[0] });
+            pelicula5.Generos.Add(new PeliculaGenero { Pelicula = pelicula5, Genero = listGeneros[0] });
+            pelicula6.Generos.Add(new PeliculaGenero { Pelicula = pelicula6, Genero = listGeneros[1] });
+            pelicula7.Generos.Add(new PeliculaGenero { Pelicula = pelicula7, Genero = listGeneros[2] });
+            pelicula8.Generos.Add(new PeliculaGenero { Pelicula = pelicula8, Genero = listGeneros[3] });
+            pelicula9.Generos.Add(new PeliculaGenero { Pelicula = pelicula9, Genero = listGeneros[0] });
+            pelicula10.Generos.Add(new PeliculaGenero { Pelicula = pelicula10, Genero = listGeneros[0] });
+            pelicula1.Generos.Add(new PeliculaGenero { Pelicula = pelicula1, Genero = listGeneros[1] });
+            pelicula2.Generos.Add(new PeliculaGenero { Pelicula = pelicula2, Genero = listGeneros[3] });
+            pelicula3.Generos.Add(new PeliculaGenero { Pelicula = pelicula3, Genero = listGeneros[2] });
+            pelicula4.Generos.Add(new PeliculaGenero { Pelicula = pelicula4, Genero = listGeneros[1] });
+            pelicula5.Generos.Add(new PeliculaGenero { Pelicula = pelicula5, Genero = listGeneros[2] });
 
             _context.AddRange(new[] { pelicula1, pelicula2, pelicula3, pelicula4, pelicula5, pelicula6, 
                 pelicula7, pelicula8,pelicula9,pelicula10 });
@@ -519,15 +545,6 @@ namespace Grupo3.ReservaDeCine.Controllers
                 CantButacasDisponibles = listSalas[1].CapacidadTotal
             };
 
-            var funcion17 = new Funcion()
-            {
-                Sala = listSalas[2],
-                Pelicula = listPeliculas[6],
-                Fecha = new DateTime(2022, 07, 25),
-                Horario = new DateTime().AddHours(19).AddMinutes(30),
-                CantButacasDisponibles = listSalas[2].CapacidadTotal
-            };
-
             var funcion18 = new Funcion()
             {
                 Sala = listSalas[0],
@@ -565,7 +582,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             };
 
             _context.AddRange(new[] { funcion1, funcion2, funcion3, funcion4, funcion5, funcion6,funcion7, funcion8, funcion9,
-                funcion10, funcion11,funcion12,funcion13,funcion14,funcion15,funcion16,funcion17,funcion18,funcion19,funcion20,funcion21});
+                funcion10, funcion11,funcion12,funcion13,funcion14,funcion15,funcion16,funcion18,funcion19,funcion20,funcion21});
             await _context.SaveChangesAsync();
         }
 
