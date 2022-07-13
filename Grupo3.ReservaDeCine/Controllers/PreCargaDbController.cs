@@ -75,7 +75,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "2D",
                     PrecioEntrada = 250
                 },
-                CapacidadTotal = 120
+                CapacidadTotal = 35
             };
 
             Sala sala3 = new Sala()
@@ -86,7 +86,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "3D",
                     PrecioEntrada = 350
                 },
-                CapacidadTotal = 100
+                CapacidadTotal = 40
             };
 
             Sala sala4 = new Sala()
@@ -97,7 +97,7 @@ namespace Grupo3.ReservaDeCine.Controllers
                     Nombre = "4D",
                     PrecioEntrada = 450
                 },
-                CapacidadTotal = 80
+                CapacidadTotal = 20
             };
             _context.AddRange(new[] { sala1, sala2, sala3, sala4});
 
@@ -402,17 +402,17 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[0],
                 Pelicula = listPeliculas[0],
-                Fecha = new DateTime(2022, 08, 15),
+                Fecha = new DateTime(2022, 07, 14),
                 Horario = new DateTime().AddHours(14).AddMinutes(00),
-                CantButacasDisponibles = listSalas[0].CapacidadTotal - 4
+                CantButacasDisponibles = listSalas[0].CapacidadTotal - 20
             };
 
             var funcion2 = new Funcion()
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[0],
-                Fecha = new DateTime(2022, 09, 17),
-                Horario = new DateTime().AddHours(20).AddMinutes(20),
+                Fecha = new DateTime(2022, 07, 14),
+                Horario = new DateTime().AddHours(22).AddMinutes(20),
                 CantButacasDisponibles = listSalas[1].CapacidadTotal - 4
             };
 
@@ -422,7 +422,7 @@ namespace Grupo3.ReservaDeCine.Controllers
 
                 Sala = listSalas[2],
                 Pelicula = listPeliculas[0],
-                Fecha = new DateTime(2022, 07, 18),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(20).AddMinutes(20),
                 CantButacasDisponibles = listSalas[2].CapacidadTotal - 8
             };
@@ -431,8 +431,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[3],
                 Pelicula = listPeliculas[0],
-                Fecha = new DateTime(2022, 08, 13),
-                Horario = new DateTime().AddHours(21).AddMinutes(40),
+                Fecha = new DateTime(2022, 07, 12),
+                Horario = new DateTime().AddHours(08).AddMinutes(40),
                 CantButacasDisponibles = listSalas[3].CapacidadTotal - 18
             };
 
@@ -449,7 +449,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[1],
-                Fecha = new DateTime(2022, 07, 18),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(20).AddMinutes(30),
                 CantButacasDisponibles = listSalas[1].CapacidadTotal
             };
@@ -459,7 +459,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[1],
-                Fecha = new DateTime(2022, 07, 18),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(21).AddMinutes(30),
                 CantButacasDisponibles = listSalas[1].CapacidadTotal
             };
@@ -468,7 +468,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[0],
                 Pelicula = listPeliculas[1],
-                Fecha = new DateTime(2022, 10, 18),
+                Fecha = new DateTime(2022, 12, 18),
                 Horario = new DateTime().AddHours(20).AddMinutes(30),
                 CantButacasDisponibles = listSalas[0].CapacidadTotal
             };
@@ -477,7 +477,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[3],
                 Pelicula = listPeliculas[2],
-                Fecha = new DateTime(2022, 07, 18),
+                Fecha = new DateTime(2022, 07, 14),
                 Horario = new DateTime().AddHours(21).AddMinutes(30),
                 CantButacasDisponibles = listSalas[3].CapacidadTotal
             };
@@ -486,8 +486,8 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[2],
                 Pelicula = listPeliculas[2],
-                Fecha = new DateTime(2022, 07, 19),
-                Horario = new DateTime().AddHours(21).AddMinutes(30),
+                Fecha = new DateTime(2022, 07, 15),
+                Horario = new DateTime().AddHours(10).AddMinutes(30),
                 CantButacasDisponibles = listSalas[2].CapacidadTotal
             };
 
@@ -495,7 +495,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[2],
                 Pelicula = listPeliculas[3],
-                Fecha = new DateTime(2022, 07, 18),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(21).AddMinutes(30),
                 CantButacasDisponibles = listSalas[2].CapacidadTotal
             };
@@ -504,16 +504,16 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[3],
-                Fecha = new DateTime(2022, 07, 22),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(21).AddMinutes(30),
-                CantButacasDisponibles = listSalas[1].CapacidadTotal
+                CantButacasDisponibles = listSalas[1].CapacidadTotal - 10
             };
 
             var funcion13 = new Funcion()
             {
                 Sala = listSalas[2],
                 Pelicula = listPeliculas[4],
-                Fecha = new DateTime(2022, 07, 05),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(18).AddMinutes(30),
                 CantButacasDisponibles = listSalas[2].CapacidadTotal
             };
@@ -522,7 +522,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[2],
                 Pelicula = listPeliculas[4],
-                Fecha = new DateTime(2022, 07, 22),
+                Fecha = new DateTime(2022, 07, 14),
                 Horario = new DateTime().AddHours(18).AddMinutes(30),
                 CantButacasDisponibles = listSalas[2].CapacidadTotal
             };
@@ -531,43 +531,43 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[0],
                 Pelicula = listPeliculas[5],
-                Fecha = new DateTime(2022, 07, 25),
+                Fecha = new DateTime(2022, 07, 14),
                 Horario = new DateTime().AddHours(18).AddMinutes(30),
-                CantButacasDisponibles = listSalas[0].CapacidadTotal
+                CantButacasDisponibles = listSalas[0].CapacidadTotal - 12
             };
 
             var funcion16 = new Funcion()
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[5],
-                Fecha = new DateTime(2022, 07, 25),
+                Fecha = new DateTime(2022, 07, 14),
                 Horario = new DateTime().AddHours(18).AddMinutes(30),
-                CantButacasDisponibles = listSalas[1].CapacidadTotal
+                CantButacasDisponibles = listSalas[1].CapacidadTotal - 10
             };
 
             var funcion18 = new Funcion()
             {
                 Sala = listSalas[0],
                 Pelicula = listPeliculas[7],
-                Fecha = new DateTime(2022, 07, 26),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(18).AddMinutes(50),
-                CantButacasDisponibles = listSalas[0].CapacidadTotal
+                CantButacasDisponibles = listSalas[0].CapacidadTotal - 20
             };
 
             var funcion19 = new Funcion()
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[7],
-                Fecha = new DateTime(2022, 07, 26),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(23).AddMinutes(50),
-                CantButacasDisponibles = listSalas[1].CapacidadTotal
+                CantButacasDisponibles = listSalas[1].CapacidadTotal - 10
             };
 
             var funcion20 = new Funcion()
             {
                 Sala = listSalas[1],
                 Pelicula = listPeliculas[8],
-                Fecha = new DateTime(2022, 07, 30),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(18).AddMinutes(50),
                 CantButacasDisponibles = listSalas[1].CapacidadTotal
             };
@@ -576,7 +576,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             {
                 Sala = listSalas[3],
                 Pelicula = listPeliculas[9],
-                Fecha = new DateTime(2022, 07, 30),
+                Fecha = new DateTime(2022, 07, 15),
                 Horario = new DateTime().AddHours(18).AddMinutes(50),
                 CantButacasDisponibles = listSalas[3].CapacidadTotal
             };
@@ -596,7 +596,7 @@ namespace Grupo3.ReservaDeCine.Controllers
             var reserva1 = new Reserva()
             {
                 Cliente = listClientes[0],
-                Funcion = listFunciones[0],
+                Funcion = listFunciones[4],
                 CantButacas = 2,
                 CostoTotal = 1100,
                 FechaDeAlta = DateTime.Now
